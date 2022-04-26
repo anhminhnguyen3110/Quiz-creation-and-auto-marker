@@ -14,7 +14,7 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("index");
+        echo menu("enhancements");
         echo "</header>"
         ?>
 
