@@ -29,12 +29,13 @@
         <?php
             echo "<div id='logo-enhance'>";
             $alpha = array('a','b','c');
-            for ($i=1; $i<5; $i++) {
-                echo "<div class='icon' id='i$i'>";
-                if ($i>1) {
+            for ($i=0; $i<4; $i++) {
+                $z = $i + 1;
+                echo "<div class='icon' id='i$z'>";
+                if ($i>=1) {
                     for ($j=0; $j<$i; $j++) {
                         $k = $j+1;
-                        echo "<div class='elip' id = '{$alpha[$i-1]}eli$k'></div>";
+                        echo "<div class='elip' id = '{$alpha[$i]}eli$k'></div>";
                     }
                 }
                 echo "<div class='ball'></div>";
