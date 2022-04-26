@@ -42,26 +42,6 @@
             }
             echo "</div>";
         ?>
-        <div id="logo-enhance">
-            <div class="icon" id="i1">
-                <div class="ball"></div>
-            </div>
-            <div class="icon" id="i2">
-                <div class="elip" id = "aeli1"></div>
-                <div class="ball"></div>
-            </div>
-            <div class="icon" id="i3">
-                <div class="elip" id = "beli1"></div>
-                <div class="elip" id = "beli2"></div>
-                <div class="ball"></div>
-            </div>
-            <div class="icon" id="i4">
-                <div class="elip" id = "celi1"></div>
-                <div class="elip" id = "celi2"></div>
-                <div class="elip" id = "celi3"></div>
-                <div class="ball"></div>
-            </div>
-        </div>
         
         <?php
             echo "<section class='item'>
