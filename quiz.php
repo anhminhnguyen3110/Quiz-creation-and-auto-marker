@@ -25,7 +25,7 @@
         <form method="post" action="https://mercury.swin.edu.au/it000000/formtest.php">
             <fieldset id="studentInfo">
                 <legend>Student info</legend>
-                <p class="labels"><label for="studentID">FirstName:</label><br/>
+                <p class="labels"><label for="studentID">First Name:</label><br/>
                 <input id="firstName" type="text" name="firstname" class="text-input" placeholder="eg, George" pattern="[a-zA-Z- ]{1,30}" required></p>
                 <p class="labels"><label for="lastName">Last Name:</label><br/>
                 <input id="lastName" type="text" name="lastname" class="text-input" placeholder="eg, Swinburne" pattern="[a-zA-Z- ]{1,30}" required>
