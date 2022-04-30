@@ -22,7 +22,7 @@
     <!--Quiz-->
     <article class="quiz">
         <h2 class="heading-quiz">Can you React?</h2>
-        <form method="post" action="https://mercury.swin.edu.au/it000000/formtest.php">
+        <form method="post" action="markquiz.php" novalidate="novalidate">
             <fieldset id="studentInfo">
                 <legend>Student info</legend>
                 <p class="labels"><label for="studentID">First Name:</label><br/>
