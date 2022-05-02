@@ -28,7 +28,7 @@
 
         <?php
             echo "<div id='logo-enhance'>";
-            $alpha = array('a','b','c');
+            $alpha = array('','a','b','c');
             for ($i=0; $i<4; $i++) {
                 $z = $i + 1;
                 echo "<div class='icon' id='i$z'>";
