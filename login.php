@@ -53,7 +53,6 @@
 			return;
 		}
 		$_SESSION["StudentID"] = $username;
-		$_SESSION["role"] = $res["ROLE"];
 
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
@@ -68,7 +67,6 @@
 		$password = "reactjs";
 		$dbname = "s103515617_db";
 		$sql_table = "students";
-		$role = "ROLE";
 		$passwordStudent = "PASSWORD";
 		$studentID = "STUDENT_ID";
 		try {
@@ -83,7 +81,6 @@
 		} catch (\Throwable $th) {
 			$create_table_query = "CREATE TABLE $sql_table(
 				$studentID INT NOT NULL UNIQUE,
-				$role ENUM (\"STUDENT\", \"ADMIN\"),
 				$passwordStudent VARCHAR (60) NOT NULL,
 				PRIMARY KEY($studentID)
 			)";

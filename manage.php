@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <?php
+
+    ?>
     <h1>Admin site</h1>
     <form method="get" action="manage.php">
         <fieldset>
@@ -43,12 +46,6 @@
         </fieldset>
     </form>
     <?php
-	session_start();
-    if(isset($_SESSION['StudentID'])){
-        echo $_SESSION['StudentID'], "<br/>";
-        echo $_SESSION['role'];
-    }
-
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";

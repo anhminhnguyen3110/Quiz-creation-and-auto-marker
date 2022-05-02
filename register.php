@@ -42,7 +42,7 @@
 
 
 
-        function handleRegister($conn, $sql_table, $role,$passwordStudent,$studentID ,$firstname ,$lastname){
+        function handleRegister($conn, $sql_table, $passwordStudent,$studentID ,$firstname ,$lastname){
             $username = (int)sanitise_input($_POST['usernameRegister']);
             $password = sanitise_input($_POST['passwordRegister']);
             $firstnameRegister = sanitise_input($_POST['firstnameRegister']);
@@ -70,10 +70,9 @@
             }
             $hashedPassword =  password_hash($password, PASSWORD_BCRYPT);
             $registerQuery = "INSERT INTO $sql_table
-            ($studentID, $role, $passwordStudent, $firstname, $lastname)
+            ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
                 $username,
-                'STUDENT',
                 '$password',
                 '$firstnameRegister',
                 '$lastnameRegister'
@@ -83,7 +82,6 @@
             //verify
             // echo password_verify('http://localhost/register.php', $hashedPassword);
             $_SESSION["StudentID"] = $username;
-            $_SESSION["role"] = 'STUDENT';
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
             echo 'register successfully';
@@ -98,7 +96,6 @@
             $firstname = "FIRST_NAME";
             $lastname = "LAST_NAME";
             $sql_table = "students";
-            $role = "ROLE";
             $accountID = "ACCOUNT_ID";
             $passwordStudent = "PASSWORD";
             $studentID = "STUDENT_ID";
@@ -115,7 +112,6 @@
                 $create_table_query = "CREATE TABLE $sql_table(
                     $accountID INT NOT NULL AUTO_INCREMENT,
                     $studentID INT NOT NULL UNIQUE,
-                    $role ENUM (\"STUDENT\", \"ADMIN\") NOT NULL,
                     $firstname VARCHAR (60) NOT NULL,
                     $lastname VARCHAR (60) NOT NULL,
                     $passwordStudent VARCHAR (60) NOT NULL,
@@ -124,7 +120,7 @@
                 $result = mysqli_query($conn, $create_table_query);
             }
             
-            handleRegister($conn, $sql_table, $role,$passwordStudent, $studentID,$firstname ,$lastname);
+            handleRegister($conn, $sql_table, $passwordStudent, $studentID,$firstname ,$lastname);
         }
     ?>
 	<h1>Register</h1>
