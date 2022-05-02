@@ -18,23 +18,22 @@
         echo menu("quiz");
         echo "</header>"
     ?>
-
+    <?php 
+        session_start();
+        if(!isset($_SESSION['StudentID'])){  
+            header('location: login.php');
+        }
+    ?>
     <!--Quiz-->
     <article class="quiz">
         <h2 class="heading-quiz">Can you React?</h2>
+        <?php
+            if(isset($_SESSION['StudentID'])){  
+                echo "<br/><h2>Welcome ", $_SESSION['firstname']," ",$_SESSION['lastname'], " to React</h2><br/>";
+            }
+        ?>
+        <a href="logout.php">Logout</a>
         <form method="post" action="markquiz.php" novalidate="novalidate">
-            <fieldset id="studentInfo">
-                <legend>Student info</legend>
-                <p class="labels"><label for="studentID">First Name:</label><br/>
-                <input id="firstName" type="text" name="firstname" class="text-input" placeholder="eg, George" pattern="[a-zA-Z- ]{1,30}" required></p>
-                <p class="labels"><label for="lastName">Last Name:</label><br/>
-                <input id="lastName" type="text" name="lastname" class="text-input" placeholder="eg, Swinburne" pattern="[a-zA-Z- ]{1,30}" required>
-                </p>
-                <p class="labels"><label for="studentID">Student ID:</label><br/>
-                <input id="studentID" type="text" name="studentid" class="text-input" placeholder="eg, 10xxxxxx" pattern="\d{7,10}" required>
-                </p>
-            </fieldset>
-
             <fieldset id="questions">
                 <legend>Questions</legend>
                 <!--Question 1-->
