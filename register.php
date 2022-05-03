@@ -25,7 +25,7 @@
             $errMsg = "";
             if ($student_id =="") {
                 $errMsg = $errMsg. "<p>You must enter a student id</p>";
-            } else if (!preg_match("/\d{7,10}/", $student_id)) {
+            } else if (!preg_match("/^\d{7,10}$/", $student_id)) {
                 $errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
             }
             return $errMsg;
@@ -47,7 +47,7 @@
             $password = sanitise_input($_POST['passwordRegister']);
             $firstnameRegister = sanitise_input($_POST['firstnameRegister']);
             $lastnameRegister = sanitise_input($_POST['lastnameRegister']);
-            echo studentid_validate($username);
+            // echo studentid_validate($username);
             if(studentid_validate($username)){
                 $GLOBALS['errorHandler'] = studentid_validate($username);
                 return;
@@ -68,7 +68,6 @@
                 $GLOBALS['errorHandler'] = name_validate($lastnameRegister);
                 return;
             }
-            $hashedPassword =  password_hash($password, PASSWORD_BCRYPT);
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
@@ -79,8 +78,6 @@
             )";
             // echo $registerQuery;
             $result = mysqli_query($conn,$registerQuery);
-            //verify
-            // echo password_verify('http://localhost/register.php', $hashedPassword);
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
@@ -115,7 +112,7 @@
                     $firstname VARCHAR (60) NOT NULL,
                     $lastname VARCHAR (60) NOT NULL,
                     $passwordStudent VARCHAR (60) NOT NULL,
-                    PRIMARY KEY($accountID)
+                    PRIMARY KEY($studentID)
                 )";
                 $result = mysqli_query($conn, $create_table_query);
             }
