@@ -68,7 +68,6 @@
                 $GLOBALS['errorHandler'] = name_validate($lastnameRegister);
                 return;
             }
-            $hashedPassword =  password_hash($password, PASSWORD_BCRYPT);
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
@@ -79,8 +78,6 @@
             )";
             // echo $registerQuery;
             $result = mysqli_query($conn,$registerQuery);
-            //verify
-            // echo password_verify('http://localhost/register.php', $hashedPassword);
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
