@@ -34,7 +34,8 @@
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $result = mysqli_query($conn, $query);
-        
+        // free up the memory
+        mysqli_free_result($result);
         // set variable
         $ATTEMPT_ID = "ATTEMPT_ID";
         $STUDENT_ID = "STUDENT_ID";
@@ -46,26 +47,23 @@
         
         // Create table if not exists
         if (!$result) {
-            $create_table_query = "CREATE TABLE attempts(
-                $ATTEMPT_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                $STUDENT_ID INTEGER NOT NULL,
+            $create_table_query = "CREATE TABLE $sql_table(
+                $ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                $STUDENT_ID INT NOT NULL UNIQUE,
                 $FIRST_NAME VARCHAR(30) NOT NULL,
                 $LAST_NAME VARCHAR (30) NOT NULL,
-                $SCORE INTEGER NOT NULL,
+                $SCORE INT NOT NULL,
                 $CREATED_AT DATETIME NOT NULL,
-                $ATTEMPT_NUMBER INTEGER NOT NULL
+                $ATTEMPT_NUMBER INT NOT NULL,
+                FOREIGN KEY($STUDENT_ID) REFERENCES students(STUDENT_ID)
             );";
             $result = mysqli_query($conn, $create_table_query);
-            // free up the memory
-            mysqli_free_result($result);
         }
     
         // Display the retrieved records 
     
 
         // Question check
-
-        
         if (isset ($_POST["studentid"])) { 
             $student_id = $_POST["studentid"];
         } else {
@@ -74,35 +72,50 @@
         if (isset ($_POST["firstname"])) $firstname = $_POST["firstname"];
         if (isset ($_POST["lastname"])) $lastname = $_POST["lastname"];
         if (isset ($_POST["q1"])) $q1 = $_POST["q1"];
+        else
+            $q1 = "";
         if (isset ($_POST["q2"])) $q2 = $_POST["q2"];
+        else
+            $q2 ="";
         if (isset ($_POST["q3"])) $q3 = $_POST["q3"];
         if (isset ($_POST["q4"])) $q4 = $_POST["q4"];
         if (isset ($_POST["q5"])) $q5 = $_POST["q5"];
         if (isset ($_POST["q6"])) $q6 = $_POST["q6"];
-        $new_q4 = implode(', ', $q4);
+
+        // VALIDATION
         $errMsg = "";
-        // if ($firstname==""){
-        //     $errMsg .= "<p>You must enter your first name. </p>";
-        // }
-        if (!preg_match("/[a-zA-Z- ]{1,30}/", $firstname)){
-            $errMsg .= "<p>Only alpha, space, hyphen characters allowed in your first name. </p>";
+
+        function studentid_validate($student_id){
+            $errMsg="";
+            if ($student_id =="") {
+                $errMsg = $errMsg. "<p>You must enter a student id</p>";
+            } else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+                $errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
+            }
+            return $errMsg;
         }
-        // else if ($lastname==""){
-        //     $errMsg .= "<p>You must enter your last name. </p>";
-        // }
-        else if(!preg_match("/[a-zA-Z- ]{1,30}/", $lastname)){
-            $errMsg .= "<p>Only alpha, space, hyphen characters allowed in your last name. </p>";
+        function name_validate($name){
+            $errMsg=""; 
+            if ($name =="") {
+                $errMsg = $errMsg. "<p>You must enter your full name. </p>";
+            } else if (!preg_match("/[a-zA-Z- ]{1,30}/", $name)) {
+                $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
+            }
+            return $errMsg;
         }
-        else if(!preg_match("/^\d{7,10}$/", $student_id)){
-            $errMsg .= "<p>Only 7 or 10 digits allowed in your student id. </p>";
-        }
+       if (name_validate($firstname))
+            $errMsg .= name_validate($firstname);
+        else if (name_validate($lastname))
+            $errMsg .= name_validate($lastname);
+        else if (studentid_validate($student_id))
+            $errMsg .= studentid_validate($student_id);
         else if ($q1==""){
             $errMsg .= "<p>You must answer question 1. </p>";}
         else if ($q2==""){
             $errMsg .= "<p>You must answer question 2. </p>";}
         else if ($q3==""){
             $errMsg .= "<p>You must answer question 3. </p>";}
-        else if ($new_q4 == ""){
+        else if (empty($q4) == 1){
             $errMsg .= "<p>You must answer question 4. </p>";}
         else if ($q5==""){
             $errMsg .= "<p>You must answer question 5. </p>";}
@@ -110,6 +123,7 @@
             $errMsg .= "<p>You must answer question 6. </p>";}
 
         if ($errMsg != "") echo "<p>$errMsg</p>";
+    
         else{
         // Sanitise input
         function sanitise_input($data){
@@ -123,7 +137,9 @@
         $q1 = sanitise_input($q1);
         $q2 = sanitise_input($q2);
         $q3 = sanitise_input($q3);
-        $new_q4 = sanitise_input($new_q4);
+        for ($i = 0; $i < count($q4); $i++) {
+            $q4[$i] = sanitise_input($q4[$i]);
+          }
         $q5 = sanitise_input($q5);
         $q6 = sanitise_input($q6);
         // multi-select check
@@ -162,7 +178,7 @@
         }
         
         $score = intval($mark / 6 * 100);
-        // $new_q4 = implode(', ', $q4);
+        $new_q4 = implode(', ', $q4);
 
         
             date_default_timezone_set('Australia/Melbourne');
@@ -205,6 +221,8 @@
                     $attempt = 0;
                 }
             }
+            // free up the memory
+            mysqli_free_result($data);
             if ($attempt > 0) {
                 
                 echo "<h1>MarkQuiz</h1>";
@@ -223,7 +241,11 @@
                 VALUES ($student_id, '$firstname',  '$lastname', $score, '$formatted_time', 1);";
                 
                 if (mysqli_query($conn, $sql)) {
-                echo "New record created successfully";
+                    $attempt-=1;
+                echo "<p>New record created successfully</p>";
+                echo "<p> Attempts Left: 1 </p>";
+                echo "<p><a href ='quiz.php'> Click here to retry </a> </p>";
+                
                 } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
