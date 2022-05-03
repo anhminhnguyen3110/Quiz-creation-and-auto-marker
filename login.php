@@ -22,15 +22,20 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+	function studentid_validate($student_id){
+		$errMsg = "";
+		if ($student_id =="") {
+			$errMsg = $errMsg. "<p>You must enter a student id</p>";
+		} else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
+		}
+		return $errMsg;
+	}
 	function handleLogin($conn, $sql_table, $studentID, $passwordStudent){
         $username = (int)sanitise_input($_POST['usernameLogin']);
         $password = sanitise_input($_POST['passwordLogin']);
-        if(empty($username)){
-			$GLOBALS['errorHandler'] = "Invalid username";
-			return;
-		}
-		if(!is_int($username) && $username < 0){
-			$GLOBALS['errorHandler'] = "Invalid username";
+        if(studentid_validate($username)){
+			$GLOBALS['errorHandler'] = studentid_validate($username);
 			return;
 		}
 		if(empty($password)){

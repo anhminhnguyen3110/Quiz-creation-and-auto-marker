@@ -13,6 +13,7 @@
 
     ?>
     <h1>Admin site</h1>
+    <a href="logoutAdmin.php">Logout</a>
     <form method="get" action="manage.php">
         <fieldset>
             <legend>All attempt for student</legend>
@@ -46,6 +47,10 @@
         </fieldset>
     </form>
     <?php
+    session_start();
+	if(!isset($_SESSION['ADMIN'])){
+		header('location: loginAdmin.php');
+	}
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";
