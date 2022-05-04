@@ -11,7 +11,8 @@
     <title>MarkQuiz</title>
 </head>
 <body>
-    <?php 
+    <?php
+    session_start(); 
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -64,13 +65,10 @@
     
 
         // Question check
-        if (isset ($_POST["studentid"])) { 
-            $student_id = $_POST["studentid"];
-        } else {
-            header ("Location: quiz.php");
-        };
-        if (isset ($_POST["firstname"])) $firstname = $_POST["firstname"];
-        if (isset ($_POST["lastname"])) $lastname = $_POST["lastname"];
+       
+        $student_id =  $_SESSION["StudentID"];
+        $firstname =  $_SESSION["firstname"];
+        $lastname = $_SESSION["lastname"];
         if (isset ($_POST["q1"])) $q1 = $_POST["q1"];
         else
             $q1 = "";
@@ -81,35 +79,13 @@
         if (isset ($_POST["q4"])) $q4 = $_POST["q4"];
         if (isset ($_POST["q5"])) $q5 = $_POST["q5"];
         if (isset ($_POST["q6"])) $q6 = $_POST["q6"];
+        else 
+            $q6 ="";
 
         // VALIDATION
         $errMsg = "";
 
-        function studentid_validate($student_id){
-            $errMsg="";
-            if ($student_id =="") {
-                $errMsg = $errMsg. "<p>You must enter a student id</p>";
-            } else if (!preg_match("/^\d{7,10}$/", $student_id)) {
-                $errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
-            }
-            return $errMsg;
-        }
-        function name_validate($name){
-            $errMsg=""; 
-            if ($name =="") {
-                $errMsg = $errMsg. "<p>You must enter your full name. </p>";
-            } else if (!preg_match("/[a-zA-Z- ]{1,30}/", $name)) {
-                $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
-            }
-            return $errMsg;
-        }
-       if (name_validate($firstname))
-            $errMsg .= name_validate($firstname);
-        else if (name_validate($lastname))
-            $errMsg .= name_validate($lastname);
-        else if (studentid_validate($student_id))
-            $errMsg .= studentid_validate($student_id);
-        else if ($q1==""){
+        if ($q1==""){
             $errMsg .= "<p>You must answer question 1. </p>";}
         else if ($q2==""){
             $errMsg .= "<p>You must answer question 2. </p>";}
@@ -119,6 +95,8 @@
             $errMsg .= "<p>You must answer question 4. </p>";}
         else if ($q5==""){
             $errMsg .= "<p>You must answer question 5. </p>";}
+        else if (!preg_match("/^\d{3,4}$/", $q5)){
+            $errMsg .= "<p>Only year with 3 or 4 digits allowed e.g: 2022.</p>";}
         else if ($q6==""){
             $errMsg .= "<p>You must answer question 6. </p>";}
 
@@ -179,7 +157,6 @@
         
         $score = intval($mark / 6 * 100);
         $new_q4 = implode(', ', $q4);
-
         
             date_default_timezone_set('Australia/Melbourne');
             $formatted_time = date("Y-m-d H:i:s", time());
