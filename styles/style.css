@@ -1409,3 +1409,49 @@ Cascading StyleSheet for Enhancements
         font-weight: 400;
     }
 }
+/*
+	Section for status.php
+	CHANGE IF NEEDED
+	Needs responsive design to work on other screen sizes
+*/
+
+#status {
+	height: 100%;
+}
+
+#status p {
+	text-align: center;
+	padding: 15px;
+	font-size: 2em;
+}
+
+#statustable {
+	margin: 50px auto;
+    margin-top: 100px;
+    table-layout: fixed;
+    width: 75%;
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+#statustable td,
+#statustable th {
+    padding: 20px;
+    border: 1px solid black;
+    color: black;
+    font-size: 17px;
+    text-shadow: 1px 1px 1px rgb(135, 206, 235);
+	height: 5em;
+}
+
+#statustable th {
+    letter-spacing: 2px;
+    background-color: #f0f4ff;
+}
+
+#statustable td {
+    letter-spacing: 1px;
+    background-color: #cff3fd;
+    text-align: center;
+	height: 7em;
+}
