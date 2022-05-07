@@ -61,8 +61,7 @@
 
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		// echo $res["FIRST_NAME"];
-		// echo $res["LAST_NAME"];
+		$_SESSION["time"] = time();
 		header('location: quiz.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){

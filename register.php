@@ -81,6 +81,7 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
+    		$_SESSION["time"] = time();
             echo 'register successfully';
             header('location: quiz.php');
         }

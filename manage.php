@@ -9,9 +9,6 @@
 </head>
 
 <body>
-    <?php
-
-    ?>
     <h1>Admin site</h1>
     <a href="logoutAdmin.php">Logout</a>
     <form method="get" action="manage.php">
@@ -48,7 +45,7 @@
     </form>
     <?php
     session_start();
-	if(!isset($_SESSION['ADMIN'])){
+	if(!isset($_COOKIE['ADMIN'])){
 		header('location: loginAdmin.php');
 	}
     $servername = "feenix-mariadb.swin.edu.au";
