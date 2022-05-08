@@ -12,10 +12,6 @@
 	<h1>Login for Admin</h1>
 	<?php
 	session_start();
-	if(!isset($_COOKIE['ADMIN'])){
-		session_unset();
-		session_destroy();
-	}
 	if(isset($_SESSION['ADMIN'])){
 		header('location: manage.php');
 	}
@@ -110,10 +106,8 @@
 			}
 		}
 		
-		$_SESSION["ADMIN"] = $usernameInput;	
-		$cookie_name = "ADMIN";
-		$cookie_value = 'ADMIN';
-		setcookie($cookie_name, $cookie_value, time() + (900), ""); //15 minutes
+		$_SESSION["ADMIN"] = $usernameInput;
+		$_SESSION["time"] = time();
 		header('location: manage.php');
     }
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){
