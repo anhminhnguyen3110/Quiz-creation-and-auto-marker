@@ -20,7 +20,7 @@
     ?>
     <?php 
         session_start();
-        if(!isset($_SESSION['StudentID'])){  
+        if(!isset($_COOKIE['STUDENT'])){  
             header('location: login.php');
         }
     ?>

@@ -105,8 +105,9 @@
 				}
 			}
 		}
-		
-		$_SESSION["ADMIN"] = $usernameInput;
+		session_unset();
+		setcookie("STUDENT", "", time()-1000);
+		$_SESSION["ADMIN"] = $usernameInput;	
 		$_SESSION["time"] = time();
 		header('location: manage.php');
     }
