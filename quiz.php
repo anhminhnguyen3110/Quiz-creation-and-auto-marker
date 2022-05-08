@@ -19,10 +19,9 @@
         echo "</header>"
     ?>
     <?php 
-        if(!isset($_SESSION['StudentID'])){  
+        session_start();
+        if(!isset($_COOKIE['STUDENT'])){  
             header('location: login.php');
-        }else if(time() - $_SESSION['time'] >= 86400){
-            header('location: logout.php');
         }
     ?>
     <!--Quiz-->
