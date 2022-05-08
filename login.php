@@ -12,10 +12,6 @@
 	<h1>Login</h1>
 	<?php
 	session_start();
-	if(!isset($_COOKIE['STUDENT'])){
-		session_unset();
-		session_destroy();
-	}
 	if(isset($_SESSION['StudentID'])){
 		header('location: quiz.php');
 	}
@@ -54,7 +50,7 @@
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
-			$GLOBALS['errorHandler'] = "No username is provided";
+			$GLOBALS['errorHandler'] = "No student ID is provided";
 			return;
 		}
 		if($res['PASSWORD'] != $password){
@@ -62,7 +58,6 @@
 			return;
 		}
 		$_SESSION["StudentID"] = $username;
-
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
 		$cookie_name = "STUDENT";

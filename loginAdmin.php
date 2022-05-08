@@ -41,9 +41,8 @@
 		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
 		$result = mysqli_query($conn, $query);
 		$row = mysqli_fetch_assoc($result);
-		$time = $row[$attemptTime];
 		mysqli_free_result($result);
-		if(!$time){
+		if(!isset($row[$attemptTime])){
 			$tmpTime = time();
 			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
 			$result = mysqli_query($conn, $query);
@@ -106,9 +105,12 @@
 			}
 		}
 		session_unset();
+		$res = mysqli_fetch_assoc($result);
 		setcookie("STUDENT", "", time()-1000);
 		$_SESSION["ADMIN"] = $usernameInput;	
 		$_SESSION["time"] = time();
+		$query = "DELETE FROM $sql_table WHERE $username = '$usernameInput'";
+		$results = mysqli_query($conn, $query);
 		header('location: manage.php');
     }
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){

@@ -22,6 +22,9 @@
     ?>
 	<article class='register-main'>
     <?php
+        if(isset($_SESSION['StudentID'])){
+            header('location: quiz.php');
+        }
         function sanitise_input($data){
             $data = trim($data);
             $data = stripslashes($data);
@@ -76,6 +79,13 @@
                 $GLOBALS['errorHandler'] = name_validate($lastnameRegister);
                 return;
             }
+            $usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
+            $result = mysqli_query($conn, $usernameSQuery);
+            $res = mysqli_fetch_assoc($result);
+            if($res){
+                $GLOBALS['errorHandler'] = "Student ID is already taken";
+                return;
+            }
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
@@ -89,7 +99,9 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
-            echo 'register successfully';
+            $cookie_name = "STUDENT";
+            $cookie_value = $username;
+            setcookie($cookie_name, $cookie_value, time() + (900), "");
             header('location: checkattempts.php');
         }
         if(isset($_POST['usernameRegister']) || isset($_POST['passwordRegister'])){

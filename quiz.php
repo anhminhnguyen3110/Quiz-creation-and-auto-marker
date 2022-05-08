@@ -19,7 +19,7 @@
         echo "</header>"
     ?>
     <?php 
-        session_start();
+        // session_start();
         if(!isset($_COOKIE['STUDENT'])){  
             header('location: login.php');
         }

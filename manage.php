@@ -55,13 +55,11 @@
         </fieldset>
     </form>
     <?php
-    session_start();
 	if(!isset($_SESSION['ADMIN'])){
 		header('location: loginAdmin.php');
 	}else if(time() - $_SESSION['time'] >= 900){
         header('location: logout.php');
     }
-    echo time() - $_SESSION['time'];
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";
