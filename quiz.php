@@ -21,6 +21,8 @@
     <?php 
         if(!isset($_SESSION['StudentID'])){  
             header('location: login.php');
+        }else if(time() - $_SESSION['time'] >= 86400){
+            header('location: logout.php');
         }
     ?>
     <!--Quiz-->

@@ -97,7 +97,6 @@
             $errMsg .= "<p>Only year with 3 or 4 digits allowed e.g: 2022.</p>";}
         if ($q6==""){
             $errMsg .= "<p>You must answer question 6. </p>";}
-
         if ($errMsg != "") echo "<p>$errMsg</p>";
     
         else{
@@ -121,6 +120,7 @@
         // multi-select check
         $q4Answers = ["Open Source", "A framework for building web and mobile applications", "Flexible to use and Good for SEO (Search Engine Optimization)"];
         $q4mark = 0;
+          
         $check_diff = array_diff($q4, $q4Answers);
         if (empty($check_diff)) {
             $q4mark = 1;
@@ -161,6 +161,7 @@
         
         $score = intval($mark / 6 * 100);
         $new_q4 = implode(', ', $q4);
+          
         function is_right($var) {
             if ($var) {
                 return "✅";
@@ -249,7 +250,7 @@
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
             echo "</article>";
-
+          
         }
     }
         

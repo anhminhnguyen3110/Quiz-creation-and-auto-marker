@@ -55,8 +55,8 @@
         </fieldset>
     </form>
     <?php
-    
-	if(!isset($_SESSION['ADMIN'])){
+    session_start();
+	if(!isset($_COOKIE['ADMIN'])){
 		header('location: loginAdmin.php');
 	}
     $servername = "feenix-mariadb.swin.edu.au";
@@ -219,7 +219,35 @@
         changeAttemptHandler($conn, $sql_table, $score, $studentID,  $attempt_number);
     }
 
+    
+    
+    // All attempts
+    echo "<h2>All quiz attempts</h2>";
+    echo '<form method="get" action="">
+    <fieldset>
+    <legend>Sort by</legend>
+            <label for="sort">Column</label>
+            <select id="sort" name="sortColumn">
+                <option value="ATTEMPT_ID">Attempt ID</option>
+                <option value="FIRST_NAME">First name</option>
+                <option value="LAST_NAME">Last name</option>
+                <option value="SCORE">Score</option>
+            </select>
+            <label for="sortDirection">Sort direction</label>
+            <select id="sortDirection" name="sortDirection">
+                <option value="ASC">Arrange from smallest to the largest value</option>
+                <option value="DESC">Arrange from largest to the smallest value</option>
+            </select>
+            <input type="submit"/>
+        </fieldset>
+    </form>';
     $query = "SELECT * FROM $sql_table";
+    if(isset($_GET['sortColumn']) || isset($GET['sortDirection'])){
+        $sortColumn = $_GET['sortColumn'];
+        $sortDirection = strtoupper($_GET['sortDirection']);
+        $query = $query." ORDER BY $sortColumn $sortDirection";
+        echo $query;
+    }
     $result = mysqli_query($conn, $query);
     if (!$result) {
         $create_table_query = "CREATE TABLE attempts(
@@ -233,9 +261,6 @@
         );";
         $result = mysqli_query($conn, $create_table_query);
     }
-    
-    // All attempts
-    echo "<h2>All quiz attempts</h2>";
     displayTable($result);
     // Who got 100%
     echo "<h2>All students who got 100% on their first attempt</h2>";

@@ -2,26 +2,23 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
-    <meta name="keywords" content="HTML, CSS, JavaScript" />
-    <meta name="author" content="React Lions" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/style.css"/>
-    <link rel="icon" href="images/react.svg">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
 <body>
-	<!--Header(with menu)-->
-    <?php 
-        include ("header.inc");
-        include ("menu.inc");
-        echo menu("quiz");
-        echo "</header>"
-    ?>
-	<article class='login-main'>
+	<h1>Login for Admin</h1>
 	<?php
+	session_start();
+	if(!isset($_COOKIE['ADMIN'])){
+		session_unset();
+		session_destroy();
+	}
+	if(isset($_SESSION['ADMIN'])){
+		header('location: manage.php');
+	}
 	$errorHandler = "";
 	function sanitise_input($data){
         $data = trim($data);
@@ -29,36 +26,94 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+	function loginSecurityHandler($usernameInput,$username, $conn){
+		$sql_table = 'logSecurity';
+		$query = "SELECT * FROM $sql_table";
+		$createdAt = "CREATED_AT";
+		$attemptTime = "ATTEMPT_TIME";
+		try {
+			$result = mysqli_query($conn, $query);
+		} catch (\Throwable $th) {
+			$create_table_query = "CREATE TABLE $sql_table( 
+				$username VARCHAR (30) NOT NULL,
+				$createdAt INT NOT NULL,
+				$attemptTime INT NOT NULL,
+				FOREIGN KEY ($username) REFERENCES admin($username)
+			)";
+			$result = mysqli_query($conn, $create_table_query);
+		}
+		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($result);
+		$time = $row[$attemptTime];
+		mysqli_free_result($result);
+		if(!$time){
+			$tmpTime = time();
+			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
+			$result = mysqli_query($conn, $query);
+		}else if(time() - $row[$createdAt] >= 900){
+			$tmpTime = time();
+			$query = "UPDATE $sql_table
+			SET $createdAt = $tmpTime,$attemptTime=1
+			WHERE $username = '$usernameInput'
+			";
+			$result = mysqli_query($conn, $query);
+		}else if($row[$attemptTime]<3){
+			$tmpAttempt = $row[$attemptTime] + 1;
+			$query = "UPDATE $sql_table
+			SET $attemptTime = $tmpAttempt 
+			WHERE $username = '$usernameInput'
+			";
+			$tmpAttempt = 3 - $tmpAttempt;
+			$GLOBALS['errorHandler'] = "Attempt left: $tmpAttempt, Bad credentail !";
+			$result = mysqli_query($conn, $query);
+		}else if($row[$attemptTime]==3){
+			$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+		}
+	}
+
 	
 	function handleLogin($conn, $sql_table, $username){
-        $usernameInput = (int)sanitise_input($_POST['usernameAdmin']);
+        $usernameInput = sanitise_input($_POST['usernameAdmin']);
         $passwordInput = sanitise_input($_POST['passwordAdmin']);
-        // if(empty($usernameInput)){
-		// 	$GLOBALS['errorHandler'] = "Invalid username";
-		// 	return;
-		// }
+		$attemptTime = "ATTEMPT_TIME";
+		$createdAt = "CREATED_AT";
 		if(empty($passwordInput)){
 			$GLOBALS['errorHandler'] = "Invalid password";
 			return;
 		}
-		if(strlen($passwordInput)<8){
-			$GLOBALS['errorHandler'] = "Password must have more than 8 characters";
-			return;
-		}
-		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = $usernameInput LIMIT 1";
+		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
+		
 		if(!$res){
 			$GLOBALS['errorHandler'] = "No username is provided";
 			return;
 		}
 		if($res['PASSWORD'] != $passwordInput){
-			$GLOBALS['errorHandler'] = "Incorrect password!";
+			$GLOBALS['errorHandler'] = "Bad Credential!";
+			loginSecurityHandler($usernameInput,$username, $conn);
 			return;
 		}
-		$_SESSION["ADMIN"] = $usernameInput;
-		// echo $res["FIRST_NAME"];
-		// echo $res["LAST_NAME"];
+		$sql_table = 'logSecurity';
+		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
+		$results = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($results);
+		if($row){
+			if($row[$attemptTime] == 3){
+				if($row[$createdAt] - time() >= 900){
+	
+				}else{
+					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+					return;
+				}
+			}
+		}
+		
+		$_SESSION["ADMIN"] = $usernameInput;	
+		$cookie_name = "ADMIN";
+		$cookie_value = 'ADMIN';
+		setcookie($cookie_name, $cookie_value, time() + (900), ""); //15 minutes
 		header('location: manage.php');
     }
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){
@@ -93,25 +148,22 @@
         handleLogin($conn, $sql_table, $usernameAdmin);
     }
 	?>
-	<form method="POST" action="" class="login">
+	<form method="POST" action="">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
-				echo "<p class='error'>$errorHandler</p>";
+				echo "<p>$errorHandler</p>";
 			} 
 			?>
-			<legend>Supervisor Login</legend>
-			<label for="usernameAdmin">@</label>
-			<input type="text" name="usernameAdmin" id="usernameAdmin" placeholder="Admin ID"/><br/>
-			<label for="passwordAdmin">🔒</label>
-			<input type="password" name="passwordAdmin" id="passwordAdmin" placeholder="Password"/><br/>
+			<legend>Login</legend>
+			<label for="usernameAdmin">AdminID: </label>
+			<input name="usernameAdmin" id="usernameAdmin"/><br/>
+			<label for="passwordAdmin">Password: </label>
+			<input type="password" name="passwordAdmin" id="passwordAdmin"/><br/>
 			<input type="submit"/>
 			<br/>
 		</fieldset>
 	</form>
-	</article>
 
-    <!--Footer-->
-    <?php include_once 'footer.inc'; ?>
 </body>
 </html>
