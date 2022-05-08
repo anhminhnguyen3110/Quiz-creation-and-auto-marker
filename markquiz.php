@@ -10,9 +10,15 @@
     <link rel="icon" href="images/react.svg">
     <title>MarkQuiz</title>
 </head>
-<body>
+<body class='quiz-bg'>
+    <!--Header(with menu)-->
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("quiz");
+        echo "</header>"
+    ?>
     <?php
-    session_start(); 
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -37,26 +43,18 @@
         $result = mysqli_query($conn, $query);
         // free up the memory
         mysqli_free_result($result);
-        // set variable
-        $ATTEMPT_ID = "ATTEMPT_ID";
-        $STUDENT_ID = "STUDENT_ID";
-        $FIRST_NAME = "FIRST_NAME";
-        $LAST_NAME = "LAST_NAME";
-        $SCORE = "SCORE";
-        $CREATED_AT = "CREATED_AT";
-        $ATTEMPT_NUMBER = "ATTEMPT_NUMBER";
         
         // Create table if not exists
         if (!$result) {
             $create_table_query = "CREATE TABLE $sql_table(
-                $ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                $STUDENT_ID INT NOT NULL UNIQUE,
-                $FIRST_NAME VARCHAR(30) NOT NULL,
-                $LAST_NAME VARCHAR (30) NOT NULL,
-                $SCORE INT NOT NULL,
-                $CREATED_AT DATETIME NOT NULL,
-                $ATTEMPT_NUMBER INT NOT NULL,
-                FOREIGN KEY($STUDENT_ID) REFERENCES students(STUDENT_ID)
+                ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                STUDENT_ID INT NOT NULL UNIQUE,
+                FIRST_NAME VARCHAR(30) NOT NULL,
+                LAST_NAME VARCHAR (30) NOT NULL,
+                SCORE INT NOT NULL,
+                CREATED_AT DATETIME NOT NULL,
+                ATTEMPT_NUMBER INT NOT NULL,
+                FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
             );";
             $result = mysqli_query($conn, $create_table_query);
         }
@@ -87,19 +85,18 @@
 
         if ($q1==""){
             $errMsg .= "<p>You must answer question 1. </p>";}
-        else if ($q2==""){
+        if ($q2==""){
             $errMsg .= "<p>You must answer question 2. </p>";}
-        else if ($q3==""){
+        if ($q3==""){
             $errMsg .= "<p>You must answer question 3. </p>";}
-        else if (empty($q4) == 1){
+        if (empty($q4) == 1){
             $errMsg .= "<p>You must answer question 4. </p>";}
-        else if ($q5==""){
+        if ($q5==""){
             $errMsg .= "<p>You must answer question 5. </p>";}
-        else if (!preg_match("/^\d{3,4}$/", $q5)){
+        if (!preg_match("/^\d{3,4}$/", $q5)){
             $errMsg .= "<p>Only year with 3 or 4 digits allowed e.g: 2022.</p>";}
-        else if ($q6==""){
+        if ($q6==""){
             $errMsg .= "<p>You must answer question 6. </p>";}
-
         if ($errMsg != "") echo "<p>$errMsg</p>";
     
         else{
@@ -123,115 +120,145 @@
         // multi-select check
         $q4Answers = ["Open Source", "A framework for building web and mobile applications", "Flexible to use and Good for SEO (Search Engine Optimization)"];
         $q4mark = 0;
-        // foreach ($q4Answers as $answer) {
-        //     if (in_array($answer, $q4)) {
-        //         $q4mark += 1;
-        //     }
-        // }
-        // $q4mark = $q4mark/3;
-        if ($q4 == $q4Answers)
+          
+        $check_diff = array_diff($q4, $q4Answers);
+        if (empty($check_diff)) {
             $q4mark = 1;
-        else
-            $q4mark = 0;
+        }
 
         // Quiz Marking
+        $q1right = false;
+        $q2right = false;
+        $q3right = false;
+        $q4right = false;
+        $q5right = false;
+        $q6right = false;
         $mark = 0;
         if ($q1 == "JS") {
             $mark += 1;
+            $q1right = true;
         }
         if ($q2 == "Jordan Walke") {
             $mark += 1;
+            $q2right = true;
         }
         if ($q3 == "facebook") {
             $mark += 1;
+            $q3right = true;
         }
         if ($q4mark) {
             $mark += $q4mark;
+            $q4right = true;
         }
         if ($q5 == 2016) {
             $mark += 1;
+            $q5right = true;
         }
         if ($q6 == "false") {
             $mark += 1;
+            $q6right = true;
         }
         
         $score = intval($mark / 6 * 100);
         $new_q4 = implode(', ', $q4);
-        
-            date_default_timezone_set('Australia/Melbourne');
-            $formatted_time = date("Y-m-d H:i:s", time());
-
-            // Check attempts left by Student ID
-            $attempt = 1;
-            $attempts_left_query = "SELECT $ATTEMPT_NUMBER FROM attempts WHERE $STUDENT_ID = $student_id";
-            $data = mysqli_query($conn, $attempts_left_query);
-            if (!$data) {
-                echo "Error: " . $attempts_left_query . "<br>" . mysqli_error($conn);
-            } else if (mysqli_num_rows($data) == 0) {
-                $attempt = 2;
+          
+        function is_right($var) {
+            if ($var) {
+                return "✅";
             } else {
-                $attempts_left = 0;
-                while($row = mysqli_fetch_assoc($data)) {
-                    $attempts_left = 2 - $row[$ATTEMPT_NUMBER];
-                }
-                if ($attempts_left > 0) {
-                    // Insert into table
-                    $insert_query = "UPDATE attempts SET $ATTEMPT_NUMBER = 2 WHERE $STUDENT_ID = $student_id";
-                    $insert_query = "INSERT INTO attempts ($STUDENT_ID, $FIRST_NAME, $LAST_NAME, SCORE, $CREATED_AT, $ATTEMPT_NUMBER) 
-                VALUES ($student_id, '$firstname',  '$lastname', $score, '$formatted_time', 2);";
-                    $result = mysqli_query($conn, $insert_query);
-                    $attempt = 0;
-                     
-                    echo "<h1>MarkQuiz</h1>";
-                    echo "<h2>Student ID: $student_id</h2>";
-                    echo "<h2>Name: $firstname $lastname</h2>";
-                    echo "<h2>Answer 1: $q1</h2>";
-                    echo "<h2>Answer 2: $q2</h2>";
-                    echo "<h2>Answer 3: $q3</h2>";
-                    echo "<h2>Answer 4: $new_q4</h2>";
-                    echo "<h2>Answer 5: $q5</h2>";
-                    echo "<h2>Answer 6: $q6</h2>";
-                    echo "<h2>Score: $score</h2>";
-                    echo "Attempts Left: $attempt";
-                } else {
-                    echo "<p>You have no attempts left</p>";
-                    $attempt = 0;
-                }
+                return "❌";
             }
-            // free up the memory
-            mysqli_free_result($data);
-            if ($attempt > 0) {
-                
-                echo "<h1>MarkQuiz</h1>";
-                echo "<h2>Student ID: $student_id</h2>";
-                echo "<h2>Name: $firstname $lastname</h2>";
-                echo "<h2>Answer 1: $q1</h2>";
-                echo "<h2>Answer 2: $q2</h2>";
-                echo "<h2>Answer 3: $q3</h2>";
-                echo "<h2>Answer 4: $new_q4</h2>";
-                echo "<h2>Answer 5: $q5</h2>";
-                echo "<h2>Answer 6: $q6</h2>";
-                echo "<h2>Score: $score</h2>";
+        }
+        
+        date_default_timezone_set('Australia/Melbourne');
+        $formatted_time = date("Y-m-d H:i:s", time());
 
+        // Check attempts left by Student ID
+        $attempt = 1;
+        $attempts_left_query = "SELECT ATTEMPT_NUMBER FROM attempts WHERE STUDENT_ID = $student_id";
+        $data = mysqli_query($conn, $attempts_left_query);
+        if (!$data) {
+            echo "Error: " . $attempts_left_query . "<br>" . mysqli_error($conn);
+        } else if (mysqli_num_rows($data) == 0) {
+            $attempt = 2;
+        } else {
+            $attempts_left = 0;
+            while($row = mysqli_fetch_assoc($data)) {
+                $attempts_left = 2 - $row["ATTEMPT_NUMBER"];
+            }
+            if ($attempts_left > 0) {
                 // Insert into table
-                $sql = "INSERT INTO attempts ($STUDENT_ID, $FIRST_NAME, $LAST_NAME, $SCORE, $CREATED_AT, $ATTEMPT_NUMBER) 
-                VALUES ($student_id, '$firstname',  '$lastname', $score, '$formatted_time', 1);";
+                $insert_query = "UPDATE attempts SET ATTEMPT_NUMBER = 2 WHERE STUDENT_ID = $student_id";
+                $insert_query = "INSERT INTO attempts (STUDENT_ID, FIRST_NAME, LAST_NAME, SCORE, CREATED_AT, ATTEMPT_NUMBER) 
+                    VALUES ($student_id, '$firstname',  '$lastname', $score, '$formatted_time', 2);";
+                $result = mysqli_query($conn, $insert_query);
+                $attempt = 0;
+                    
+                echo "<article class='quiz undo'>";
+                echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
+                echo "<h2 class='info'>Student ID: $student_id</h2>";
+                echo "<h2 class='info'>Name: $firstname $lastname</h2>";
+                $q1c = is_right($q1right);
+                echo "<h2>Answer 1: $q1c</h2>";
+                $q2c = is_right($q2right);
+                echo "<h2>Answer 2: $q2c</h2>";
+                $q3c = is_right($q3right);
+                echo "<h2>Answer 3: $q3c</h2>";
+                $q4c = is_right($q4right);
+                echo "<h2>Answer 4: $q4c</h2>";
+                $q5c = is_right($q5right);
+                echo "<h2>Answer 5: $q5c</h2>";
+                $q6c = is_right($q6right);
+                echo "<h2>Answer 6: $q6c</h2>";
                 
-                if (mysqli_query($conn, $sql)) {
-                    $attempt-=1;
-                echo "<p>New record created successfully</p>";
-                echo "<p> Attempts Left: 1 </p>";
-                echo "<p><a href ='quiz.php'> Click here to retry </a> </p>";
-                
-                } else {
-                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-                }
-
+                echo "<h2>Final Score: $score%</h2>";
+                echo "</article>";
+            } else {
+                echo "<article class='quiz'><h2 class='heading-quiz'>You have no attempts left</h2></article>";  
+                $attempt = 0;
             }
         }
+        // free up the memory
+        mysqli_free_result($data);
+        if ($attempt > 0) { 
+            echo "<article class='quiz'>";
+            echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
+            echo "<h2 class='info'>Student ID: $student_id</h2>";
+            echo "<h2 class='info'>Name: $firstname $lastname</h2>";
+            $q1c = is_right($q1right);
+            echo "<h2>Answer 1: $q1c</h2>";
+            $q2c = is_right($q2right);
+            echo "<h2>Answer 2: $q2c</h2>";
+            $q3c = is_right($q3right);
+            echo "<h2>Answer 3: $q3c</h2>";
+            $q4c = is_right($q4right);
+            echo "<h2>Answer 4: $q4c</h2>";
+            $q5c = is_right($q5right);
+            echo "<h2>Answer 5: $q5c</h2>";
+            $q6c = is_right($q6right);
+            echo "<h2>Answer 6: $q6c</h2>";
             
-            mysqli_close($conn);
+            echo "<h2>Final Score: $score%</h2>";
+            // Insert into table
+            $sql = "INSERT INTO attempts (STUDENT_ID, FIRST_NAME, LAST_NAME, SCORE, CREATED_AT, ATTEMPT_NUMBER) 
+            VALUES ($student_id, '$firstname', '$lastname', $score, '$formatted_time', 1);";
+            
+            if (mysqli_query($conn, $sql)) {
+                $attempt-=1;
+                echo "<h2>You have another attmept left, <a href ='quiz.php'>retry</a>?</h2>";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+            echo "</article>";
+          
         }
+    }
+        
+        mysqli_close($conn);
+    }
     ?>    
+
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
 </html>

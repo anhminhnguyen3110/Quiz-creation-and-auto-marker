@@ -2,43 +2,54 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
-<body>
-    <h1>Admin site</h1>
-    <a href="logoutAdmin.php">Logout</a>
+<body class="quiz-bg">
+    <!--Header(with menu)-->
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("quiz");
+        echo "</header>"
+    ?>
+    <article class='quiz manager'>
+    <h1 class='heading-quiz'>Admin site</h1>
     <form method="get" action="manage.php">
-        <fieldset>
+        <fieldset class="need">
             <legend>All attempt for student</legend>
-            <label for="Student-ID">Name or ID: </label>
-            <input id="Student-ID" name="all" type="text"/>
+            <label for="Student-ID">Name or ID: </label><br/>
+            <input id="Student-ID" name="all" type="text"/><br/>
             <input type="submit" value="Submit"/>
         <br />
         </fieldset>
     </form>
-    <form method="post" action="test.php">
-        <fieldset>
-            <legend>Delete all attempts for a student</legend>
-            <label for="delete">ID: </label>
-            <input id="delete" name="deleteID" type="text"/>
+    <form method="post" action="manage.php">
+        <fieldset class="need">
+            <legend>Delete all attempts for a Student</legend>
+            <label for="delete">Student ID: </label><br/>
+            <input id="delete" name="deleteID" type="text"/><br/>
             <input type="submit" value="Submit"/>
         </fieldset>
     </form>
-    <form method="post" action="test.php">
-        <fieldset>
+    <form method="post" action="manage.php">
+        <fieldset class="need">
             <legend>Change the score for a quiz attempt</legend>
-            <label for="changeID">ID: </label>
-            <input id="changeID" name="changeID" type="text"/><br/><br/>
+            <label for="changeID">Student ID: </label><br/>
+            <input id="changeID" name="changeID" type="text"/><br/>
             <label for="Attempt">Attempt: </label>
             <select name="changeAttempt" id="Attempt">
                 <option value="1">1</option>
                 <option value="2">2</option>
-            </select><br/><br/>
-            <label for="changeScore">Score: </label>
+            </select><br/>
+            <label for="changeScore">Score: </label><br/>
             <input id="changeScore" name="changeScore" type="text"/><br/>
             <input type="submit" value="Submit"/>
         </fieldset>
@@ -64,7 +75,7 @@
     $create_at = "CREATED_AT";
     $attempt_number = "ATTEMPT_NUMBER";
     function displayTable($result){
-        echo "<table border='1'>\n";
+        echo "<table class='managetb'>\n";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['AttemptID'], "</th>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
@@ -88,7 +99,7 @@
         echo "</table>";
     }
     function displayTableStudent($result){
-        echo "<table border='1'>\n";
+        echo "<table>\n";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
@@ -114,7 +125,7 @@
             echo "<p>No student is found</p>";
             return;
         }
-        echo "<table border='1'>\n";
+        echo "<table>\n";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
@@ -186,8 +197,8 @@
     function allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number){
         $search = sanitise_input($_GET['all']);
         $querySearch = "SELECT $firstname, $lastname,$studentID,$score, $create_at, $attempt_number FROM $sql_table
-        WHERE CONCAT($firstname,\" \",$lastname) = \"$search\" OR $firstname LIKE \"$search%\"
-        OR $lastname LIKE \"$search%\" OR $studentID = \"$search%\"";
+        WHERE CONCAT($firstname,' ',$lastname) = '$search' OR $firstname LIKE '$search%'
+        OR $lastname LIKE '$search%' OR $studentID = '$search%'";
         $resultSearch = mysqli_query($conn, $querySearch);
         $count = mysqli_fetch_lengths($resultSearch);
         echo "<h1>$count</h1>";
@@ -272,6 +283,8 @@
     mysqli_free_result($result);
     mysqli_close($conn);
     ?>
+    </article>
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
-
 </html>

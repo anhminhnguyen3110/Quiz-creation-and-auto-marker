@@ -29,10 +29,9 @@
         <h2 class="heading-quiz">Can you React?</h2>
         <?php
             if(isset($_SESSION['StudentID'])){  
-                echo "<br/><h2>Welcome ", $_SESSION['firstname']," ",$_SESSION['lastname'], " to React</h2><br/>";
+                echo "<br/><h2>Welcome ", $_SESSION['firstname']," ",$_SESSION['lastname'], "</h2><br/>";
             }
         ?>
-        <a href="logout.php">Logout</a>
         <form method="post" action="markquiz.php" novalidate="novalidate">
             <fieldset id="questions">
                 <legend>Questions</legend>

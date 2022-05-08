@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+<meta charset="utf-8" />
     <meta name="description" content="COS10026 Assignment 1" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
@@ -19,10 +19,7 @@
         echo "</header>"
     ?>
     <?php
-	session_start();
-    if(!isset($_SESSION['StudentID'])){  
-		header('location: login.php');
-	}
+	
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -69,7 +66,7 @@
 						echo "<tr>\n";
 						//fix date
 						$date = strtotime($row["CREATED_AT"]);
-						echo "<td>", date('H:i:s Y-m-d', $date), "</td>\n";
+						echo "<td>", date('d M, Y @ h:i a', $date), "</td>\n";
 						echo "<td>", $row["ATTEMPT_NUMBER"], "</td>\n";
 						echo "<td>", $row["SCORE"], "</td>\n";
 						if ($row["SCORE"] < 50) {
@@ -93,8 +90,9 @@
 			}
             mysqli_close($conn);
         }
-		include_once 'footer.inc';
     ?>
 
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
 </html>
