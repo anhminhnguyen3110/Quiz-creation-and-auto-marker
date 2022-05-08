@@ -57,8 +57,8 @@
     <?php
 	if(!isset($_SESSION['ADMIN'])){
 		header('location: loginAdmin.php');
-	}else if(time() - $_SESSION['time'] >= 900){
-        header('location: logout.php');
+	}else if(time() - $_SESSION['time'] >= 300){
+        header('location: logoutAdmin.php');
     }
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
