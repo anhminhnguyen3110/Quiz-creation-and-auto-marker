@@ -62,7 +62,7 @@
 		$_SESSION["lastname"] = $res["LAST_NAME"];
 		$cookie_name = "STUDENT";
 		$cookie_value = $username;
-		setcookie($cookie_name, $cookie_value, time() + (900), "");
+		setcookie($cookie_name, $cookie_value, time() + (300), "");
 		header('location: quiz.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){

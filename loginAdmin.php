@@ -46,7 +46,7 @@
 			$tmpTime = time();
 			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
 			$result = mysqli_query($conn, $query);
-		}else if(time() - $row[$createdAt] >= 900){
+		}else if(time() - $row[$createdAt] >= 300){
 			$tmpTime = time();
 			$query = "UPDATE $sql_table
 			SET $createdAt = $tmpTime,$attemptTime=1
@@ -96,7 +96,7 @@
 		$row = mysqli_fetch_assoc($results);
 		if($row){
 			if($row[$attemptTime] == 3){
-				if($row[$createdAt] - time() >= 900){
+				if($row[$createdAt] - time() >= 300){
 	
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";

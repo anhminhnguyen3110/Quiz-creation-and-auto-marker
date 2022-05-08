@@ -21,7 +21,7 @@
     <?php 
         // session_start();
         if(!isset($_COOKIE['STUDENT'])){  
-            header('location: login.php');
+            header('location: logout.php');
         }
     ?>
     <!--Quiz-->
