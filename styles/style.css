@@ -1479,7 +1479,7 @@ Cascading StyleSheet for Enhancements
     right: 15px;
     border-radius: 5%;
     margin-top: 5px;
-    box-shadow: 0 8 16 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -1535,8 +1535,8 @@ Cascading StyleSheet for Enhancements
     font-size: 1.5em;
     padding: 10px;
     color: #ffeba7;
-    box-shadow: 5 5 5 #ffeba7;
-    pointer-events: none;
+    box-shadow: 5px 5px 5px #ffeba7;
+    pointer-events: auto;
     transition: .5s;
 }
 
@@ -1586,7 +1586,7 @@ Cascading StyleSheet for Enhancements
 .loginORsignup a {
     padding: 12px 8px;
     font-family: 'Advent Pro', sans-serif;
-    font-weight: 'bold';
+    font-weight: bold;
     font-size: 1.5em;
     text-align: center;
     background-color: #1f2029;
