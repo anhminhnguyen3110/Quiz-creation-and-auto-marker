@@ -106,7 +106,6 @@
 		}
 		session_unset();
 		$res = mysqli_fetch_assoc($result);
-		setcookie("STUDENT", "", time()-1000);
 		$_SESSION["ADMIN"] = $usernameInput;	
 		$_SESSION["time"] = time();
 		$query = "DELETE FROM $sql_table WHERE $username = '$usernameInput'";
