@@ -44,8 +44,12 @@
         function name_validate($name){
             $errMsg = "";
             if ($name =="") {
-                $errMsg = $errMsg. "<p>You must enter a name. </p>";
-            } else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
+                $errMsg = $errMsg."<p>You must enter a name. </p>";
+            } 
+            else if (strlen($name) > 30){
+                $errMsg = $errMsg."<p>Only maximum of 30 characters allowed.</p>";
+            }
+            else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
                 $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
             }
             return $errMsg;
