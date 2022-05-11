@@ -98,11 +98,24 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 900){
-	
+					$tmpTime = time();
+					$query = "UPDATE $sql_table
+					SET $createdAt = $tmpTime,$attemptTime=0;
+					WHERE $username = '$usernameInput'
+					";
+					$result = mysqli_query($conn, $query);
 				}else{
+					// echo "hi";
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;
 				}
+			}else{
+				$tmpTime = time();
+				$query = "UPDATE $sql_table
+				SET $createdAt = $tmpTime,$attemptTime=0
+				WHERE $username = '$usernameInput'
+				";
+				$result = mysqli_query($conn, $query);
 			}
 		}
 		session_unset();

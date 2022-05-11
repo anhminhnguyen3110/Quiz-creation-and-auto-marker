@@ -238,7 +238,6 @@
         $sortColumn = $_GET['sortColumn'];
         $sortDirection = strtoupper($_GET['sortDirection']);
         $query = $query." ORDER BY $sortColumn $sortDirection";
-        echo $query;
     }
     $result = mysqli_query($conn, $query);
     if (!$result) {
