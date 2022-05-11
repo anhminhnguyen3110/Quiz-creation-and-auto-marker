@@ -109,7 +109,6 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 300){
-
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;

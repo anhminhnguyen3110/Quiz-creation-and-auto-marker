@@ -54,8 +54,7 @@
             <input type="submit" value="Submit"/>
         </fieldset>
     </form>
-    <?php
-    
+    <?php    
     if(!isset($_SESSION['ADMIN'])){
         header('location: loginAdmin.php');
     } else if(time() - $_SESSION['time'] >= 300) {

@@ -22,7 +22,6 @@
     ?>
 	<article class='login-main'>
 	<?php
-
 	if(isset($_SESSION['StudentID'])){
 		header('location: checkattempts.php');
 	}
@@ -71,8 +70,6 @@
 		$_SESSION["StudentID"] = $username;
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		// echo $res["FIRST_NAME"];
-		// echo $res["LAST_NAME"];
 		header('location: checkattempts.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
