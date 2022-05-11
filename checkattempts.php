@@ -15,7 +15,7 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("quiz");
+        echo menu("checkattempts");
         echo "</header>";
         
         if(!isset($_SESSION['StudentID'])){  
