@@ -1418,17 +1418,17 @@ Cascading StyleSheet for Enhancements
 */
 
 #status {
-	height: 100%;
+    height: 75vh;
 }
 
 #status p {
-	text-align: center;
-	padding: 15px;
-	font-size: 2em;
+    text-align: center;
+    padding: 15px;
+    font-size: 2em;
 }
 
 #statustable {
-	margin: 50px auto;
+    margin: 50px auto;
     margin-top: 100px;
     table-layout: fixed;
     width: 75%;
@@ -1443,7 +1443,7 @@ Cascading StyleSheet for Enhancements
     color: black;
     font-size: 17px;
     text-shadow: 1px 1px 1px rgb(135, 206, 235);
-	height: 5em;
+    height: 5vh;
 }
 
 #statustable th {
@@ -1455,7 +1455,11 @@ Cascading StyleSheet for Enhancements
     letter-spacing: 1px;
     background-color: #cff3fd;
     text-align: center;
-	height: 7em;
+    height: 10vh;
+}
+
+#status h2 {
+    text-align: center;
 }
 
 /*login icon*/
