@@ -55,10 +55,12 @@
         </fieldset>
     </form>
     <?php
-    
-	if(!isset($_SESSION['ADMIN'])){
-		header('location: loginAdmin.php');
-	}
+          
+    if(!isset($_SESSION['ADMIN'])){
+      header('location: loginAdmin.php');
+    }else if(time() - $_SESSION['time'] >= 300){
+          header('location: logoutAdmin.php');
+      }
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";

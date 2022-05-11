@@ -22,6 +22,9 @@
     ?>
 	<article class='register-main'>
     <?php
+        if(isset($_SESSION['StudentID'])){
+            header('location: quiz.php');
+        }
         function sanitise_input($data){
             $data = trim($data);
             $data = stripslashes($data);
@@ -41,8 +44,12 @@
         function name_validate($name){
             $errMsg = "";
             if ($name =="") {
-                $errMsg = $errMsg. "<p>You must enter a name. </p>";
-            } else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
+                $errMsg = $errMsg."<p>You must enter a name. </p>";
+            } 
+            else if (strlen($name) > 30){
+                $errMsg = $errMsg."<p>Only maximum of 30 characters allowed.</p>";
+            }
+            else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
                 $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
             }
             return $errMsg;
@@ -76,6 +83,13 @@
                 $GLOBALS['errorHandler'] = name_validate($lastnameRegister);
                 return;
             }
+            $usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
+            $result = mysqli_query($conn, $usernameSQuery);
+            $res = mysqli_fetch_assoc($result);
+            if($res){
+                $GLOBALS['errorHandler'] = "Student ID is already taken";
+                return;
+            }
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
@@ -89,7 +103,6 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
-            echo 'register successfully';
             header('location: checkattempts.php');
         }
         if(isset($_POST['usernameRegister']) || isset($_POST['passwordRegister'])){

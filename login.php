@@ -22,7 +22,7 @@
     ?>
 	<article class='login-main'>
 	<?php
-
+          
 	if(isset($_SESSION['StudentID'])){
 		header('location: checkattempts.php');
 	}
@@ -61,7 +61,7 @@
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
-			$GLOBALS['errorHandler'] = "No username is provided";
+			$GLOBALS['errorHandler'] = "No student ID is provided";
 			return;
 		}
 		if($res['PASSWORD'] != $password){
@@ -69,9 +69,9 @@
 			return;
 		}
 		$_SESSION["StudentID"] = $username;
-
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
+    
 		// echo $res["FIRST_NAME"];
 		// echo $res["LAST_NAME"];
 		header('location: checkattempts.php');

@@ -29,6 +29,51 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+  
+	function loginSecurityHandler($usernameInput,$username, $conn){
+		$sql_table = 'logSecurity';
+		$query = "SELECT * FROM $sql_table";
+		$createdAt = "CREATED_AT";
+		$attemptTime = "ATTEMPT_TIME";
+		try {
+			$result = mysqli_query($conn, $query);
+		} catch (\Throwable $th) {
+			$create_table_query = "CREATE TABLE $sql_table( 
+				$username VARCHAR (30) NOT NULL,
+				$createdAt INT NOT NULL,
+				$attemptTime INT NOT NULL,
+				FOREIGN KEY ($username) REFERENCES admin($username)
+			)";
+			$result = mysqli_query($conn, $create_table_query);
+		}
+		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($result);
+		mysqli_free_result($result);
+		if(!isset($row[$attemptTime])){
+			$tmpTime = time();
+			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
+			$result = mysqli_query($conn, $query);
+		}else if(time() - $row[$createdAt] >= 300){
+			$tmpTime = time();
+			$query = "UPDATE $sql_table
+			SET $createdAt = $tmpTime,$attemptTime=1
+			WHERE $username = '$usernameInput'
+			";
+			$result = mysqli_query($conn, $query);
+		}else if($row[$attemptTime]<3){
+			$tmpAttempt = $row[$attemptTime] + 1;
+			$query = "UPDATE $sql_table
+			SET $attemptTime = $tmpAttempt 
+			WHERE $username = '$usernameInput'
+			";
+			$tmpAttempt = 3 - $tmpAttempt;
+			$GLOBALS['errorHandler'] = "Attempt left: $tmpAttempt, Bad credentail !";
+			$result = mysqli_query($conn, $query);
+		}else if($row[$attemptTime]==3){
+			$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+		}
+	}
 	
 	function handleLogin($conn, $sql_table, $username){
         $usernameInput = (int)sanitise_input($_POST['usernameAdmin']);
@@ -56,9 +101,27 @@
 			$GLOBALS['errorHandler'] = "Incorrect password!";
 			return;
 		}
-		$_SESSION["ADMIN"] = $usernameInput;
-		// echo $res["FIRST_NAME"];
-		// echo $res["LAST_NAME"];
+    
+		$sql_table = 'logSecurity';
+		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
+		$results = mysqli_query($conn, $query);
+		$row = mysqli_fetch_assoc($results);
+		if($row){
+			if($row[$attemptTime] == 3){
+				if($row[$createdAt] - time() >= 300){
+	
+				}else{
+					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+					return;
+				}
+			}
+		}
+		session_unset();
+		$res = mysqli_fetch_assoc($result);
+		$_SESSION["ADMIN"] = $usernameInput;	
+		$_SESSION["time"] = time();
+		$query = "DELETE FROM $sql_table WHERE $username = '$usernameInput'";
+		$results = mysqli_query($conn, $query);
 		header('location: manage.php');
     }
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){
