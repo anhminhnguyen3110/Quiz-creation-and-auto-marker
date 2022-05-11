@@ -29,7 +29,7 @@
         $data = htmlspecialchars($data);
         return $data;
     }
-  
+	
 	function loginSecurityHandler($usernameInput,$username, $conn){
 		$sql_table = 'logSecurity';
 		$query = "SELECT * FROM $sql_table";
@@ -74,7 +74,7 @@
 			$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 		}
 	}
-	
+
 	function handleLogin($conn, $sql_table, $username){
         $usernameInput = (int)sanitise_input($_POST['usernameAdmin']);
         $passwordInput = sanitise_input($_POST['passwordAdmin']);
@@ -101,7 +101,7 @@
 			$GLOBALS['errorHandler'] = "Incorrect password!";
 			return;
 		}
-    
+		
 		$sql_table = 'logSecurity';
 		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
 		$results = mysqli_query($conn, $query);
@@ -109,7 +109,7 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 300){
-	
+
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;
