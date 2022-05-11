@@ -103,9 +103,6 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
-            $cookie_name = "STUDENT";
-            $cookie_value = $username;
-            setcookie($cookie_name, $cookie_value, time() + (900), "");
             header('location: checkattempts.php');
         }
         if(isset($_POST['usernameRegister']) || isset($_POST['passwordRegister'])){
