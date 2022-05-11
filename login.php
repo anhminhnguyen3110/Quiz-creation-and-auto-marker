@@ -12,10 +12,6 @@
 	<h1>Login</h1>
 	<?php
 	session_start();
-	if(!isset($_COOKIE['STUDENT'])){
-		session_unset();
-		session_destroy();
-	}
 	if(isset($_SESSION['StudentID'])){
 		header('location: quiz.php');
 	}
@@ -65,9 +61,6 @@
 
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		$cookie_name = "STUDENT";
-		$cookie_value = $username;
-		setcookie($cookie_name, $cookie_value, time() + (900), "");
 		header('location: quiz.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
