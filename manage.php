@@ -230,7 +230,6 @@
     <legend>Sort by</legend>
             <label for="sort">Column</label>
             <select id="sort" name="sortColumn">
-                <option value="">select</option>
                 <option value="ATTEMPT_ID">Attempt ID</option>
                 <option value="FIRST_NAME">First name</option>
                 <option value="LAST_NAME">Last name</option>
@@ -238,7 +237,6 @@
             </select>
             <label for="sortDirection">Sort direction</label>
             <select id="sortDirection" name="sortDirection">
-                <option value="">select</option>
                 <option value="ASC">Arrange from smallest to the largest value</option>
                 <option value="DESC">Arrange from largest to the smallest value</option>
             </select>
