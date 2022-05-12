@@ -182,17 +182,25 @@
                     $result = mysqli_query($conn, $insert_query);
                     $attempt = 0;
                      
-                    echo "<h1>MarkQuiz</h1>";
-                    echo "<h2>Student ID: $student_id</h2>";
-                    echo "<h2>Name: $firstname $lastname</h2>";
-                    echo "<h2>Answer 1: $q1</h2>";
-                    echo "<h2>Answer 2: $q2</h2>";
-                    echo "<h2>Answer 3: $q3</h2>";
-                    echo "<h2>Answer 4: $new_q4</h2>";
-                    echo "<h2>Answer 5: $q5</h2>";
-                    echo "<h2>Answer 6: $q6</h2>";
-                    echo "<h2>Score: $score</h2>";
-                    echo "Attempts Left: $attempt";
+                    echo "<article class='quiz undo'>";
+                    echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
+                    echo "<h2 class='info'>Student ID: $student_id</h2>";
+                    echo "<h2 class='info'>Name: $firstname $lastname</h2>";
+                    $q1c = is_right($q1);
+                    echo "<h2 class='clearb'>Answer 1: $q1c</h2>";
+                    $q2c = is_right($q2);
+                    echo "<h2 class='clearb'>Answer 2: $q2c</h2>";
+                    $q3c = is_right($q3);
+                    echo "<h2 class='clearb'>Answer 3: $q3c</h2>";
+                    $q4c = is_right($q4);
+                    echo "<h2 class='clearb'>Answer 4: $q4c</h2>";
+                    $q5c = is_right($q5);
+                    echo "<h2 class='clearb'>Answer 5: $q5c</h2>";
+                    $q6c = is_right($q6);
+                    echo "<h2 class='clearb'>Answer 6: $q6c</h2>";
+                    
+                    echo "<h2 class='clearb'>Final Score: $score%</h2>";
+                    echo "</article>";
                 } else {
                     echo "<p>You have no attempts left</p>";
                     $attempt = 0;
@@ -201,17 +209,24 @@
             // free up the memory
             mysqli_free_result($data);
             if ($attempt > 0) {
-                
-                echo "<h1>MarkQuiz</h1>";
-                echo "<h2>Student ID: $student_id</h2>";
-                echo "<h2>Name: $firstname $lastname</h2>";
-                echo "<h2>Answer 1: $q1</h2>";
-                echo "<h2>Answer 2: $q2</h2>";
-                echo "<h2>Answer 3: $q3</h2>";
-                echo "<h2>Answer 4: $new_q4</h2>";
-                echo "<h2>Answer 5: $q5</h2>";
-                echo "<h2>Answer 6: $q6</h2>";
-                echo "<h2>Score: $score</h2>";
+                echo "<article class='quiz'>";
+                echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
+                echo "<h2 class='info'>Student ID: $student_id</h2>";
+                echo "<h2 class='info'>Name: $firstname $lastname</h2>";
+                $q1c = is_right($q1);
+                echo "<h2 class='clearb'>Answer 1: $q1c</h2>";
+                $q2c = is_right($q2);
+                echo "<h2 class='clearb'>Answer 2: $q2c</h2>";
+                $q3c = is_right($q3);
+                echo "<h2 class='clearb'>Answer 3: $q3c</h2>";
+                $q4c = is_right($q4);
+                echo "<h2 class='clearb'>Answer 4: $q4c</h2>";
+                $q5c = is_right($q5);
+                echo "<h2 class='clearb'>Answer 5: $q5c</h2>";
+                $q6c = is_right($q6);
+                echo "<h2 class='clearb'>Answer 6: $q6c</h2>";
+            
+            echo "<h2 class='clearb'>Final Score: $score%</h2>";
 
                 // Insert into table
                 $sql = "INSERT INTO attempts ($STUDENT_ID, $FIRST_NAME, $LAST_NAME, $SCORE, $CREATED_AT, $ATTEMPT_NUMBER) 
@@ -219,10 +234,7 @@
                 
                 if (mysqli_query($conn, $sql)) {
                     $attempt-=1;
-                echo "<p>New record created successfully</p>";
-                echo "<p> Attempts Left: 1 </p>";
-                echo "<p><a href ='quiz.php'> Click here to retry </a> </p>";
-                
+                    echo "<h2 class='clearb'>You have another attmept left, <a href ='quiz.php'>retry</a>?</h2>";
                 } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }

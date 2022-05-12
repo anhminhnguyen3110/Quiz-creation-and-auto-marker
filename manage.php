@@ -20,7 +20,7 @@
         <br />
         </fieldset>
     </form>
-    <form method="post" action="test.php">
+    <form method="post" action="manage.php">
         <fieldset>
             <legend>Delete all attempts for a student</legend>
             <label for="delete">ID: </label>
@@ -28,7 +28,7 @@
             <input type="submit" value="Submit"/>
         </fieldset>
     </form>
-    <form method="post" action="test.php">
+    <form method="post" action="manage.php">
         <fieldset>
             <legend>Change the score for a quiz attempt</legend>
             <label for="changeID">ID: </label>
