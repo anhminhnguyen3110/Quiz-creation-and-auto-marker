@@ -23,7 +23,7 @@
                 $output .= "<a href='login.php'>Login</a>";
                 $output .= "<a href='loginAdmin.php'>Supervisor Login</a>";
             }
-            $output .= "</div></li>";
+            $output .= "</div>";
             return $output;
         }
     
@@ -56,9 +56,14 @@
                 <li><a href='topic.php'>Topic</a></li>
                 <li><a href='checkattempts.php'>Quiz</a></li>
                 <li><a href='enhancements.php' class='this'>Enhanced</a></li>";
+        } else {
+            $result = $result."<li><a href='index.php'>Home</a></li>
+                <li><a href='topic.php'>Topic</a></li>
+                <li><a href='checkattempts.php'>Quiz</a></li>
+                <li><a href='enhancements.php'>Enhanced</a></li>";
         }
         $result = $result."</ul></div>
-            <div class='circlebg'><h1 class='usericon'>👤$dropdownuser</h1></div></nav>";
+            <div class='circlebg'><h2 class='usericon'>▼</h2>$dropdownuser</div></nav>";
         echo $result;
     }
 ?>

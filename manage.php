@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,11 +17,11 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("quiz");
+        echo menu("manage");
         echo "</header>"
     ?>
     <article class='quiz manager'>
-    <h1 class='heading-quiz'>Admin site</h1>
+    <h2 class='heading-quiz'>Admin site</h2>
     <form method="get" action="manage.php">
         <fieldset class="need">
             <legend>All attempt for student</legend>
@@ -55,9 +55,10 @@
         </fieldset>
     </form>
     <?php
-	if(!isset($_SESSION['ADMIN'])){
-		header('location: loginAdmin.php');
-	}else if(time() - $_SESSION['time'] >= 300){
+    
+    if(!isset($_SESSION['ADMIN'])){
+        header('location: loginAdmin.php');
+    } else if(time() - $_SESSION['time'] >= 300) {
         header('location: logoutAdmin.php');
     }
     $servername = "feenix-mariadb.swin.edu.au";
@@ -274,9 +275,6 @@
     $query = "SELECT $studentID, $firstname, $lastname  FROM $sql_table WHERE $attempt_number = 2 AND $score < 50";
     $result = mysqli_query($conn, $query);
     displayTableStudent($result);
-    
-
-
 
     mysqli_free_result($result);
     mysqli_close($conn);

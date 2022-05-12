@@ -444,6 +444,15 @@ a.slide_next {
     /* font-family: 'Advent Pro', 'sans-serif'; */
     font: bold 50px 'Advent Pro', 'sans-serif';
 }
+.topic-h2{
+    text-align: center;
+    background-color: white;
+    color: #0F9FC7;
+    /* font-size: 50px; */
+    margin-top: 20px;
+    /* font-family: 'Advent Pro', 'sans-serif'; */
+    font: bold 50px 'Source Sans Pro', 'sans-serif';
+}
 #timetable-h1{
     line-height: 60px;
 }
@@ -1412,23 +1421,23 @@ Cascading StyleSheet for Enhancements
 
 /*
     Cascading StyleSheet for Assignment 2
-	Section for status.php
-	CHANGE IF NEEDED
-	Needs responsive design to work on other screen sizes
+    Section for status.php
+    CHANGE IF NEEDED
+    Needs responsive design to work on other screen sizes
 */
 
 #status {
-	height: 100%;
+    height: 75vh;
 }
 
 #status p {
-	text-align: center;
-	padding: 15px;
-	font-size: 2em;
+    text-align: center;
+    padding: 15px;
+    font-size: 2em;
 }
 
 #statustable {
-	margin: 50px auto;
+    margin: 50px auto;
     margin-top: 100px;
     table-layout: fixed;
     width: 75%;
@@ -1443,7 +1452,7 @@ Cascading StyleSheet for Enhancements
     color: black;
     font-size: 17px;
     text-shadow: 1px 1px 1px rgb(135, 206, 235);
-	height: 5em;
+    height: 5vh;
 }
 
 #statustable th {
@@ -1455,7 +1464,11 @@ Cascading StyleSheet for Enhancements
     letter-spacing: 1px;
     background-color: #cff3fd;
     text-align: center;
-	height: 7em;
+    height: 10vh;
+}
+
+#status h2 {
+    text-align: center;
 }
 
 /*login icon*/
@@ -1478,8 +1491,7 @@ Cascading StyleSheet for Enhancements
     min-width: 100px;
     right: 15px;
     border-radius: 5%;
-    margin-top: 5px;
-    box-shadow: 0 8 16 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -1498,7 +1510,9 @@ Cascading StyleSheet for Enhancements
 }
 
 .usericon {
-    padding: 7px 0;
+    padding: 3px 0;
+    font-size: 35px;
+    cursor: pointer;
 }
 
 .circlebg:hover .user-dropdown {
@@ -1527,7 +1541,7 @@ Cascading StyleSheet for Enhancements
     height: 60vh;
     margin: 10vh auto;
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0px 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
 }
 
@@ -1535,8 +1549,7 @@ Cascading StyleSheet for Enhancements
     font-size: 1.5em;
     padding: 10px;
     color: #ffeba7;
-    box-shadow: 5 5 5 #ffeba7;
-    pointer-events: none;
+    box-shadow: 5px 5px 5px #ffeba7;
     transition: .5s;
 }
 
@@ -1586,7 +1599,7 @@ Cascading StyleSheet for Enhancements
 .loginORsignup a {
     padding: 12px 8px;
     font-family: 'Advent Pro', sans-serif;
-    font-weight: 'bold';
+    font-weight: bold;
     font-size: 1.5em;
     text-align: center;
     background-color: #1f2029;
@@ -1613,6 +1626,7 @@ Cascading StyleSheet for Enhancements
 #attempts {
     font-size: 1.5em;
     padding: 10px;
+    text-align: center;
 }
 
 #attempts ul li {
@@ -1630,6 +1644,21 @@ Cascading StyleSheet for Enhancements
     font-size: 2em;
     float: left;
     clear: both;
+}
+.clearb {
+    clear: both;
+    margin: 5px;
+}
+.full {
+    background-color: #fff;
+    border: solid 3px #12c3f4;
+    border-radius: 15px;
+    margin: 0px auto;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    width: 96%;
+    height: 50vh;
+    box-shadow: 2.5px 2.5px #000;
 }
 .undo h2 {
     content:"";

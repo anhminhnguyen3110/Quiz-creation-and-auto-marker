@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,9 +19,8 @@
         echo "</header>"
     ?>
     <?php 
-        // session_start();
         if(!isset($_SESSION['StudentID'])){  
-            header('location: logout.php');
+            header('location: login.php');
         }
     ?>
     <!--Quiz-->

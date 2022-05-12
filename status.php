@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,11 +15,13 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("index");
+        echo menu("status");
         echo "</header>"
     ?>
     <?php
-	
+    if(!isset($_SESSION['StudentID'])){  
+		header('location: login.php');
+	}
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -48,25 +50,25 @@
 				echo "<p>You have not attempted the quiz yet</p>\n";
 			} else {
 					//section do we need this to fix the footer
-					echo "<section id=\"status\">";
+					echo "<section id='status'>";
 					//title
-					echo "<h1 class=\"topic-h1\"> Welcome $fname  $lname</h1>\n";				
-					echo "<h1 class=\"topic-h1\"> Student ID: $id</h1>\n";
+					echo "<h2 class='topic-h1'> Welcome $fname  $lname</h2>\n";				
+					echo "<h2> Student ID: $id</h2>\n";
 					//make table
-					echo "<table id=\"statustable\">\n";
+					echo "<table id='statustable'>\n";
 					//table & headings
 					echo "<tr>\n"
-						."<th scope=\"col\">Submission time</th>"
-						."<th scope=\"col\">Attempt Number</th>\n"
-						."<th scope=\"col\">Score</th>\n"
-						."<th scope=\"col\">Reccomendation</th>\n";
+						."<th scope='col'>Submission time</th>"
+						."<th scope='col'>Attempt Number</th>\n"
+						."<th scope='col'>Score</th>\n"
+						."<th scope='col'>Feedback</th>\n";
 					$attempt = "";
 					while ($row = mysqli_fetch_assoc($result)) {
 						//populate rows
 						echo "<tr>\n";
 						//fix date
 						$date = strtotime($row["CREATED_AT"]);
-						echo "<td>", date('d M, Y @ h:i a', $date), "</td>\n";
+						echo "<td>", date('g:i:s:A d-M-Y', $date), "</td>\n";
 						echo "<td>", $row["ATTEMPT_NUMBER"], "</td>\n";
 						echo "<td>", $row["SCORE"], "</td>\n";
 						if ($row["SCORE"] < 50) {
@@ -90,9 +92,8 @@
 			}
             mysqli_close($conn);
         }
+		include_once 'footer.inc';
     ?>
 
-    <!--Footer-->
-    <?php include_once 'footer.inc'; ?>
 </body>
 </html>

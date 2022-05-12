@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("quiz");
+        echo menu("register");
         echo "</header>"
     ?>
 	<article class='register-main'>
@@ -45,11 +45,9 @@
             $errMsg = "";
             if ($name =="") {
                 $errMsg = $errMsg."<p>You must enter a name. </p>";
-            } 
-            else if (strlen($name) > 30){
+            } else if (strlen($name) > 30){
                 $errMsg = $errMsg."<p>Only maximum of 30 characters allowed.</p>";
-            }
-            else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
+            } else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
                 $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
             }
             return $errMsg;
@@ -145,7 +143,7 @@
 		<li><h2><a href="login.php">Log In</a></h2></li>
 		<li><h2><a href="register.php" class='act'>Sign Up</a></h2></li>
 	</ul>
-	<form method="POST" action="" class='register'>
+	<form method="POST" action="register.php" class='register'>
 		<fieldset>
             <?php if(!empty($errorHandler)) 
                 { 
@@ -155,11 +153,11 @@
 			<legend>Register</legend>
 			<label for="usernameR">Student ID</label>
 			<input type="text" name="usernameRegister" id="usernameR"/><br/>
-			<label for="password">Password</label>
+			<label for="passwordR">Password</label>
 			<input type="password" name="passwordRegister" id="passwordR"/><br/>
-            <label for="firstname">First Name</label>
+            <label for="firstnameR">First Name</label>
 			<input type="text" name="firstnameRegister" id="firstnameR"/><br/>
-            <label for="lastname">Last Name</label>
+            <label for="lastnameR">Last Name</label>
 			<input type="text" name="lastnameRegister" id="lastnameR"/><br/>
 			<input type="submit"/>
 		</fieldset>
