@@ -15,6 +15,10 @@
 <body>
 	<!--Header(with menu)-->
     <?php 
+		session_start();
+		if(isset($_SESSION['ADMIN'])){
+			header('location: manage.php');
+		}
         include ("header.inc");
         include ("menu.inc");
         echo menu("loginAdmin");
@@ -76,21 +80,15 @@
 	}
 
 	function handleLogin($conn, $sql_table, $username){
-        $usernameInput = (int)sanitise_input($_POST['usernameAdmin']);
+        $usernameInput = sanitise_input($_POST['usernameAdmin']);
         $passwordInput = sanitise_input($_POST['passwordAdmin']);
-        // if(empty($usernameInput)){
-		// 	$GLOBALS['errorHandler'] = "Invalid username";
-		// 	return;
-		// }
+		$attemptTime = "ATTEMPT_TIME";
+		$createdAt = "CREATED_AT";
 		if(empty($passwordInput)){
 			$GLOBALS['errorHandler'] = "Invalid password";
 			return;
 		}
-		if(strlen($passwordInput)<8){
-			$GLOBALS['errorHandler'] = "Password must have more than 8 characters";
-			return;
-		}
-		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = $usernameInput LIMIT 1";
+		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
@@ -99,6 +97,7 @@
 		}
 		if($res['PASSWORD'] != $passwordInput){
 			$GLOBALS['errorHandler'] = "Incorrect password!";
+			loginSecurityHandler($usernameInput,$username, $conn);
 			return;
 		}
 		
@@ -109,6 +108,7 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 300){
+
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;
@@ -126,10 +126,11 @@
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){
 		$errorHandler = "";
 		$servername = "feenix-mariadb.swin.edu.au";
-		$username = "s103515617";
+		$host = "s103515617";
 		$password = "reactjs";
 		$dbname = "s103515617_db";
 		$sql_table = "admin";
+		$username = "STUDENT_ID";
 
 
         $userID = "USER_ID";
@@ -137,7 +138,7 @@
 		$passwordAdmin = "PASSWORD";
 		
 		try {
-		  $conn = mysqli_connect($servername, $username, $password, $dbname);
+		  $conn = mysqli_connect($servername, $host, $password, $dbname);
 		} catch (\Throwable $th) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}

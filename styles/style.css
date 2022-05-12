@@ -1550,7 +1550,6 @@ Cascading StyleSheet for Enhancements
     padding: 10px;
     color: #ffeba7;
     box-shadow: 5px 5px 5px #ffeba7;
-    pointer-events: none;
     transition: .5s;
 }
 

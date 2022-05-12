@@ -22,6 +22,7 @@
     ?>
 	<article class='login-main'>
 	<?php
+
 	if(isset($_SESSION['StudentID'])){
 		header('location: checkattempts.php');
 	}
@@ -41,7 +42,7 @@
 		}
 		return $errMsg;
 	}
-	function handleLogin($conn, $sql_table){
+	function handleLogin($conn, $sql_table, $studentID, $passwordStudent){
         $username = (int)sanitise_input($_POST['usernameLogin']);
         $password = sanitise_input($_POST['passwordLogin']);
         if(studentid_validate($username)){
@@ -56,7 +57,7 @@
 			$GLOBALS['errorHandler'] = "Password must have more than 8 characters";
 			return;
 		}
-		$usernameSQuery = "SELECT * FROM $sql_table WHERE STUDENT_ID = $username LIMIT 1";
+		$usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
@@ -79,6 +80,8 @@
 		$password = "reactjs";
 		$dbname = "s103515617_db";
 		$sql_table = "students";
+		$passwordStudent = "PASSWORD";
+		$studentID = "STUDENT_ID";
 		try {
 			$conn = mysqli_connect($servername, $username, $password, $dbname);
 		} catch (\Throwable $th) {
@@ -90,13 +93,13 @@
 			$result = mysqli_query($conn, $query);
 		} catch (\Throwable $th) {
 			$create_table_query = "CREATE TABLE $sql_table(
-				STUDENT_ID INT NOT NULL UNIQUE,
-				PASSWORD VARCHAR (60) NOT NULL,
-				PRIMARY KEY(STUDENT_ID)
+				$studentID INT NOT NULL UNIQUE,
+				$passwordStudent VARCHAR (60) NOT NULL,
+				PRIMARY KEY($studentID)
 			)";
 			$result = mysqli_query($conn, $create_table_query);
 		}
-        handleLogin($conn, $sql_table);
+        handleLogin($conn, $sql_table, $studentID, $passwordStudent);
     }
 	?>
 	<ul class="loginORsignup">
