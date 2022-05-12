@@ -2,15 +2,24 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
+    <title>Manage.php</title>
 </head>
 
 <body>
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("manage");
+        echo "</header>"
+    ?>
     <h1>Admin site</h1>
-    <a href="logoutAdmin.php">Logout</a>
     <form method="get" action="manage.php">
         <fieldset>
             <legend>All attempt for student</legend>
@@ -44,13 +53,11 @@
         </fieldset>
     </form>
     <?php
-    session_start();
 	if(!isset($_SESSION['ADMIN'])){
 		header('location: loginAdmin.php');
 	}else if(time() - $_SESSION['time'] >= 900){
         header('location: logout.php');
     }
-    echo time() - $_SESSION['time'];
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";
@@ -190,7 +197,6 @@
         OR $lastname LIKE \"$search%\" OR $studentID = \"$search%\"";
         $resultSearch = mysqli_query($conn, $querySearch);
         $count = mysqli_fetch_lengths($resultSearch);
-        echo "<h1>$count</h1>";
         displayTableStudentSearch($resultSearch);
         mysqli_free_result($resultSearch);
     }
@@ -272,6 +278,7 @@
     mysqli_free_result($result);
     mysqli_close($conn);
     ?>
+    <?php include_once 'footer.inc'; ?>
 </body>
 
 </html>

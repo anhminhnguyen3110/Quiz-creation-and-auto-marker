@@ -2,15 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
 <body>
-    <?php
-    	session_start();
+        <!--Header(with menu)-->
+        <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("register");
+        echo "</header>"
+        ?>
+        <article class='register-main'>
+        <?php
         if(isset($_SESSION['StudentID'])){
             header('location: quiz.php');
         }
@@ -121,8 +132,11 @@
             handleRegister($conn, $sql_table, $passwordStudent, $studentID,$firstname ,$lastname);
         }
     ?>
-	<h1>Register</h1>
-	<form method="POST" action="">
+	<ul class="loginORsignup">
+		<li><h2><a href="login.php">Log In</a></h2></li>
+		<li><h2><a href="register.php" class='act'>Sign Up</a></h2></li>
+	</ul>
+	<form method="POST" action="" class='register'>
 		<fieldset>
             <?php if(!empty($errorHandler)) 
                 { 
@@ -130,19 +144,18 @@
                 } 
 			?>
 			<legend>Register</legend>
-			<label for="usernameR">StudentID:&nbsp; </label>
-			<input name="usernameRegister" id="usernameR"/><br/>
-			<label for="password">Password:&nbsp;&nbsp; </label>
+			<label for="usernameR">Student ID</label>
+			<input type="text" name="usernameRegister" id="usernameR"/><br/>
+			<label for="passwordR">Password</label>
 			<input type="password" name="passwordRegister" id="passwordR"/><br/>
-            <label for="firstname">First Name: </label>
+            <label for="firstnameR">First Name</label>
 			<input type="text" name="firstnameRegister" id="firstnameR"/><br/>
-            <label for="lastname">Last Name: </label>
+            <label for="lastnameR">Last Name</label>
 			<input type="text" name="lastnameRegister" id="lastnameR"/><br/>
 			<input type="submit"/>
-			<p>Already had an account? <a href="login.php">Login here</a></p>
 		</fieldset>
 	</form>
 
+    <?php include_once 'footer.inc'; ?>
 </body>
-
 </html>

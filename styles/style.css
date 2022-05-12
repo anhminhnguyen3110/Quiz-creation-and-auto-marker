@@ -1653,37 +1653,3 @@ Cascading StyleSheet for Enhancements
     display:block;
     clear:both;
 }
-
-.manager table {
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid #1f2029;
-}
-
-.manager table th {
-    background-color: #1f2029;
-    color: #12c3f4;
-    padding: 5px;
-}
-
-.manager table td {
-    border: 1px solid #1f2029;
-    font-family: 'Source Sans Pro', sans-serif;
-    padding: 5px;
-}
-
-
-.need {
-    margin: 10px 25px;
-    padding: 10px;
-    font-size: 1.5em;
-    border: 1px solid #1f2029;
-}
-
-.need label {
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
-.manager table tr:nth-child(even) {
-    background-color: #cff3fd;
-}

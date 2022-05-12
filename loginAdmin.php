@@ -2,19 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
 <body>
-	<h1>Login for Admin</h1>
 	<?php
-	session_start();
 	if(isset($_SESSION['ADMIN'])){
 		header('location: manage.php');
 	}
+	include ("header.inc");
+	include ("menu.inc");
+	echo menu("loginAdmin");
+	echo "</header>";
+	echo "<section class='login-main'>";
 	$errorHandler = "";
 	function sanitise_input($data){
         $data = trim($data);
@@ -106,7 +113,6 @@
 			}
 		}
 		session_unset();
-		setcookie("STUDENT", "", time()-1000);
 		$_SESSION["ADMIN"] = $usernameInput;	
 		$_SESSION["time"] = time();
 		header('location: manage.php');
@@ -143,23 +149,23 @@
         handleLogin($conn, $sql_table, $usernameAdmin);
     }
 	?>
-	<form method="POST" action="">
+	<form method="POST" action="" class="login">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
 				echo "<p>$errorHandler</p>";
 			} 
 			?>
-			<legend>Login</legend>
-			<label for="usernameAdmin">AdminID: </label>
-			<input name="usernameAdmin" id="usernameAdmin"/><br/>
-			<label for="passwordAdmin">Password: </label>
-			<input type="password" name="passwordAdmin" id="passwordAdmin"/><br/>
+			<legend>Supervisor Login</legend>
+			<label for="usernameAdmin">@</label>
+			<input type="text" name="usernameAdmin" id="usernameAdmin" placeholder="Admin ID"/><br/>
+			<label for="passwordAdmin">🔒</label>
+			<input type="password" name="passwordAdmin" id="passwordAdmin" placeholder="Password"/><br/>
 			<input type="submit"/>
 			<br/>
 		</fieldset>
 	</form>
 
+	<?php include_once 'footer.inc'; ?>
 </body>
-
 </html>

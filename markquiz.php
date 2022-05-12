@@ -10,9 +10,14 @@
     <link rel="icon" href="images/react.svg">
     <title>MarkQuiz</title>
 </head>
-<body>
+<body class='quiz-bg'>
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("markquiz");
+        echo "</header>"
+    ?>
     <?php
-    session_start(); 
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -25,6 +30,13 @@
             $password, 
             $dbname
     );
+    function is_right($var) {
+        if ($var) {
+            return "✅";
+        } else {
+            return "❌";
+        }
+    }
     // Check connection
     if (!$conn) {
         echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
@@ -202,7 +214,7 @@
                     echo "<h2 class='clearb'>Final Score: $score%</h2>";
                     echo "</article>";
                 } else {
-                    echo "<p>You have no attempts left</p>";
+                    header("Location: checkattempts.php");
                     $attempt = 0;
                 }
             }
@@ -225,8 +237,9 @@
                 echo "<h2 class='clearb'>Answer 5: $q5c</h2>";
                 $q6c = is_right($q6);
                 echo "<h2 class='clearb'>Answer 6: $q6c</h2>";
-            
-            echo "<h2 class='clearb'>Final Score: $score%</h2>";
+                
+                echo "<h2 class='clearb'>Final Score: $score%</h2>";
+                echo "</article>";
 
                 // Insert into table
                 $sql = "INSERT INTO attempts ($STUDENT_ID, $FIRST_NAME, $LAST_NAME, $SCORE, $CREATED_AT, $ATTEMPT_NUMBER) 
@@ -244,6 +257,9 @@
             
             mysqli_close($conn);
         }
-    ?>    
+    ?>   
+    
+    
+    <?php include_once 'footer.inc'; ?>
 </body>
 </html>

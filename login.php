@@ -2,20 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
+    <title>Login</title>
 </head>
 
+
 <body>
-	<h1>Login</h1>
+	<?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("login");
+        echo "</header>"
+    ?>
+	<article class='login-main'>
 	<?php
-	session_start();
-	if(!isset($_COOKIE['STUDENT'])){
-		session_unset();
-		session_destroy();
-	}
 	if(isset($_SESSION['StudentID'])){
 		header('location: quiz.php');
 	}
@@ -29,9 +35,9 @@
 	function studentid_validate($student_id){
 		$errMsg = "";
 		if ($student_id =="") {
-			$errMsg = $errMsg. "<p>You must enter a student id</p>";
+			$errMsg = $errMsg. "You must enter a student id";
 		} else if (!preg_match("/^\d{7,10}$/", $student_id)) {
-			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
+			$errMsg = $errMsg. "Only 7 or 10 digits allowed in your student id.";
 		}
 		return $errMsg;
 	}
@@ -65,9 +71,6 @@
 
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		$cookie_name = "STUDENT";
-		$cookie_value = $username;
-		setcookie($cookie_name, $cookie_value, time() + (900), "");
 		header('location: quiz.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
@@ -99,24 +102,26 @@
         handleLogin($conn, $sql_table, $studentID, $passwordStudent);
     }
 	?>
-	<form method="POST" action="">
+	<ul class="loginORsignup">
+		<li><h2><a href="login.php" class='act'>Log In</a></h2></li>
+		<li><h2><a href="register.php">Sign Up</a></h2></li>
+	</ul>
+	<form method="POST" action="" class="login">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
 				echo "<p>$errorHandler</p>";
 			} 
 			?>
-			<legend>Login</legend>
-			<label for="usernameL">StudentID: </label>
-			<input name="usernameLogin" id="usernameL"/><br/>
-			<label for="passwordL">Password: </label>
-			<input type="password" name="passwordLogin" id="passwordL"/><br/>
+			<legend>Log In</legend>
+			<label for="usernameL">@</label>
+			<input type="text" name="usernameLogin" id="usernameL" placeholder="Student ID"/><br/><br/>
+			<label for="passwordL">🔒</label>
+			<input type="password" name="passwordLogin" id="passwordL" placeholder="Password"/><br/><br/>
 			<input type="submit"/>
-			<br/>
-			<p>Haven't had an account? <a href="register.php"> Register here</a></p>
 		</fieldset>
 	</form>
-
+	<?php include_once 'footer.inc'; ?>
 </body>
 
 </html>

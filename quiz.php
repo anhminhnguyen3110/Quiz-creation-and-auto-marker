@@ -18,8 +18,7 @@
         echo menu("quiz");
         echo "</header>"
     ?>
-    <?php 
-        session_start();
+    <?php
         if(!isset($_SESSION['StudentID'])){  
             header('location: login.php');
         }
