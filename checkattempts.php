@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,7 +49,7 @@
                     header('location: quiz.php');
                 } else {
                     echo "
-                    <main id='topic-main'>
+                    <main class='full'>
                     <section id='attempts'>
                     <h2>You have reached the maximum number of attempts for the Quiz.</h2>
                     <p>You can not attempt the quiz again:</p>
@@ -61,6 +61,9 @@
                     </main>";
                 }
             }
+
+        //Footer
+        include_once 'footer.inc';
     ?>
 
 </body>

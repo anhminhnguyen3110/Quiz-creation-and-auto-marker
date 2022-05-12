@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,9 @@
         echo "</header>"
     ?>
     <?php
+    if(!isset($_SESSION['StudentID'])){  
+		header('location: quiz.php');
+	}
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -74,8 +77,14 @@
         else
             $q2 ="";
         if (isset ($_POST["q3"])) $q3 = $_POST["q3"];
+        else 
+            $q3 ="";
         if (isset ($_POST["q4"])) $q4 = $_POST["q4"];
+        else 
+            $q4 ="";
         if (isset ($_POST["q5"])) $q5 = $_POST["q5"];
+        else 
+            $q5 ="";
         if (isset ($_POST["q6"])) $q6 = $_POST["q6"];
         else 
             $q6 ="";
@@ -96,9 +105,19 @@
         if (!preg_match("/^\d{3,4}$/", $q5)){
             $errMsg .= "<p>Only year with 3 or 4 digits allowed e.g: 2022.</p>";}
         if ($q6==""){
-            $errMsg .= "<p>You must answer question 6. </p>";}
+            $errMsg .= "<p>You must answer question 6. </p>";
+        }
 
-        if ($errMsg != "") echo "<p> $errMsg </p>";
+        if ($q1=="" && $q2=="" && $q3=="" && empty($q4) == 1 && $q5=="" && $q6==""){
+            $errMsg = "<p>You must answer at least one question<br/>OR<br/>Attempt the <a href='quiz.php'>Quiz</a> if you came here by a link.</p>";
+        }
+        
+        if ($errMsg != "") echo "<main class='full'>
+        <section id='attempts'>
+        <h2 class='heading-quiz'>Invalid Input!</h2><br/>
+        <p>$errMsg</p>
+        </section>
+        </main>";
     
         else{
         // Sanitise input
@@ -254,9 +273,9 @@
         
         mysqli_close($conn);
     }
-    ?>    
 
-    <!--Footer-->
-    <?php include_once 'footer.inc'; ?>
+    //Footer
+    include_once 'footer.inc'; 
+    ?>
 </body>
 </html>

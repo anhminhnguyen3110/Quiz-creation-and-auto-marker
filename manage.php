@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -230,6 +230,7 @@
     <legend>Sort by</legend>
             <label for="sort">Column</label>
             <select id="sort" name="sortColumn">
+                <option value="">select</option>
                 <option value="ATTEMPT_ID">Attempt ID</option>
                 <option value="FIRST_NAME">First name</option>
                 <option value="LAST_NAME">Last name</option>
@@ -237,6 +238,7 @@
             </select>
             <label for="sortDirection">Sort direction</label>
             <select id="sortDirection" name="sortDirection">
+                <option value="">select</option>
                 <option value="ASC">Arrange from smallest to the largest value</option>
                 <option value="DESC">Arrange from largest to the smallest value</option>
             </select>

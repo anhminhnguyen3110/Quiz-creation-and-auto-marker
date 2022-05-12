@@ -1491,7 +1491,7 @@ Cascading StyleSheet for Enhancements
     min-width: 100px;
     right: 15px;
     border-radius: 5%;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -1541,7 +1541,7 @@ Cascading StyleSheet for Enhancements
     height: 60vh;
     margin: 10vh auto;
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    box-shadow: 0px 15px 25px rgba(0,0,0,.6);
     border-radius: 10px;
 }
 
@@ -1626,6 +1626,7 @@ Cascading StyleSheet for Enhancements
 #attempts {
     font-size: 1.5em;
     padding: 10px;
+    text-align: center;
 }
 
 #attempts ul li {
@@ -1647,6 +1648,17 @@ Cascading StyleSheet for Enhancements
 .clearb {
     clear: both;
     margin: 5px;
+}
+.full {
+    background-color: #fff;
+    border: solid 3px #12c3f4;
+    border-radius: 15px;
+    margin: 0px auto;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    width: 96%;
+    height: 50vh;
+    box-shadow: 2.5px 2.5px #000;
 }
 .undo h2 {
     content:"";
