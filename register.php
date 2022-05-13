@@ -56,7 +56,7 @@
 
 
         function handleRegister($conn, $sql_table, $passwordStudent,$studentID ,$firstname ,$lastname){
-            $username = (int)sanitise_input($_POST['usernameRegister']);
+            $username = sanitise_input($_POST['usernameRegister']);
             $password = sanitise_input($_POST['passwordRegister']);
             $firstnameRegister = sanitise_input($_POST['firstnameRegister']);
             $lastnameRegister = sanitise_input($_POST['lastnameRegister']);

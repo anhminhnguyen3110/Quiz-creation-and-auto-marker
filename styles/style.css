@@ -1666,8 +1666,39 @@ Cascading StyleSheet for Enhancements
     display:block;
     clear:both;
 }
-
-
+#manage_container #item1{
+    grid-area: item1;
+}
+#manage_container #item2{
+    grid-area: item2;
+}
+#manage_container #item3{
+    grid-area: item3;
+}
+#manage_container{
+    display: grid;
+    grid-template-areas: "item1 item2"
+                         "item3 item3";
+}
+/* .manage_table_container:nth-child(1){
+    background-color: #000;
+    grid-area: h1;
+}
+.manage_table_container:nth-child(2){
+    grid-area: t1;
+}
+.manage_table_container:nth-child(3){
+    grid-area: h2;
+}
+.manage_table_container:nth-child(4){
+    grid-area: t2;
+} */
+.manage_table_container {
+    display: grid;
+    grid-template-areas: "a d"
+                         "b c"
+    ;
+}
 #manage_header{
     text-align: center;
     font-size: 40px;
@@ -1721,6 +1752,7 @@ Cascading StyleSheet for Enhancements
 .manage_all{
     margin-left: 15px;
     font-size: 25px;
+    margin-top: 10px;
     font-style: italic;
 }
 
@@ -1735,7 +1767,7 @@ Cascading StyleSheet for Enhancements
 }
 
 .manageSubmit {
-    width: 8%;
+    width: 120px;
     background-color: #1E90FF;
     color: white;
     padding: 14px 20px;
@@ -1748,4 +1780,9 @@ Cascading StyleSheet for Enhancements
 }
 
 
-  
+.error {
+    color: red;
+    font-size: 30px;
+    margin-left: 20px;
+}
+

@@ -18,54 +18,85 @@
         include ("header.inc");
         include ("menu.inc");
         echo menu("manage");
-        echo "</header>"
+        echo "</header>";
     ?>
 
     <h3 id = "manage_header">Admin site</h3>
-    <form class="manage_form" method="get" action="manage.php">
-        <fieldset class="fieldsetManage">
-            <legend class="legendManage">All attempt for student</legend>
-            <label for="Student-ID">Name or ID: </label><br/>
-            <input class="manageText" id="Student-ID" name="all" type="text"/><br/>
-            <input class="manageSubmit" type="submit" value="Submit"/>
-        <br />
-        </fieldset>
-    </form>
-    <form class="manage_form" method="post" action="manage.php">
-        <fieldset class="fieldsetManage">
-            <legend class="legendManage">Delete all attempts for a Student</legend>
-            <label for="delete">Student ID: </label><br/>
-            <input class="manageText" id="delete" name="deleteID" type="text"/><br/>
-            <input class="manageSubmit" type="submit" value="Submit"/>
-        </fieldset>
-    </form>
-    <form class="manage_form" method="post" action="manage.php">
-        <fieldset class="fieldsetManage">
-            <legend class="legendManage">Change the score for a quiz attempt</legend>
-            <label for="changeID">Student ID: </label><br/>
-            <input class="manageText" id="changeID" name="changeID" type="text"/><br/>
-            <label for="Attempt">Attempt: </label><br/>
-            <select class="manageSelect" name="changeAttempt" id="Attempt">
-                <option value="1">1</option>
-                <option value="2">2</option>
-            </select><br/>
-            <label for="changeScore">Score: </label><br/>
-            <input class="manageText" id="changeScore" name="changeScore" type="text"/><br/>
-            <input class="manageSubmit" type="submit" value="Submit"/>
-        </fieldset>
-    </form>
+    <div id = "manage_container">
+        <form id="item1" class="manage_form" method="get" action="manage.php">
+            <fieldset class="fieldsetManage">
+                <legend class="legendManage">All attempt for student</legend>
+                <label for="Student-ID">Name or ID: </label><br/>
+                <input class="manageText" id="Student-ID" name="all" type="text"/><br/>
+                <input class="manageSubmit" type="submit" value="Submit"/>
+            <br />
+            </fieldset>
+            <?php
+            if(isset($_GET['all'])){
+                $servername = "feenix-mariadb.swin.edu.au";
+                $username = "s103515617";
+                $password = "reactjs";
+                $dbname = "s103515617_db";
+                $firstname = "FIRST_NAME";
+                $lastname = "LAST_NAME";
+                $studentID = "STUDENT_ID";
+                $score = "SCORE";
+                $attempt_number = "ATTEMPT_NUMBER";
+                $create_at = "CREATED_AT";
+                $sql_table = 'attempts';
+                $conn = mysqli_connect($servername, $username, $password, $dbname);
+                allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number);
+            }
+            ?>
+        </form>
+        <form id="item2" class="manage_form" method="post" action="manage.php">
+            <fieldset class="fieldsetManage">
+                <legend class="legendManage">Delete all attempts for a Student</legend>
+                <label for="delete">Student ID: </label><br/>
+                <input class="manageText" id="delete" name="deleteID" type="text"/><br/>
+                <input class="manageSubmit" type="submit" value="Submit"/>
+                <?php
+            if(isset($_POST['deleteID'])){
+                $servername = "feenix-mariadb.swin.edu.au";
+                $username = "s103515617";
+                $password = "reactjs";
+                $dbname = "s103515617_db";
+                $studentID = "STUDENT_ID";
+                $sql_table = 'attempts';
+                $conn = mysqli_connect($servername, $username, $password, $dbname);
+                deleteHandler($conn ,$sql_table, $studentID);
+            }
+            ?>
+            </fieldset> 
+        </form>
+        <form id="item3" class="manage_form" method="post" action="manage.php">
+            <fieldset class="fieldsetManage">
+                <legend class="legendManage">Change the score for a quiz attempt</legend>
+                <label for="changeID">Student ID: </label><br/>
+                <input class="manageText" id="changeID" name="changeID" type="text"/><br/>
+                <label for="Attempt">Attempt: </label><br/>
+                <select class="manageSelect" name="changeAttempt" id="Attempt">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select><br/>
+                <label for="changeScore">Score: </label><br/>
+                <input class="manageText" id="changeScore" name="changeScore" type="text"/><br/>
+                <input class="manageSubmit" type="submit" value="Submit"/>
+            </fieldset>
+        </form>
+    </div>
+    
     <?php
     
     if(!isset($_SESSION['ADMIN'])){
         header('location: loginAdmin.php');
-    } else if(time() - $_SESSION['time'] >= 300) {
+    } else if(time() - $_SESSION['time'] >= 900) {
         header('location: logoutAdmin.php');
     }
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";
     $dbname = "s103515617_db";
-
     $AttemptID = "ATTEMPT_ID";
     $studentID = "STUDENT_ID";
     $firstname = "FIRST_NAME";
@@ -76,9 +107,9 @@
 	function studentid_validate($student_id){
 		$errMsg = "";
 		if ($student_id =="") {
-			$errMsg = $errMsg. "<p>You must enter a student id</p>";
+			$errMsg = $errMsg. "<p class='error'>You must enter a student id</p>";
 		} else if (!preg_match('/^(\d{7}|\d{10})$/', $student_id)) {
-			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
+			$errMsg = $errMsg. "<p class='error'>Only 7 or 10 digits allowed in your student id.</p>";
 		}
 		return $errMsg;
 	}
@@ -109,9 +140,9 @@
     function displayTableStudent($result){
         echo "<table class='manage_table'>";
         echo "<tr>"
+        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
         ."<th scope='col'>", $GLOBALS['lastname'], "</th>"
-        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."</tr>";
         while($row = mysqli_fetch_assoc($result)){
             echo "<tr>"
@@ -131,7 +162,7 @@
     function displayTableStudentSearch($result){
         $row = mysqli_fetch_all($result);
         if(!sizeof($row)){
-            echo "<p>No student is found</p>";
+            echo "<p class='error'>No student is found</p>";
             return;
         }
         echo "<table class='manage_table'>";
@@ -166,8 +197,12 @@
        $id = sanitise_input($_POST['changeID']);
        $attempt = sanitise_input($_POST['changeAttempt']);  
        $newScore = sanitise_input($_POST['changeScore']);
+       if(studentid_validate($id)){
+            echo studentid_validate($id);
+            return;
+        }
        if($newScore > 100 || $newScore < 0 || is_int($newScore)){
-            echo "Invalid input, please try again";
+            echo "<p class='error'>The score need to be lower than 100 and higher or equal than 0</p>";
             return;
        }
        $searchQuery = "SELECT * FROM $sql_table WHERE $studentID = $id AND $attempt_number = $attempt";
@@ -175,7 +210,7 @@
        $check = mysqli_fetch_all($resultSearch);
        if(!sizeof($check)){
         mysqli_free_result($resultSearch);
-        echo "<p>No student is found</p>";
+        echo "<p class='error'>No student is found</p>";
         return;
        }
        $queryUpdate = "UPDATE $sql_table SET $score = $newScore WHERE $studentID = $id AND $attempt_number=$attempt ";
@@ -190,12 +225,16 @@
 
     function deleteHandler($conn ,$sql_table, $studentID){
         $delete = sanitise_input($_POST['deleteID']);
+        if(studentid_validate($delete)){
+            echo studentid_validate($delete);
+            return;
+        }
         $searchQuery = "SELECT * FROM $sql_table WHERE $studentID = $delete";
         $resultSearch = mysqli_query($conn, $searchQuery);
         $check = mysqli_fetch_all($resultSearch);
         if(!sizeof($check)){
             mysqli_free_result($resultSearch);
-            echo "<p>No student is found</p>";
+            echo "<p class='error'>No student is found</p>";
             return;
         }
         $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
@@ -224,16 +263,9 @@
     }
     // form hanlder
     $sql_table = 'attempts';
-    if(isset($_GET['all'])){
-       allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number);
-    }else if(isset($_POST['deleteID'])){
-        deleteHandler($conn ,$sql_table, $studentID);
-    }else if(isset($_POST['changeID']) && isset($_POST['changeAttempt']) && isset($_POST['changeScore'])){
+    if(isset($_POST['changeID']) && isset($_POST['changeAttempt']) && isset($_POST['changeScore'])){
         changeAttemptHandler($conn, $sql_table, $score, $studentID,  $attempt_number);
     }
-
-    
-    
     // All attempts
     echo '<form class="manage_form" method="get" action="manage.php">
     <fieldset class="fieldsetManage">
@@ -259,8 +291,9 @@
         $sortColumn = $_GET['sortColumn'];
         $sortDirection = strtoupper($_GET['sortDirection']);
         $query = $query." ORDER BY $sortColumn $sortDirection";
-        echo $query;
     }
+    
+    
     $result = mysqli_query($conn, $query);
     if (!$result) {
         $create_table_query = "CREATE TABLE attempts(
@@ -276,17 +309,17 @@
     }
     displayTable($result);
     // Who got 100%
+    echo "<div class='manage_table_container'>";
     echo "<h3 class='manage_all'>All students who got 100% on their first attempt</h3>";
     $query = "SELECT $studentID, $firstname, $lastname  FROM $sql_table WHERE $attempt_number = 1 AND $score = 100";
     $result = mysqli_query($conn, $query);
     displayTableStudent($result);
-
     //Who got less than 50 on second attempt
     echo "<h3 class='manage_all'>All students who got less than 50% on their second attempt</h3>";
     $query = "SELECT $studentID, $firstname, $lastname  FROM $sql_table WHERE $attempt_number = 2 AND $score < 50";
     $result = mysqli_query($conn, $query);
     displayTableStudent($result);
-
+    echo "</div>";
     mysqli_free_result($result);
     mysqli_close($conn);
     ?>

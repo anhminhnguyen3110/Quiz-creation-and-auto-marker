@@ -43,7 +43,7 @@
 		return $errMsg;
 	}
 	function handleLogin($conn, $sql_table, $studentID, $passwordStudent){
-        $username = (int)sanitise_input($_POST['usernameLogin']);
+        $username = sanitise_input($_POST['usernameLogin']);
         $password = sanitise_input($_POST['passwordLogin']);
         if(studentid_validate($username)){
 			$GLOBALS['errorHandler'] = studentid_validate($username);
