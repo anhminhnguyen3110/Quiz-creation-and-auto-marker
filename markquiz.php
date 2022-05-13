@@ -50,7 +50,7 @@
         if (!$result) {
             $create_table_query = "CREATE TABLE $sql_table(
                 ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                STUDENT_ID INT NOT NULL UNIQUE,
+                STUDENT_ID INT NOT NULL,
                 FIRST_NAME VARCHAR(30) NOT NULL,
                 LAST_NAME VARCHAR (30) NOT NULL,
                 SCORE INT NOT NULL,
