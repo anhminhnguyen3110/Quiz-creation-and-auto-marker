@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="icon" href="images/react.svg">
-    <title>Document</title>
+    <title>Manage</title>
 </head>
 
-<body class="quiz-bg">
+<body>
     <!--Header(with menu)-->
     <?php 
         include ("header.inc");
@@ -20,11 +20,11 @@
         echo menu("manage");
         echo "</header>"
     ?>
-    <article class='quiz manager'>
-    <h2 class='heading-quiz'>Admin site</h2>
+
+    <h2>Admin site</h2>
     <form method="get" action="manage.php">
-        <fieldset class="need">
-            <legend>All attempt for student</legend>
+        <fieldset class="fieldsetManage">
+            <legend class="legendManage">All attempt for student</legend>
             <label for="Student-ID">Name or ID: </label><br/>
             <input id="Student-ID" name="all" type="text"/><br/>
             <input type="submit" value="Submit"/>
@@ -32,16 +32,16 @@
         </fieldset>
     </form>
     <form method="post" action="manage.php">
-        <fieldset class="need">
-            <legend>Delete all attempts for a Student</legend>
+        <fieldset class="fieldsetManage">
+            <legend class="legendManage">Delete all attempts for a Student</legend>
             <label for="delete">Student ID: </label><br/>
             <input id="delete" name="deleteID" type="text"/><br/>
             <input type="submit" value="Submit"/>
         </fieldset>
     </form>
     <form method="post" action="manage.php">
-        <fieldset class="need">
-            <legend>Change the score for a quiz attempt</legend>
+        <fieldset class="fieldsetManage">
+            <legend class="legendManage">Change the score for a quiz attempt</legend>
             <label for="changeID">Student ID: </label><br/>
             <input id="changeID" name="changeID" type="text"/><br/>
             <label for="Attempt">Attempt: </label>
@@ -73,8 +73,17 @@
     $score = "SCORE";
     $create_at = "CREATED_AT";
     $attempt_number = "ATTEMPT_NUMBER";
+	function studentid_validate($student_id){
+		$errMsg = "";
+		if ($student_id =="") {
+			$errMsg = $errMsg. "<p>You must enter a student id</p>";
+		} else if (!preg_match('/^(\d{7}|\d{10})$/', $student_id)) {
+			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
+		}
+		return $errMsg;
+	}
     function displayTable($result){
-        echo "<table class='managetb'>\n";
+        echo "<table border='1'>\n";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['AttemptID'], "</th>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
@@ -98,7 +107,7 @@
         echo "</table>";
     }
     function displayTableStudent($result){
-        echo "<table>\n";
+        echo "<table border='1' >";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
@@ -124,7 +133,7 @@
             echo "<p>No student is found</p>";
             return;
         }
-        echo "<table>\n";
+        echo "<table> border='1' ";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
@@ -226,8 +235,8 @@
     // All attempts
     echo "<h2>All quiz attempts</h2>";
     echo '<form method="get" action="">
-    <fieldset>
-    <legend>Sort by</legend>
+    <fieldset class="fieldsetManage">
+    <legend class="legendManage">Sort by</legend>
             <label for="sort">Column</label>
             <select id="sort" name="sortColumn">
                 <option value="ATTEMPT_ID">Attempt ID</option>

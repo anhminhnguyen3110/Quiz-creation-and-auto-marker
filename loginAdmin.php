@@ -108,11 +108,23 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 300){
-
+					$tmpTime = time();
+					$query = "UPDATE $sql_table
+					SET $createdAt = $tmpTime,$attemptTime=0
+					WHERE $username = '$usernameInput'
+					";
+					mysqli_query($conn, $query);
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;
 				}
+			}else{
+				$tmpTime = time();
+				$query = "UPDATE $sql_table
+				SET $createdAt = $tmpTime,$attemptTime=0
+				WHERE $username = '$usernameInput'
+				";
+				mysqli_query($conn, $query);
 			}
 		}
 		session_unset();
@@ -156,7 +168,6 @@
         handleLogin($conn, $sql_table, $usernameAdmin);
     }
 	?>
-	<h2>Welcome Supervisor!</h2>
 	<form method="POST" action="loginAdmin.php" class="login">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 

@@ -37,7 +37,7 @@
 		$errMsg = "";
 		if ($student_id =="") {
 			$errMsg = $errMsg. "<p>You must enter a student id</p>";
-		} else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+		} else if (!preg_match('/^(\d{7}|\d{10})$/', $student_id)) {
 			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
 		}
 		return $errMsg;

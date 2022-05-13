@@ -39,6 +39,27 @@
         if (!$conn) {
             echo "<p>Connection failed: " . mysqli_connect_error()."</p>\n";
         } 
+        $sql_table = "attempts";
+        $query = "SELECT * FROM $sql_table";
+        try {
+            $result = @mysqli_query($conn, $query);
+        } catch (\Throwable $th) {
+            $create_table_query = "CREATE TABLE $sql_table(
+                ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                STUDENT_ID INT NOT NULL,
+                FIRST_NAME VARCHAR(30) NOT NULL,
+                LAST_NAME VARCHAR (30) NOT NULL,
+                SCORE INT NOT NULL,
+                CREATED_AT DATETIME NOT NULL,
+                ATTEMPT_NUMBER INT NOT NULL,
+                FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
+            );";
+            $result = @mysqli_query($conn, $create_table_query);
+        }
+        // Create table if not exists
+        if (!$result) {
+            
+        }
         // Successful connection
         else {
                 $student_id =  $_SESSION["StudentID"];
