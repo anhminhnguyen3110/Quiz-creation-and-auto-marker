@@ -323,7 +323,6 @@
     mysqli_free_result($result);
     mysqli_close($conn);
     ?>
-    </article>
     <!--Footer-->
     <?php include_once 'footer.inc'; ?>
 </body>
