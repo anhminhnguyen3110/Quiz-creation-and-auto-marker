@@ -44,14 +44,13 @@
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $result = @mysqli_query($conn, $query);
-        // free up the memory
-        mysqli_free_result($result);
+    
         
         // Create table if not exists
         if (!$result) {
             $create_table_query = "CREATE TABLE $sql_table(
                 ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                STUDENT_ID INT NOT NULL UNIQUE,
+                STUDENT_ID INT NOT NULL,
                 FIRST_NAME VARCHAR(30) NOT NULL,
                 LAST_NAME VARCHAR (30) NOT NULL,
                 SCORE INT NOT NULL,
@@ -61,7 +60,8 @@
             );";
             $result = @mysqli_query($conn, $create_table_query);
         }
-    
+       
+        
         // Display the retrieved records 
     
 
