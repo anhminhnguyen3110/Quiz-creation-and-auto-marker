@@ -2,19 +2,30 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 2" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
 <body>
-	<h1>Login for Admin</h1>
+	<!--Header(with menu)-->
+    <?php 
+		session_start();
+		if(isset($_SESSION['ADMIN'])){
+			header('location: manage.php');
+		}
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("loginAdmin");
+        echo "</header>"
+    ?>
+	<article class='login-main'>
 	<?php
-	session_start();
-	if(isset($_SESSION['ADMIN'])){
-		header('location: manage.php');
-	}
 	$errorHandler = "";
 	function sanitise_input($data){
         $data = trim($data);
@@ -22,6 +33,7 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+	
 	function loginSecurityHandler($usernameInput,$username, $conn){
 		$sql_table = 'logSecurity';
 		$query = "SELECT * FROM $sql_table";
@@ -67,7 +79,6 @@
 		}
 	}
 
-	
 	function handleLogin($conn, $sql_table, $username){
         $usernameInput = sanitise_input($_POST['usernameAdmin']);
         $passwordInput = sanitise_input($_POST['passwordAdmin']);
@@ -80,16 +91,16 @@
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
-		
 		if(!$res){
 			$GLOBALS['errorHandler'] = "No username is provided";
 			return;
 		}
 		if($res['PASSWORD'] != $passwordInput){
-			$GLOBALS['errorHandler'] = "Bad Credential!";
+			$GLOBALS['errorHandler'] = "Incorrect password!";
 			loginSecurityHandler($usernameInput,$username, $conn);
 			return;
 		}
+		
 		$sql_table = 'logSecurity';
 		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
 		$results = mysqli_query($conn, $query);
@@ -97,7 +108,7 @@
 		if($row){
 			if($row[$attemptTime] == 3){
 				if($row[$createdAt] - time() >= 300){
-	
+
 				}else{
 					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
 					return;
@@ -115,10 +126,11 @@
 	if(isset($_POST['usernameAdmin']) || isset($_POST['passwordAdmin']) ){
 		$errorHandler = "";
 		$servername = "feenix-mariadb.swin.edu.au";
-		$username = "s103515617";
+		$host = "s103515617";
 		$password = "reactjs";
 		$dbname = "s103515617_db";
 		$sql_table = "admin";
+		$username = "STUDENT_ID";
 
 
         $userID = "USER_ID";
@@ -126,7 +138,7 @@
 		$passwordAdmin = "PASSWORD";
 		
 		try {
-		  $conn = mysqli_connect($servername, $username, $password, $dbname);
+		  $conn = mysqli_connect($servername, $host, $password, $dbname);
 		} catch (\Throwable $th) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}
@@ -144,22 +156,26 @@
         handleLogin($conn, $sql_table, $usernameAdmin);
     }
 	?>
-	<form method="POST" action="">
+	<h2>Welcome Supervisor!</h2>
+	<form method="POST" action="loginAdmin.php" class="login">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
-				echo "<p>$errorHandler</p>";
+				echo "<p class='error'>$errorHandler</p>";
 			} 
 			?>
-			<legend>Login</legend>
-			<label for="usernameAdmin">AdminID: </label>
-			<input name="usernameAdmin" id="usernameAdmin"/><br/>
-			<label for="passwordAdmin">Password: </label>
-			<input type="password" name="passwordAdmin" id="passwordAdmin"/><br/>
+			<legend>Supervisor Login</legend>
+			<label for="usernameAdmin">@</label>
+			<input type="text" name="usernameAdmin" id="usernameAdmin" placeholder="Admin ID"/><br/>
+			<label for="passwordAdmin">🔒</label>
+			<input type="password" name="passwordAdmin" id="passwordAdmin" placeholder="Password"/><br/>
 			<input type="submit"/>
 			<br/>
 		</fieldset>
 	</form>
+	</article>
 
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
 </html>

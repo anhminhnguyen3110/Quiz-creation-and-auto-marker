@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,9 +19,8 @@
         echo "</header>"
     ?>
     <?php 
-        // session_start();
         if(!isset($_SESSION['StudentID'])){  
-            header('location: logout.php');
+            header('location: login.php');
         }
     ?>
     <!--Quiz-->
@@ -33,8 +32,8 @@
             }
         ?>
         <form method="post" action="markquiz.php" novalidate="novalidate">
-            <fieldset id="questions">
-                <legend>Questions</legend>
+            <fieldset class="fieldset_css" id="questions">
+                <legend class="legend_css">Questions</legend>
                 <!--Question 1-->
                 <p class="labels">Question 1: In what programming language is ReactJS written in ?</p>
                 <input type="radio" name="q1" id="js" value="JS" class="special-radio" required><label for="js" class="q1labels">JavaScript</label>&nbsp;

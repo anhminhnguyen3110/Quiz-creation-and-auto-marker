@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="description" content="COS10026 Assignment 1" />
+    <meta name="description" content="COS10026 Assignment 2" />
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,10 +15,13 @@
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("quiz");
+        echo menu("markquiz");
         echo "</header>"
     ?>
     <?php
+    if(!isset($_SESSION['StudentID'])){  
+		header('location: quiz.php');
+	}
      // Create connection
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
@@ -33,16 +36,15 @@
     );
     // Check connection
     if (!$conn) {
-        echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
+        echo "<p>Connection failed: " . @mysqli_connect_error()."</p>";
     } 
     // Successful connection
     else {
         //check table, exists
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
-        $result = mysqli_query($conn, $query);
-        // free up the memory
-        mysqli_free_result($result);
+        $result = @mysqli_query($conn, $query);
+    
         
         // Create table if not exists
         if (!$result) {
@@ -56,9 +58,10 @@
                 ATTEMPT_NUMBER INT NOT NULL,
                 FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
             );";
-            $result = mysqli_query($conn, $create_table_query);
+            $result = @mysqli_query($conn, $create_table_query);
         }
-    
+       
+        
         // Display the retrieved records 
     
 
@@ -74,8 +77,14 @@
         else
             $q2 ="";
         if (isset ($_POST["q3"])) $q3 = $_POST["q3"];
+        else 
+            $q3 ="";
         if (isset ($_POST["q4"])) $q4 = $_POST["q4"];
+        else 
+            $q4 ="";
         if (isset ($_POST["q5"])) $q5 = $_POST["q5"];
+        else 
+            $q5 ="";
         if (isset ($_POST["q6"])) $q6 = $_POST["q6"];
         else 
             $q6 ="";
@@ -96,8 +105,19 @@
         if (!preg_match("/^\d{3,4}$/", $q5)){
             $errMsg .= "<p>Only year with 3 or 4 digits allowed e.g: 2022.</p>";}
         if ($q6==""){
-            $errMsg .= "<p>You must answer question 6. </p>";}
-        if ($errMsg != "") echo "<p>$errMsg</p>";
+            $errMsg .= "<p>You must answer question 6. </p>";
+        }
+
+        if ($q1=="" && $q2=="" && $q3=="" && empty($q4) == 1 && $q5=="" && $q6==""){
+            $errMsg = "<p>You must answer at least one question<br/>OR<br/>Attempt the <a href='quiz.php'>Quiz</a> if you came here by a link.</p>";
+        }
+        
+        if ($errMsg != "") echo "<main class='full'>
+        <section id='attempts'>
+        <h2 class='heading-quiz'>Invalid Input!</h2><br/>
+        <p>$errMsg</p>
+        </section>
+        </main>";
     
         else{
         // Sanitise input
@@ -120,9 +140,7 @@
         // multi-select check
         $q4Answers = ["Open Source", "A framework for building web and mobile applications", "Flexible to use and Good for SEO (Search Engine Optimization)"];
         $q4mark = 0;
-          
-        $check_diff = array_diff($q4, $q4Answers);
-        if (empty($check_diff)) {
+        if ($q4 == $q4Answers) {
             $q4mark = 1;
         }
 
@@ -161,7 +179,6 @@
         
         $score = intval($mark / 6 * 100);
         $new_q4 = implode(', ', $q4);
-          
         function is_right($var) {
             if ($var) {
                 return "✅";
@@ -199,22 +216,22 @@
                 echo "<h2 class='info'>Student ID: $student_id</h2>";
                 echo "<h2 class='info'>Name: $firstname $lastname</h2>";
                 $q1c = is_right($q1right);
-                echo "<h2>Answer 1: $q1c</h2>";
+                echo "<h2 class='clearb'>Answer 1: $q1c</h2>";
                 $q2c = is_right($q2right);
-                echo "<h2>Answer 2: $q2c</h2>";
+                echo "<h2 class='clearb'>Answer 2: $q2c</h2>";
                 $q3c = is_right($q3right);
-                echo "<h2>Answer 3: $q3c</h2>";
+                echo "<h2 class='clearb'>Answer 3: $q3c</h2>";
                 $q4c = is_right($q4right);
-                echo "<h2>Answer 4: $q4c</h2>";
+                echo "<h2 class='clearb'>Answer 4: $q4c</h2>";
                 $q5c = is_right($q5right);
-                echo "<h2>Answer 5: $q5c</h2>";
+                echo "<h2 class='clearb'>Answer 5: $q5c</h2>";
                 $q6c = is_right($q6right);
-                echo "<h2>Answer 6: $q6c</h2>";
+                echo "<h2 class='clearb'>Answer 6: $q6c</h2>";
                 
-                echo "<h2>Final Score: $score%</h2>";
+                echo "<h2 class='clearb'>Final Score: $score%</h2>";
                 echo "</article>";
             } else {
-                echo "<article class='quiz'><h2 class='heading-quiz'>You have no attempts left</h2></article>";  
+                header("Location: checkattempts.php");
                 $attempt = 0;
             }
         }
@@ -226,39 +243,39 @@
             echo "<h2 class='info'>Student ID: $student_id</h2>";
             echo "<h2 class='info'>Name: $firstname $lastname</h2>";
             $q1c = is_right($q1right);
-            echo "<h2>Answer 1: $q1c</h2>";
+            echo "<h2 class='clearb'>Answer 1: $q1c</h2>";
             $q2c = is_right($q2right);
-            echo "<h2>Answer 2: $q2c</h2>";
+            echo "<h2 class='clearb'>Answer 2: $q2c</h2>";
             $q3c = is_right($q3right);
-            echo "<h2>Answer 3: $q3c</h2>";
+            echo "<h2 class='clearb'>Answer 3: $q3c</h2>";
             $q4c = is_right($q4right);
-            echo "<h2>Answer 4: $q4c</h2>";
+            echo "<h2 class='clearb'>Answer 4: $q4c</h2>";
             $q5c = is_right($q5right);
-            echo "<h2>Answer 5: $q5c</h2>";
+            echo "<h2 class='clearb'>Answer 5: $q5c</h2>";
             $q6c = is_right($q6right);
-            echo "<h2>Answer 6: $q6c</h2>";
+            echo "<h2 class='clearb'>Answer 6: $q6c</h2>";
             
-            echo "<h2>Final Score: $score%</h2>";
+            echo "<h2 class='clearb'>Final Score: $score%</h2>";
             // Insert into table
             $sql = "INSERT INTO attempts (STUDENT_ID, FIRST_NAME, LAST_NAME, SCORE, CREATED_AT, ATTEMPT_NUMBER) 
             VALUES ($student_id, '$firstname', '$lastname', $score, '$formatted_time', 1);";
             
             if (mysqli_query($conn, $sql)) {
                 $attempt-=1;
-                echo "<h2>You have another attmept left, <a href ='quiz.php'>retry</a>?</h2>";
+                echo "<h2 class='clearb'>You have another attmept left, <a href ='quiz.php'>retry</a>?</h2>";
             } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
             echo "</article>";
-          
+
         }
     }
         
         mysqli_close($conn);
     }
-    ?>    
 
-    <!--Footer-->
-    <?php include_once 'footer.inc'; ?>
+    //Footer
+    include_once 'footer.inc'; 
+    ?>
 </body>
 </html>
