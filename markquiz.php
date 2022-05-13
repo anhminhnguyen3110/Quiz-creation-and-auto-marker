@@ -50,13 +50,14 @@
         if (!$result) {
             $create_table_query = "CREATE TABLE $sql_table(
                 ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                STUDENT_ID INT NOT NULL,
+                STUDENT_ID BIGINT NOT NULL,
                 FIRST_NAME VARCHAR(30) NOT NULL,
                 LAST_NAME VARCHAR (30) NOT NULL,
                 SCORE INT NOT NULL,
                 CREATED_AT DATETIME NOT NULL,
                 ATTEMPT_NUMBER INT NOT NULL,
                 FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
+                ON DELETE CASCADE
             );";
             $result = @mysqli_query($conn, $create_table_query);
         }
