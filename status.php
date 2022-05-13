@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-<<<<<<< HEAD
-    <meta name="description" content="COS10026 Assignment 1" />
-=======
     <meta name="description" content="COS10026 Assignment 2" />
->>>>>>> develop
     <meta name="keywords" content="HTML, CSS, JavaScript" />
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,11 +52,7 @@
 					//section do we need this to fix the footer
 					echo "<section id='status'>";
 					//title
-<<<<<<< HEAD
-					echo "<h1 class=\"topic-h1\"> Welcome $fname  $lname</h1>\n";				
-=======
 					echo "<h2 class='topic-h1'> Welcome $fname  $lname</h2>\n";				
->>>>>>> develop
 					echo "<h2> Student ID: $id</h2>\n";
 					//make table
 					echo "<table id='statustable'>\n";

@@ -37,7 +37,7 @@
 		$errMsg = "";
 		if ($student_id =="") {
 			$errMsg = $errMsg. "<p>You must enter a student id</p>";
-		} else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+		} else if (!preg_match("/^(\d{7}|\d{10})$/", $student_id)) {
 			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
 		}
 		return $errMsg;
@@ -93,7 +93,9 @@
 			$result = mysqli_query($conn, $query);
 		} catch (\Throwable $th) {
 			$create_table_query = "CREATE TABLE $sql_table(
-				$studentID INT NOT NULL UNIQUE,
+				$studentID BIGINT NOT NULL UNIQUE,
+				$firstname VARCHAR (60) NOT NULL,
+				$lastname VARCHAR (60) NOT NULL,
 				$passwordStudent VARCHAR (60) NOT NULL,
 				PRIMARY KEY($studentID)
 			)";
