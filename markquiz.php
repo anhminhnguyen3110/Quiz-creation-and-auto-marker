@@ -53,11 +53,11 @@
                 STUDENT_ID BIGINT NOT NULL,
                 FIRST_NAME VARCHAR(30) NOT NULL,
                 LAST_NAME VARCHAR (30) NOT NULL,
-                SCORE INT NOT NULL,
+                SCORE TINYINT NOT NULL,
                 CREATED_AT DATETIME NOT NULL,
-                ATTEMPT_NUMBER INT NOT NULL,
+                ATTEMPT_NUMBER TINYINT NOT NULL,
                 FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
-                ON DELETE CASCADE
+        
             );";
             $result = @mysqli_query($conn, $create_table_query);
         }
@@ -116,7 +116,7 @@
         if ($errMsg != "") echo "<main class='full'>
         <section id='attempts'>
         <h2 class='heading-quiz'>Invalid Input!</h2><br/>
-        <p>$errMsg</p>
+        $errMsg
         </section>
         </main>";
     

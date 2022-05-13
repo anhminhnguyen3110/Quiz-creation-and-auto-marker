@@ -265,12 +265,12 @@
     if (!$result) {
         $create_table_query = "CREATE TABLE attempts(
             ATTEMPT_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            STUDENT_ID INTEGER,
+            STUDENT_ID BIGINT,
             FIRST_NAME VARCHAR(30),
             LAST_NAME VARCHAR (30),
-            SCORE INTEGER,
+            SCORE TINYINT,
             ATTEMPT_TIME DATETIME,
-            ATTEMPT_NUM INTEGER
+            ATTEMPT_NUM TINYINT
         );";
         $result = mysqli_query($conn, $create_table_query);
     }
