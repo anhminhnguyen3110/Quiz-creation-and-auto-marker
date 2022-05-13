@@ -1667,15 +1667,85 @@ Cascading StyleSheet for Enhancements
     clear:both;
 }
 
-/* .legendManage {
-    font-family: 'Source Sans Pro', sans-serif;
+
+#manage_header{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 400;
+    margin-top: 10px;
+}
+.manage_form{
+    display: grid;
+    margin: 5px;
+    padding: 5px;
+}
+.manage_form fieldset{
+    border-radius: 15px;
+    font-size: 20px;
+    box-shadow: 2px 2px black;
+}
+.manage_form legend{
+    margin-left: 20px;
     font-size: 20px;
 }
-.fieldsetManage {
-    width: 80%;
-    margin-bottom: 25px;
+.manage_form label{
+    margin-left: 20px;
+}
+.manage_table {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 96%;
+    box-shadow: 2px 2px rgb(61, 51, 51);
+}
+  
+.manage_table td, .manage_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+.manage_table tr:nth-child(odd){background-color: #f2f2f2;}
+
+.manage_table tr:hover {background-color: #ddd;}
+  
+.manage_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #1E90FF;
+    color: white;
+}
+
+.manage_all{
+    margin-left: 15px;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.manageText, .manageSelect {
+    width: 98%;
+    padding: 12px 20px;
+    margin: 8px;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.manageSubmit {
+    width: 8%;
+    background-color: #1E90FF;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
     margin-left: 10px;
-    border-bottom: 1px solid;
-    border-left: 2px solid;
-    border-right: 2px solid;
-} */
+    margin-bottom: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+  

@@ -21,37 +21,37 @@
         echo "</header>"
     ?>
 
-    <h2>Admin site</h2>
-    <form method="get" action="manage.php">
+    <h3 id = "manage_header">Admin site</h3>
+    <form class="manage_form" method="get" action="manage.php">
         <fieldset class="fieldsetManage">
             <legend class="legendManage">All attempt for student</legend>
             <label for="Student-ID">Name or ID: </label><br/>
-            <input id="Student-ID" name="all" type="text"/><br/>
-            <input type="submit" value="Submit"/>
+            <input class="manageText" id="Student-ID" name="all" type="text"/><br/>
+            <input class="manageSubmit" type="submit" value="Submit"/>
         <br />
         </fieldset>
     </form>
-    <form method="post" action="manage.php">
+    <form class="manage_form" method="post" action="manage.php">
         <fieldset class="fieldsetManage">
             <legend class="legendManage">Delete all attempts for a Student</legend>
             <label for="delete">Student ID: </label><br/>
-            <input id="delete" name="deleteID" type="text"/><br/>
-            <input type="submit" value="Submit"/>
+            <input class="manageText" id="delete" name="deleteID" type="text"/><br/>
+            <input class="manageSubmit" type="submit" value="Submit"/>
         </fieldset>
     </form>
-    <form method="post" action="manage.php">
+    <form class="manage_form" method="post" action="manage.php">
         <fieldset class="fieldsetManage">
             <legend class="legendManage">Change the score for a quiz attempt</legend>
             <label for="changeID">Student ID: </label><br/>
-            <input id="changeID" name="changeID" type="text"/><br/>
-            <label for="Attempt">Attempt: </label>
-            <select name="changeAttempt" id="Attempt">
+            <input class="manageText" id="changeID" name="changeID" type="text"/><br/>
+            <label for="Attempt">Attempt: </label><br/>
+            <select class="manageSelect" name="changeAttempt" id="Attempt">
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select><br/>
             <label for="changeScore">Score: </label><br/>
-            <input id="changeScore" name="changeScore" type="text"/><br/>
-            <input type="submit" value="Submit"/>
+            <input class="manageText" id="changeScore" name="changeScore" type="text"/><br/>
+            <input class="manageSubmit" type="submit" value="Submit"/>
         </fieldset>
     </form>
     <?php
@@ -83,7 +83,7 @@
 		return $errMsg;
 	}
     function displayTable($result){
-        echo "<table border='1'>\n";
+        echo "<table class='manage_table'>";
         echo "<tr>"
         ."<th scope='col'>", $GLOBALS['AttemptID'], "</th>"
         ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
@@ -107,11 +107,12 @@
         echo "</table>";
     }
     function displayTableStudent($result){
-        echo "<table border='1' >";
+        echo "<table class='manage_table'>";
         echo "<tr>"
-        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
-        ."<th scope='col'>", $GLOBALS['lastname'], "</th>";
+        ."<th scope='col'>", $GLOBALS['lastname'], "</th>"
+        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
+        ."</tr>";
         while($row = mysqli_fetch_assoc($result)){
             echo "<tr>"
             ."<td>", $row[$GLOBALS['studentID']], "</td>"
@@ -133,14 +134,15 @@
             echo "<p>No student is found</p>";
             return;
         }
-        echo "<table> border='1' ";
+        echo "<table class='manage_table'>";
         echo "<tr>"
-        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['firstname'], "</th>"
         ."<th scope='col'>", $GLOBALS['lastname'], "</th>"
+        ."<th scope='col'>", $GLOBALS['studentID'], "</th>"
         ."<th scope='col'>", $GLOBALS['score'], "</th>"
         ."<th scope='col'>", $GLOBALS['create_at'], "</th>"
-        ."<th scope='col'>", $GLOBALS['attempt_number'], "</th>";
+        ."<th scope='col'>", $GLOBALS['attempt_number'], "</th>"
+        ."</tr>";
         $i = 0;
         while($i < sizeof($row)){
             echo "<tr>"
@@ -199,7 +201,7 @@
         $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
         $resultDelete = mysqli_query($conn, $queryDelete);
         mysqli_free_result($resultSearch);
-        echo "<h2>Delete successfully</h2>";
+        echo "<h3>Delete successfully</h3>";
     }
 
     function allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number){
@@ -233,25 +235,25 @@
     
     
     // All attempts
-    echo "<h2>All quiz attempts</h2>";
-    echo '<form method="get" action="">
+    echo '<form class="manage_form" method="get" action="manage.php">
     <fieldset class="fieldsetManage">
     <legend class="legendManage">Sort by</legend>
-            <label for="sort">Column</label>
-            <select id="sort" name="sortColumn">
+            <label for="sort">Column</label><br/>
+            <select class="manageSelect" id="sort" name="sortColumn">
                 <option value="ATTEMPT_ID">Attempt ID</option>
                 <option value="FIRST_NAME">First name</option>
                 <option value="LAST_NAME">Last name</option>
                 <option value="SCORE">Score</option>
             </select>
-            <label for="sortDirection">Sort direction</label>
-            <select id="sortDirection" name="sortDirection">
+            <label for="sortDirection">Sort direction</label><br/>
+            <select class="manageSelect" id="sortDirection" name="sortDirection">
                 <option value="ASC">Arrange from smallest to the largest value</option>
                 <option value="DESC">Arrange from largest to the smallest value</option>
             </select>
-            <input type="submit"/>
+            <input class="manageSubmit" type="submit"/>
         </fieldset>
     </form>';
+    echo "<h3 class='manage_all'>All quiz attempts</h3>";
     $query = "SELECT * FROM $sql_table";
     if(isset($_GET['sortColumn']) || isset($GET['sortDirection'])){
         $sortColumn = $_GET['sortColumn'];
@@ -274,13 +276,13 @@
     }
     displayTable($result);
     // Who got 100%
-    echo "<h2>All students who got 100% on their first attempt</h2>";
+    echo "<h3 class='manage_all'>All students who got 100% on their first attempt</h3>";
     $query = "SELECT $studentID, $firstname, $lastname  FROM $sql_table WHERE $attempt_number = 1 AND $score = 100";
     $result = mysqli_query($conn, $query);
     displayTableStudent($result);
 
     //Who got less than 50 on second attempt
-    echo "<h2>All students who got less than 50% on their second attempt</h2>";
+    echo "<h3 class='manage_all'>All students who got less than 50% on their second attempt</h3>";
     $query = "SELECT $studentID, $firstname, $lastname  FROM $sql_table WHERE $attempt_number = 2 AND $score < 50";
     $result = mysqli_query($conn, $query);
     displayTableStudent($result);
