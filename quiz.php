@@ -32,8 +32,8 @@
             }
         ?>
         <form method="post" action="markquiz.php" novalidate="novalidate">
-            <fieldset id="questions">
-                <legend>Questions</legend>
+            <fieldset class="fieldset_css" id="questions">
+                <legend class="legend_css">Questions</legend>
                 <!--Question 1-->
                 <p class="labels">Question 1: In what programming language is ReactJS written in ?</p>
                 <input type="radio" name="q1" id="js" value="JS" class="special-radio" required><label for="js" class="q1labels">JavaScript</label>&nbsp;
