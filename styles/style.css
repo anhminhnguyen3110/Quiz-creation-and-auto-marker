@@ -871,12 +871,12 @@ a.slide_next {
 Design for the quiz page
 */
 
-legend {
+.legend_css {
     font-size: 35px;
     font-family: 'Advent Pro', sans-serif;
 }
 
-fieldset {
+.fieldset_css {
     margin-bottom: 25px;
     border-bottom: 0 none;
     border-left: 0 none;

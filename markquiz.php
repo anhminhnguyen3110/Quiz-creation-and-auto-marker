@@ -44,8 +44,7 @@
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $result = @mysqli_query($conn, $query);
-        // free up the memory
-        mysqli_free_result($result);
+    
         
         // Create table if not exists
         if (!$result) {
@@ -61,7 +60,8 @@
             );";
             $result = @mysqli_query($conn, $create_table_query);
         }
-    
+       
+        
         // Display the retrieved records 
     
 
