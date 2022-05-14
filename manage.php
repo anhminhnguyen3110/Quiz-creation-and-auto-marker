@@ -55,7 +55,8 @@
                 <label for="delete">Student ID: </label><br/>
                 <input class="manageText" id="delete" name="deleteID" type="text"/><br/>
                 <input class="manageSubmit" type="submit" value="Submit"/>
-                <?php
+            </fieldset>     
+            <?php
             if(isset($_POST['deleteID'])){
                 $servername = "feenix-mariadb.swin.edu.au";
                 $username = "s103515617";
@@ -67,7 +68,6 @@
                 deleteHandler($conn ,$sql_table, $studentID);
             }
             ?>
-            </fieldset> 
         </form>
         <form id="item3" class="manage_form" method="post" action="manage.php">
             <fieldset class="fieldsetManage">
