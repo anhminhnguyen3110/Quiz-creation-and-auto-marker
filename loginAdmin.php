@@ -107,7 +107,7 @@
 		$row = mysqli_fetch_assoc($results);
 		if($row){
 			if($row[$attemptTime] == 3){
-				if($row[$createdAt] - time() >= 300){
+				if(time()-$row[$createdAt] >= 300){
 					$tmpTime = time();
 					$query = "UPDATE $sql_table
 					SET $createdAt = $tmpTime,$attemptTime=0

@@ -162,7 +162,7 @@
     function displayTableStudentSearch($result){
         $row = mysqli_fetch_all($result);
         if(!sizeof($row)){
-            echo "<p class='error'>No student is found</p>";
+            echo "<p class='error'>No student's name is found</p>";
             return;
         }
         echo "<table class='manage_table'>";
@@ -210,7 +210,7 @@
        $check = mysqli_fetch_all($resultSearch);
        if(!sizeof($check)){
         mysqli_free_result($resultSearch);
-        echo "<p class='error'>No student is found</p>";
+        echo "<p class='error'>No student's name is found</p>";
         return;
        }
        $queryUpdate = "UPDATE $sql_table SET $score = $newScore WHERE $studentID = $id AND $attempt_number=$attempt ";
@@ -234,7 +234,7 @@
         $check = mysqli_fetch_all($resultSearch);
         if(!sizeof($check)){
             mysqli_free_result($resultSearch);
-            echo "<p class='error'>No student is found</p>";
+            echo "<p class='error'>No student's name is found</p>";
             return;
         }
         $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
@@ -245,6 +245,10 @@
 
     function allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number){
         $search = sanitise_input($_GET['all']);
+        if($search==''){
+            echo "<p class='error'>No student's name or id is found</p>";
+            return;
+        }
         $querySearch = "SELECT $firstname, $lastname,$studentID,$score, $create_at, $attempt_number FROM $sql_table
         WHERE CONCAT($firstname,' ',$lastname) = '$search' OR $firstname LIKE '$search%'
         OR $lastname LIKE '$search%' OR $studentID = '$search%'";
