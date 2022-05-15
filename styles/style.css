@@ -1786,3 +1786,8 @@ Cascading StyleSheet for Enhancements
     margin-left: 20px;
 }
 
+.success{
+    color: green;
+    font-size: 30px;
+    margin-left: 20px;
+}
