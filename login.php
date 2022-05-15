@@ -54,7 +54,7 @@
 			return;
 		}
 		if(strlen($password)<8){
-			$GLOBALS['errorHandler'] = "Password must have more than 8 characters";
+			$GLOBALS['errorHandler'] = "Invalid password";
 			return;
 		}
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";

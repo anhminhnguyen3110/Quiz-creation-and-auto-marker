@@ -60,7 +60,7 @@
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $student_id =  $_SESSION["StudentID"];
-        $attempt_query = "SELECT * FROM attempts WHERE ATTEMPT_NUMBER = 2 AND STUDENT_ID = $student_id";
+        $attempt_query = "SELECT * FROM attempts WHERE ATTEMPT_NUMBER = 2 AND STUDENT_ID = '$student_id'";
         $result = mysqli_query($conn, $attempt_query);
         //checking if maximum attempts have been reached
         if ($result->num_rows == 0) {

@@ -193,7 +193,7 @@
 
         // Check attempts left by Student ID
         $attempt = 1;
-        $attempts_left_query = "SELECT ATTEMPT_NUMBER FROM attempts WHERE STUDENT_ID = $student_id";
+        $attempts_left_query = "SELECT ATTEMPT_NUMBER FROM attempts WHERE STUDENT_ID = '$student_id'";
         $data = mysqli_query($conn, $attempts_left_query);
         if (!$data) {
             echo "Error: " . $attempts_left_query . "<br>" . mysqli_error($conn);
@@ -206,9 +206,8 @@
             }
             if ($attempts_left > 0) {
                 // Insert into table
-                $insert_query = "UPDATE attempts SET ATTEMPT_NUMBER = 2 WHERE STUDENT_ID = $student_id";
                 $insert_query = "INSERT INTO attempts (STUDENT_ID, FIRST_NAME, LAST_NAME, SCORE, CREATED_AT, ATTEMPT_NUMBER) 
-                    VALUES ($student_id, '$firstname',  '$lastname', $score, '$formatted_time', 2);";
+                    VALUES ('$student_id', '$firstname',  '$lastname', $score, '$formatted_time', 2);";
                 $result = mysqli_query($conn, $insert_query);
                 $attempt = 0;
                     
@@ -259,7 +258,7 @@
             echo "<h2 class='clearb'>Final Score: $score%</h2>";
             // Insert into table
             $sql = "INSERT INTO attempts (STUDENT_ID, FIRST_NAME, LAST_NAME, SCORE, CREATED_AT, ATTEMPT_NUMBER) 
-            VALUES ($student_id, '$firstname', '$lastname', $score, '$formatted_time', 1);";
+            VALUES ('$student_id', '$firstname', '$lastname', $score, '$formatted_time', 1);";
             
             if (mysqli_query($conn, $sql)) {
                 $attempt-=1;
