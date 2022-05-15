@@ -18,7 +18,7 @@
                 $output .= "<a href='logout.php'>Logout</a>";
             } else if ($adminLoggedIn) {
                 $output .= "<a href='manage.php'>Manage</a>";
-                $output .= "<a href='logoutAdmin.php'>Logout</a>";
+                $output .= "<a href='logout.php'>Logout</a>";
             } else {
                 $output .= "<a href='login.php'>Login</a>";
                 $output .= "<a href='loginAdmin.php'>Supervisor Login</a>";

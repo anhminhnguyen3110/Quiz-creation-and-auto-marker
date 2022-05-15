@@ -91,7 +91,7 @@
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
-                $username,
+                '$username',
                 '$password',
                 '$firstnameRegister',
                 '$lastnameRegister'
@@ -101,7 +101,7 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
-            header('location: checkattempts.php');
+            header('location: quiz.php');
         }
         if(isset($_POST['usernameRegister']) || isset($_POST['passwordRegister'])){
             $errorHandler = "";
