@@ -240,7 +240,7 @@
         $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
         $resultDelete = mysqli_query($conn, $queryDelete);
         mysqli_free_result($resultSearch);
-        echo "<h3>Delete successfully</h3>";
+        echo "<p class='success'>Delete successfully</p>";
     }
 
     function allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number){
@@ -260,9 +260,8 @@
     }
 
 
-    try {
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-    } catch (\Throwable $th) {
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    if($conn) {
         echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
     }
     // form hanlder

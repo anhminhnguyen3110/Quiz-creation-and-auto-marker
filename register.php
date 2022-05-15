@@ -115,16 +115,14 @@
             $accountID = "ACCOUNT_ID";
             $passwordStudent = "PASSWORD";
             $studentID = "STUDENT_ID";
-            try {
-                $conn = mysqli_connect($servername, $username, $password, $dbname);
-            } catch (\Throwable $th) {
+            $conn = mysqli_connect($servername, $username, $password, $dbname);
+            if(!$conn) {
                 echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
             }
 
             $query = "SELECT * FROM $sql_table";
-            try {
-                $result = mysqli_query($conn, $query);
-            } catch (\Throwable $th) {
+            $result = mysqli_query($conn, $query);
+            if($result) {
                 $create_table_query = "CREATE TABLE $sql_table(
                     $studentID VARCHAR(10) UNIQUE,
                     $firstname VARCHAR (30) NOT NULL,
