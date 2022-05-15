@@ -1521,7 +1521,7 @@ Cascading StyleSheet for Enhancements
 }
 
 .login-main {
-    min-height: 80vh;
+    min-height: 100vh;
     text-align: center;
     align-content: center;
 }
