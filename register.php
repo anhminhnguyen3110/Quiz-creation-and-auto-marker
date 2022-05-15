@@ -126,9 +126,9 @@
                 $result = mysqli_query($conn, $query);
             } catch (\Throwable $th) {
                 $create_table_query = "CREATE TABLE $sql_table(
-                    $studentID BIGINT NOT NULL UNIQUE,
-                    $firstname VARCHAR (60) NOT NULL,
-                    $lastname VARCHAR (60) NOT NULL,
+                    $studentID VARCHAR(10) UNIQUE,
+                    $firstname VARCHAR (30) NOT NULL,
+                    $lastname VARCHAR (30) NOT NULL,
                     $passwordStudent VARCHAR (60) NOT NULL,
                     PRIMARY KEY($studentID)
                 )";
