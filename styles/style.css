@@ -444,6 +444,15 @@ a.slide_next {
     /* font-family: 'Advent Pro', 'sans-serif'; */
     font: bold 50px 'Advent Pro', 'sans-serif';
 }
+.topic-h2{
+    text-align: center;
+    background-color: white;
+    color: #0F9FC7;
+    /* font-size: 50px; */
+    margin-top: 20px;
+    /* font-family: 'Advent Pro', 'sans-serif'; */
+    font: bold 50px 'Source Sans Pro', 'sans-serif';
+}
 #timetable-h1{
     line-height: 60px;
 }
@@ -862,12 +871,12 @@ a.slide_next {
 Design for the quiz page
 */
 
-legend {
+.legend_css {
     font-size: 35px;
     font-family: 'Advent Pro', sans-serif;
 }
 
-fieldset {
+.fieldset_css {
     margin-bottom: 25px;
     border-bottom: 0 none;
     border-left: 0 none;
@@ -904,6 +913,7 @@ fieldset {
     margin-bottom: 25px;
     box-shadow: 0 4px 8px 0 #000;
     padding-bottom: 25px;
+    min-height: 100vh;
 }
 
 .heading-quiz {
@@ -1409,24 +1419,26 @@ Cascading StyleSheet for Enhancements
         font-weight: 400;
     }
 }
+
 /*
-	Section for status.php
-	CHANGE IF NEEDED
-	Needs responsive design to work on other screen sizes
+    Cascading StyleSheet for Assignment 2
+    Section for status.php
+    CHANGE IF NEEDED
+    Needs responsive design to work on other screen sizes
 */
 
 #status {
-	height: 100%;
+    min-height: 100vh;
 }
 
 #status p {
-	text-align: center;
-	padding: 15px;
-	font-size: 2em;
+    text-align: center;
+    padding: 15px;
+    font-size: 2em;
 }
 
 #statustable {
-	margin: 50px auto;
+    margin: 50px auto;
     margin-top: 100px;
     table-layout: fixed;
     width: 75%;
@@ -1441,7 +1453,7 @@ Cascading StyleSheet for Enhancements
     color: black;
     font-size: 17px;
     text-shadow: 1px 1px 1px rgb(135, 206, 235);
-	height: 5em;
+    height: 5vh;
 }
 
 #statustable th {
@@ -1453,5 +1465,329 @@ Cascading StyleSheet for Enhancements
     letter-spacing: 1px;
     background-color: #cff3fd;
     text-align: center;
-	height: 7em;
+    height: 10vh;
+}
+
+#status h2 {
+    text-align: center;
+}
+
+/*login icon*/
+
+.circlebg {
+    background-color: #fff;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    text-align: center;
+    float: right;
+    overflow: hidden;
+}
+
+/*login page style*/
+.user-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    right: 15px;
+    border-radius: 5%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.user-dropdown a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.user-dropdown a:hover {
+    background-color: #d2d2d2;
+    color: #000;
+}
+
+.usericon {
+    padding: 3px 0;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.circlebg:hover .user-dropdown {
+    display: block;
+}
+
+.login-main {
+    min-height: 100vh;
+    text-align: center;
+    align-content: center;
+}
+
+.register-main {
+    min-height: 100vh;
+    text-align: center;
+    align-content: center;
+}
+
+.login, .register {
+    background-color: #2A2B38;
+    color: #ffeba7;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 75vw;
+    height: 60vh;
+    margin: 10vh auto;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}
+
+.login label, .register label {
+    font-size: 1.5em;
+    padding: 10px;
+    color: #ffeba7;
+    box-shadow: 5px 5px 5px #ffeba7;
+    transition: .5s;
+}
+
+.login fieldset legend, .register fieldset legend {
+    font-size: 4em;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.login input[type="text"], .login input[type="password"],
+.register input[type="text"], .register input[type="password"] {
+    width: 40%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 1.5em;
+    background-color: #1f2029;
+    color: #ffeba7;
+}
+
+.login input[type="submit"], .register input[type="submit"] {
+    background-color: #ffeba7;
+    color: #1f2029;
+    font-size: 1.5em;
+    padding: 10px;
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
+}
+
+.login input[type="submit"]:hover, .register input[type="submit"]:hover {
+    box-shadow: 0px 0px 5px 2.5px #ffeba7;
+}
+
+.choice {
+    padding: 8px;
+    font-size: 1.5em;
+}
+
+.loginORsignup {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.loginORsignup a {
+    padding: 12px 8px;
+    font-family: 'Advent Pro', sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #1f2029;
+    border: 1px solid #1f2029;
+    color: #0F9FC7;
+    text-decoration: none;
+}
+
+.loginORsignup a:hover {
+    background-color: #0F9FC7;
+    color: #000;
+}
+
+.loginORsignup a.act {
+    background-color: #0F9FC7;
+    color: #000;
+}
+
+.spacious {
+    padding: 10px;
+    height: 75vh;
+}
+
+#attempts {
+    font-size: 1.5em;
+    padding: 10px;
+    text-align: center;
+}
+
+#attempts ul li {
+    list-style: inside;
+}
+
+#attempts ul li a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.info {
+    font-family: 'Advent Pro';
+    padding: 10px;
+    font-size: 2em;
+    float: left;
+    clear: both;
+}
+.clearb {
+    clear: both;
+    margin: 5px;
+}
+.full {
+    background-color: #fff;
+    border: solid 3px #12c3f4;
+    border-radius: 15px;
+    margin: 0px auto;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    width: 96%;
+    min-height: 100vh;
+    box-shadow: 2.5px 2.5px #000;
+}
+.undo h2 {
+    content:"";
+    display:block;
+    clear:both;
+}
+#manage_container #item1{
+    grid-area: item1;
+}
+#manage_container #item2{
+    grid-area: item2;
+}
+#manage_container #item3{
+    grid-area: item3;
+}
+#manage_container{
+    display: grid;
+    grid-template-areas: "item1 item2"
+                         "item3 item3";
+}
+/* .manage_table_container:nth-child(1){
+    background-color: #000;
+    grid-area: h1;
+}
+.manage_table_container:nth-child(2){
+    grid-area: t1;
+}
+.manage_table_container:nth-child(3){
+    grid-area: h2;
+}
+.manage_table_container:nth-child(4){
+    grid-area: t2;
+} */
+.manage_table_container {
+    display: grid;
+    grid-template-areas: "a d"
+                         "b c"
+    ;
+}
+#manage_header{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 400;
+    margin-top: 10px;
+}
+.manage_form{
+    display: grid;
+    margin: 5px;
+    padding: 5px;
+}
+.manage_form fieldset{
+    border-radius: 15px;
+    font-size: 20px;
+    box-shadow: 2px 2px black;
+}
+.manage_form legend{
+    margin-left: 20px;
+    font-size: 20px;
+}
+.manage_form label{
+    margin-left: 20px;
+}
+.manage_table {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 96%;
+    box-shadow: 2px 2px rgb(61, 51, 51);
+}
+  
+.manage_table td, .manage_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+  
+.manage_table tr:nth-child(odd){background-color: #f2f2f2;}
+
+.manage_table tr:hover {background-color: #ddd;}
+  
+.manage_table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #1E90FF;
+    color: white;
+}
+
+.manage_all{
+    margin-left: 15px;
+    font-size: 25px;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.manageText, .manageSelect {
+    width: 98%;
+    padding: 12px 20px;
+    margin: 8px;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.manageSubmit {
+    width: 120px;
+    background-color: #1E90FF;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    margin-left: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.error {
+    color: red;
+    font-size: 30px;
+    margin-left: 20px;
+}
+
+.success{
+    color: green;
+    font-size: 30px;
+    margin-left: 20px;
 }

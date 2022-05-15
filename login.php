@@ -2,18 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 2" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
 <body>
-	<h1>Login</h1>
+	<!--Header(with menu)-->
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("login");
+        echo "</header>"
+    ?>
+	<article class='login-main'>
 	<?php
-	session_start();
+
 	if(isset($_SESSION['StudentID'])){
-		header('location: quiz.php');
+		header('location: checkattempts.php');
 	}
 	$errorHandler = "";
 	function sanitise_input($data){
@@ -26,13 +37,13 @@
 		$errMsg = "";
 		if ($student_id =="") {
 			$errMsg = $errMsg. "<p>You must enter a student id</p>";
-		} else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+		} else if (!preg_match("/^(\d{7}|\d{10})$/", $student_id)) {
 			$errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
 		}
 		return $errMsg;
 	}
 	function handleLogin($conn, $sql_table, $studentID, $passwordStudent){
-        $username = (int)sanitise_input($_POST['usernameLogin']);
+        $username = sanitise_input($_POST['usernameLogin']);
         $password = sanitise_input($_POST['passwordLogin']);
         if(studentid_validate($username)){
 			$GLOBALS['errorHandler'] = studentid_validate($username);
@@ -43,25 +54,24 @@
 			return;
 		}
 		if(strlen($password)<8){
-			$GLOBALS['errorHandler'] = "Password must have more than 8 characters";
+			$GLOBALS['errorHandler'] = "Invalid password";
 			return;
 		}
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
-			$GLOBALS['errorHandler'] = "No username is provided";
+			$GLOBALS['errorHandler'] = "No Student ID is provided";
 			return;
 		}
 		if($res['PASSWORD'] != $password){
-			$GLOBALS['errorHandler'] = "Bad Credential!";
+			$GLOBALS['errorHandler'] = "Incorrect password!";
 			return;
 		}
 		$_SESSION["StudentID"] = $username;
-
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		header('location: quiz.php');
+		header('location: checkattempts.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
 		$errorHandler = "";
@@ -72,18 +82,19 @@
 		$sql_table = "students";
 		$passwordStudent = "PASSWORD";
 		$studentID = "STUDENT_ID";
-		try {
-			$conn = mysqli_connect($servername, $username, $password, $dbname);
-		} catch (\Throwable $th) {
+		$conn = mysqli_connect($servername, $username, $password, $dbname);
+		if (!$conn) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}
 
 		$query = "SELECT * FROM $sql_table";
-		try {
-			$result = mysqli_query($conn, $query);
-		} catch (\Throwable $th) {
+		$result = mysqli_query($conn, $query);
+		if (!$result)
+		{
 			$create_table_query = "CREATE TABLE $sql_table(
-				$studentID INT NOT NULL UNIQUE,
+				$studentID VARCHAR(10) UNIQUE,
+				$firstname VARCHAR (30) NOT NULL,
+				$lastname VARCHAR (30) NOT NULL,
 				$passwordStudent VARCHAR (60) NOT NULL,
 				PRIMARY KEY($studentID)
 			)";
@@ -92,24 +103,28 @@
         handleLogin($conn, $sql_table, $studentID, $passwordStudent);
     }
 	?>
-	<form method="POST" action="">
+	<ul class="loginORsignup">
+		<li><h2><a href="login.php" class='act'>Log In</a></h2></li>
+		<li><h2><a href="register.php">Sign Up</a></h2></li>
+	</ul>
+	<form method="POST" action="login.php" class="login">
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
 				echo "<p>$errorHandler</p>";
 			} 
 			?>
-			<legend>Login</legend>
-			<label for="usernameL">StudentID: </label>
-			<input name="usernameLogin" id="usernameL"/><br/>
-			<label for="passwordL">Password: </label>
-			<input type="password" name="passwordLogin" id="passwordL"/><br/>
+			<legend>Log In</legend>
+			<label for="usernameL">@</label>
+			<input type="text" name="usernameLogin" id="usernameL" placeholder="Student ID"/><br/><br/>
+			<label for="passwordL">🔒</label>
+			<input type="password" name="passwordLogin" id="passwordL" placeholder="Password"/><br/><br/>
 			<input type="submit"/>
-			<br/>
-			<p>Haven't had an account? <a href="register.php"> Register here</a></p>
 		</fieldset>
 	</form>
+	</article>
 
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
-
 </html>

@@ -2,15 +2,26 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+    <meta name="description" content="COS10026 Assignment 2" />
+    <meta name="keywords" content="HTML, CSS, JavaScript" />
+    <meta name="author" content="React Lions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css"/>
+    <link rel="icon" href="images/react.svg">
     <title>Document</title>
 </head>
 
 <body>
+    <!--Header(with menu)-->
+    <?php 
+        include ("header.inc");
+        include ("menu.inc");
+        echo menu("register");
+        echo "</header>"
+    ?>
+	<article class='register-main'>
     <?php
-    	session_start();
         if(isset($_SESSION['StudentID'])){
             header('location: quiz.php');
         }
@@ -25,7 +36,7 @@
             $errMsg = "";
             if ($student_id =="") {
                 $errMsg = $errMsg. "<p>You must enter a student id</p>";
-            } else if (!preg_match("/^\d{7,10}$/", $student_id)) {
+            } else if (!preg_match("/^(\d{7}|\d{10})$/", $student_id)) {
                 $errMsg = $errMsg. "<p>Only 7 or 10 digits allowed in your student id.</p>";
             }
             return $errMsg;
@@ -33,8 +44,10 @@
         function name_validate($name){
             $errMsg = "";
             if ($name =="") {
-                $errMsg = $errMsg. "<p>You must enter a name. </p>";
-            } else if (!preg_match("/[a-zA-Z- ]{1,30}/", $name)) {
+                $errMsg = $errMsg."<p>You must enter a name. </p>";
+            } else if (strlen($name) > 30){
+                $errMsg = $errMsg."<p>Only maximum of 30 characters allowed.</p>";
+            } else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
                 $errMsg = $errMsg. "<p>Only alpha, space, hyphen characters allowed in your name.</p>";
             }
             return $errMsg;
@@ -43,7 +56,7 @@
 
 
         function handleRegister($conn, $sql_table, $passwordStudent,$studentID ,$firstname ,$lastname){
-            $username = (int)sanitise_input($_POST['usernameRegister']);
+            $username = sanitise_input($_POST['usernameRegister']);
             $password = sanitise_input($_POST['passwordRegister']);
             $firstnameRegister = sanitise_input($_POST['firstnameRegister']);
             $lastnameRegister = sanitise_input($_POST['lastnameRegister']);
@@ -68,10 +81,17 @@
                 $GLOBALS['errorHandler'] = name_validate($lastnameRegister);
                 return;
             }
+            $usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
+            $result = mysqli_query($conn, $usernameSQuery);
+            $res = mysqli_fetch_assoc($result);
+            if($res){
+                $GLOBALS['errorHandler'] = "Student ID is already taken";
+                return;
+            }
             $registerQuery = "INSERT INTO $sql_table
             ($studentID, $passwordStudent, $firstname, $lastname)
             VALUES (
-                $username,
+                '$username',
                 '$password',
                 '$firstnameRegister',
                 '$lastnameRegister'
@@ -81,8 +101,6 @@
             $_SESSION["StudentID"] = $username;
             $_SESSION["firstname"] = $firstnameRegister;
             $_SESSION["lastname"] = $lastnameRegister;
-    		$_SESSION["time"] = time();
-            echo 'register successfully';
             header('location: quiz.php');
         }
         if(isset($_POST['usernameRegister']) || isset($_POST['passwordRegister'])){
@@ -97,21 +115,18 @@
             $accountID = "ACCOUNT_ID";
             $passwordStudent = "PASSWORD";
             $studentID = "STUDENT_ID";
-            try {
-                $conn = mysqli_connect($servername, $username, $password, $dbname);
-            } catch (\Throwable $th) {
+            $conn = mysqli_connect($servername, $username, $password, $dbname);
+            if (!$conn) {
                 echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
             }
 
             $query = "SELECT * FROM $sql_table";
-            try {
-                $result = mysqli_query($conn, $query);
-            } catch (\Throwable $th) {
+            $result = mysqli_query($conn, $query);
+            if (!$result) {
                 $create_table_query = "CREATE TABLE $sql_table(
-                    $accountID INT NOT NULL AUTO_INCREMENT,
-                    $studentID INT NOT NULL UNIQUE,
-                    $firstname VARCHAR (60) NOT NULL,
-                    $lastname VARCHAR (60) NOT NULL,
+                    $studentID VARCHAR(10) UNIQUE,
+                    $firstname VARCHAR (30) NOT NULL,
+                    $lastname VARCHAR (30) NOT NULL,
                     $passwordStudent VARCHAR (60) NOT NULL,
                     PRIMARY KEY($studentID)
                 )";
@@ -121,8 +136,11 @@
             handleRegister($conn, $sql_table, $passwordStudent, $studentID,$firstname ,$lastname);
         }
     ?>
-	<h1>Register</h1>
-	<form method="POST" action="">
+	<ul class="loginORsignup">
+		<li><h2><a href="login.php">Log In</a></h2></li>
+		<li><h2><a href="register.php" class='act'>Sign Up</a></h2></li>
+	</ul>
+	<form method="POST" action="register.php" class='register'>
 		<fieldset>
             <?php if(!empty($errorHandler)) 
                 { 
@@ -130,19 +148,20 @@
                 } 
 			?>
 			<legend>Register</legend>
-			<label for="usernameR">StudentID:&nbsp; </label>
-			<input name="usernameRegister" id="usernameR"/><br/>
-			<label for="password">Password:&nbsp;&nbsp; </label>
+			<label for="usernameR">Student ID</label>
+			<input type="text" name="usernameRegister" id="usernameR"/><br/>
+			<label for="passwordR">Password</label>
 			<input type="password" name="passwordRegister" id="passwordR"/><br/>
-            <label for="firstname">First Name: </label>
+            <label for="firstnameR">First Name</label>
 			<input type="text" name="firstnameRegister" id="firstnameR"/><br/>
-            <label for="lastname">Last Name: </label>
+            <label for="lastnameR">Last Name</label>
 			<input type="text" name="lastnameRegister" id="lastnameR"/><br/>
 			<input type="submit"/>
-			<p>Already had an account? <a href="login.php">Login here</a></p>
 		</fieldset>
 	</form>
+    </article>
 
+    <!--Footer-->
+    <?php include_once 'footer.inc'; ?>
 </body>
-
 </html>
