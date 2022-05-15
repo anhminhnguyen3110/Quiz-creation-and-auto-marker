@@ -171,7 +171,7 @@
 				echo "<p class='error'>$errorHandler</p>";
 			} 
 			?>
-			<legend>Supervisor Login</legend>
+			<legend><h2> Supervisor Login </h2> </legend>
 			<label for="usernameAdmin">@</label>
 			<input type="text" name="usernameAdmin" id="usernameAdmin" placeholder="Admin ID"/><br/>
 			<label for="passwordAdmin">🔒</label>
