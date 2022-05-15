@@ -258,10 +258,8 @@
         displayTableStudentSearch($resultSearch);
         mysqli_free_result($resultSearch);
     }
-
-
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-    if($conn) {
+    if (!$conn) {
         echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
     }
     // form hanlder

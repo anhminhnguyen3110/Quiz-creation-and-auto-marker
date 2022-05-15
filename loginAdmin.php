@@ -40,7 +40,7 @@
 		$createdAt = "CREATED_AT";
 		$attemptTime = "ATTEMPT_TIME";
 		$result = mysqli_query($conn, $query);
-		if($result) {
+		if (!$result) {
 			$create_table_query = "CREATE TABLE $sql_table( 
 				$username VARCHAR (30) NOT NULL,
 				$createdAt INT NOT NULL,
@@ -148,13 +148,13 @@
         $usernameAdmin = "USER_NAME";
 		$passwordAdmin = "PASSWORD";
 		$conn = mysqli_connect($servername, $host, $password, $dbname);
-		if($conn) {
+		if (!$conn) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}
 
 		$query = "SELECT * FROM $sql_table";
 		$result = mysqli_query($conn, $query);
-		if($result) {
+		if (!$result) {
 			$create_table_query = "CREATE TABLE $sql_table(
                 $userID INT NOT NULL UNIQUE,
                 $username VARCHAR (30) NOT NULL PRIMARY KEY,

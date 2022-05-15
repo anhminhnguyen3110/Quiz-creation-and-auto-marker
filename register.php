@@ -116,13 +116,13 @@
             $passwordStudent = "PASSWORD";
             $studentID = "STUDENT_ID";
             $conn = mysqli_connect($servername, $username, $password, $dbname);
-            if(!$conn) {
+            if (!$conn) {
                 echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
             }
 
             $query = "SELECT * FROM $sql_table";
             $result = mysqli_query($conn, $query);
-            if($result) {
+            if (!$result) {
                 $create_table_query = "CREATE TABLE $sql_table(
                     $studentID VARCHAR(10) UNIQUE,
                     $firstname VARCHAR (30) NOT NULL,
