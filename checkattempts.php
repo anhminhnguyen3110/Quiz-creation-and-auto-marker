@@ -56,26 +56,29 @@
             );";
             $result = @mysqli_query($conn, $create_table_query);
         }
-                $student_id =  $_SESSION["StudentID"];
-                $attempt_query = "SELECT * FROM attempts WHERE ATTEMPT_NUMBER = 2 AND STUDENT_ID = $student_id";
-                $result = mysqli_query($conn, $attempt_query);
-                //checking if maximum attempts have been reached
-                if ($result->num_rows == 0) {
-                    header('location: quiz.php');
-                } else {
-                    echo "
-                    <main class='full'>
-                    <section id='attempts'>
-                    <h2>You have reached the maximum number of attempts for the Quiz.</h2>
-                    <p>You can not attempt the quiz again:</p>
-                        <ul>
-                            <li>Explore the <a href='index.php'>website</a>!</li>
-                            <li>View your progress <a href='status.php'>status</a> for attempts!</li>
-                        </ul>
-                    </section>
-                    </main>";
-                }
-            }
+
+        $sql_table = "attempts";
+        $query = "SELECT * FROM $sql_table";
+        $student_id =  $_SESSION["StudentID"];
+        $attempt_query = "SELECT * FROM attempts WHERE ATTEMPT_NUMBER = 2 AND STUDENT_ID = $student_id";
+        $result = mysqli_query($conn, $attempt_query);
+        //checking if maximum attempts have been reached
+        if ($result->num_rows == 0) {
+            header('location: quiz.php');
+        } else {
+            echo "
+            <main class='full'>
+            <section id='attempts'>
+            <h2>You have reached the maximum number of attempts for the Quiz.</h2>
+            <p>You can not attempt the quiz again:</p>
+                <ul>
+                    <li>Explore the <a href='index.php'>website</a>!</li>
+                    <li>View your progress <a href='status.php'>status</a> for attempts!</li>
+                </ul>
+            </section>
+            </main>";
+        }
+            
 
         //Footer
         include_once 'footer.inc';
