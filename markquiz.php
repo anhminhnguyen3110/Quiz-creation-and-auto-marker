@@ -44,8 +44,6 @@
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $result = @mysqli_query($conn, $query);
-    
-        
         // Create table if not exists
         if (!$result) {
             $create_table_query = "CREATE TABLE $sql_table(

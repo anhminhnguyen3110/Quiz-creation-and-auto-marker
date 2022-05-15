@@ -41,9 +41,8 @@
         } 
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
-        try {
-            $result = @mysqli_query($conn, $query);
-        } catch (\Throwable $th) {
+        $result = @mysqli_query($conn, $query);
+        if (!$result){
             $create_table_query = "CREATE TABLE $sql_table(
                 ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 STUDENT_ID VARCHAR(10) NOT NULL,
