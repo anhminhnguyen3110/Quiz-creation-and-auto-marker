@@ -71,7 +71,7 @@
 		$_SESSION["StudentID"] = $username;
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
-		header('location: quiz.php');
+		header('location: checkattempts.php');
     }
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
 		$errorHandler = "";
