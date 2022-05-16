@@ -82,6 +82,8 @@
 		$sql_table = "students";
 		$passwordStudent = "PASSWORD";
 		$studentID = "STUDENT_ID";
+		$firstname = "FIRST_NAME";
+        $lastname = "LAST_NAME";
 		$conn = mysqli_connect($servername, $username, $password, $dbname);
 		if (!$conn) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
