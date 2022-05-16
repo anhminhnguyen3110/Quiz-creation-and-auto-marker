@@ -254,7 +254,6 @@
         OR $lastname LIKE '$search%' OR $studentID = '$search'";
         $resultSearch = mysqli_query($conn, $querySearch);
         $count = mysqli_fetch_lengths($resultSearch);
-        echo "<h1>$count</h1>";
         displayTableStudentSearch($resultSearch);
         mysqli_free_result($resultSearch);
     }
@@ -268,7 +267,7 @@
         changeAttemptHandler($conn, $sql_table, $score, $studentID,  $attempt_number);
     }
     // All attempts
-    echo '<form class="manage_form" method="get" action="manage.php">
+    echo '<form class="manage_form" method="get" id="sortManage" action="manage.php">
     <fieldset class="fieldsetManage">
     <legend class="legendManage">Sort by</legend>
             <label for="sort">Column</label><br/>
@@ -287,27 +286,25 @@
         </fieldset>
     </form>';
     echo "<h3 class='manage_all'>All quiz attempts</h3>";
+    $create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
+            ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            STUDENT_ID VARCHAR(10) NOT NULL,
+            FIRST_NAME VARCHAR(30) NOT NULL,
+            LAST_NAME VARCHAR (30) NOT NULL,
+            SCORE TINYINT NOT NULL,
+            CREATED_AT DATETIME NOT NULL,
+            ATTEMPT_NUMBER TINYINT NOT NULL,
+            FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
+        );";
+    
+    $result = mysqli_query($conn, $create_table_query);
     $query = "SELECT * FROM $sql_table";
     if(isset($_GET['sortColumn']) || isset($GET['sortDirection'])){
         $sortColumn = $_GET['sortColumn'];
         $sortDirection = strtoupper($_GET['sortDirection']);
         $query = $query." ORDER BY $sortColumn $sortDirection";
     }
-    
-    
     $result = mysqli_query($conn, $query);
-    if (!$result) {
-        $create_table_query = "CREATE TABLE attempts(
-            ATTEMPT_ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            STUDENT_ID BIGINT,
-            FIRST_NAME VARCHAR(30),
-            LAST_NAME VARCHAR (30),
-            SCORE TINYINT,
-            ATTEMPT_TIME DATETIME,
-            ATTEMPT_NUM TINYINT
-        );";
-        $result = mysqli_query($conn, $create_table_query);
-    }
     displayTable($result);
     // Who got 100%
     echo "<div class='manage_table_container'>";

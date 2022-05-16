@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="icon" href="images/react.svg">
-    <title>Document</title>
+    <title>Supervisor login</title>
 </head>
 
 <body>
@@ -36,19 +36,15 @@
 	
 	function loginSecurityHandler($usernameInput,$username, $conn){
 		$sql_table = 'logSecurity';
-		$query = "SELECT * FROM $sql_table";
 		$createdAt = "CREATED_AT";
 		$attemptTime = "ATTEMPT_TIME";
-		$result = mysqli_query($conn, $query);
-		if (!$result) {
-			$create_table_query = "CREATE TABLE $sql_table( 
-				$username VARCHAR (30) NOT NULL,
-				$createdAt INT NOT NULL,
-				$attemptTime INT NOT NULL,
-				FOREIGN KEY ($username) REFERENCES admin($username)
-			)";
-			$result = mysqli_query($conn, $create_table_query);
-		}
+		$create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table( 
+			$username VARCHAR (30) NOT NULL,
+			$createdAt INT NOT NULL,
+			$attemptTime INT NOT NULL,
+			FOREIGN KEY ($username) REFERENCES admin($username)
+		)";
+		$result = mysqli_query($conn, $create_table_query);
 		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
 		$result = mysqli_query($conn, $query);
 		$row = mysqli_fetch_assoc($result);
@@ -152,15 +148,12 @@
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}
 
-		$query = "SELECT * FROM $sql_table";
-		$result = mysqli_query($conn, $query);
-		if (!$result) {
-			$create_table_query = "CREATE TABLE $sql_table(
-                $userID INT NOT NULL UNIQUE,
-                $username VARCHAR (30) NOT NULL PRIMARY KEY,
-                $passwordAdmin VARCHAR (60) NOT NULL)";
-			$result = mysqli_query($conn, $create_table_query);
-		}
+
+		$create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
+			$userID INT NOT NULL UNIQUE,
+			$username VARCHAR (30) NOT NULL PRIMARY KEY,
+			$passwordAdmin VARCHAR (60) NOT NULL)";
+		$result = mysqli_query($conn, $create_table_query);
         handleLogin($conn, $sql_table, $usernameAdmin);
     }
 	?>

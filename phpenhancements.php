@@ -7,14 +7,14 @@
     <meta name="author" content="React Lions" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/style.css"/>
-    <title>Enhancements</title>
+    <title>Servers Enhancements</title>
 </head>
 <body>
     <!--Header(with menu)-->
     <?php 
         include ("header.inc");
         include ("menu.inc");
-        echo menu("enhancements");
+        echo menu("phpEnhancement");
         echo "</header>"
         ?>
 
@@ -46,26 +46,24 @@
         
         <?php
             echo "<section class='item'>
-                    <h2>Responsive design</h2>
-                    <p>The goal of responsive web design is to create web pages using HTML and CSS that appear nice on all devices such as desktops, tablets, and phones. A responsive web design will adapt to changing screen sizes and viewports automatically.</p>
-                    <p>Required code: </p>
-                    <p>In HTML, to make responsive website, developer need to use &lt;meta&gt; tag with name \"viewport\" and set initial-scale with 1.0</p>
-                    <p>In CSS, for each viewports such developers need to build specific CSS selecters and property for each view port such as for tablet and smart phone the font size would be smaller and the content would be arranged to be a column instead of a row.
-                        Using \"@media\" property and a specific max-width(size of viewport) for different viewports.
-                    </p>
-                    <p>In CSS, there are also grid and flow properties to manage reponsive design (divide a block to mutilple column and resize that with different viewports automatically)</p>
-                    <p>For the small devices such as Mobile Phones and Tablets, we created a <strong>Hamburger menu</strong> as an innovation <em>without using JavaScript</em>, we used the <strong> :checked pseudo element </strong> in css and html as checkbox to make the menu visible when it is clicked.</p>
-                </section>
-                <section class='item'>
-                    <h2>Animation</h2>
-                    <p><strong>This is an Advance CSS</strong></p>
-                    <p>An animation allows an element to transition from one style to another gradually. To utilise CSS animation, you must first define the animation's keyframes. Keyframes define the styles that an element will have at different points in time.</p>
-                    <p>In CSS,there is a property called \"@keyframe\" to implement the animation spin the logo made by CSS 360 degree with a same speed from beginning to the end infinitely.
-                    </p>
-                    <p>In that logo, developer need to put an animation element (roll), so the element could know which animation it have to implement and how long it must occur.</p>
-                    <p><a href='#gap'>Click here to View Infinitely-spinning logo</a></p> 
-                    <p><a href='./index.php#index-container'>Click here to View Slide animation</a></p> 
+                    <h2>Student login and register system</h2>
+                    <p>The goal of this system is to store the firstname, lastname and student_id of student in a new table called student that is required so with a student id, there can be only one consistent firstname and lastname.
+                    This also includes other enhancement, that is normalising the attempt table and create a primary key for that, foreign key for students table and link them together</p>
+                    <p>There is a site for register so student can register their information to start doing the quiz, as well as a login, link here <a href='logoutEnhancements.php'>login & register</a></p>
                 </section>";
+
+            echo "<section class='item'>
+                <h2>Admin login and security handler</h2>
+                <p>The goal of this enhancement is to create a table storing username and password to access manage.php, if an user wrongly type password three times, the access to that account will be blocked for 5 miniutes until it can be log in again.</p>
+                <p>There is a site for supervisor login to access manage.php, link here <a href='logoutAminEnhancements.php'>Supervisor login</a></p>
+            </section>";
+
+            echo "<section class='item'>
+                <h2>Admin sort option</h2>
+                <p>This enhancement allows admin to sort the table according to criteria such as score, attemptId, firstname and lastname, which make it more easier to arrange data.</p>
+                <p><a href='./manage.php#sortManage'>Table sorting feature</a></p>
+            </section>";
+
         ?>
     </main>
     

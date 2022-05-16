@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="icon" href="images/react.svg">
-    <title>Document</title>
+    <title>Register</title>
 </head>
 
 <body>
@@ -120,18 +120,16 @@
                 echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
             }
 
-            $query = "SELECT * FROM $sql_table";
-            $result = mysqli_query($conn, $query);
-            if (!$result) {
-                $create_table_query = "CREATE TABLE $sql_table(
-                    $studentID VARCHAR(10) UNIQUE,
-                    $firstname VARCHAR (30) NOT NULL,
-                    $lastname VARCHAR (30) NOT NULL,
-                    $passwordStudent VARCHAR (60) NOT NULL,
-                    PRIMARY KEY($studentID)
-                )";
-                $result = mysqli_query($conn, $create_table_query);
-            }
+      
+            $create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
+                $studentID VARCHAR(10) UNIQUE,
+                $firstname VARCHAR (30) NOT NULL,
+                $lastname VARCHAR (30) NOT NULL,
+                $passwordStudent VARCHAR (60) NOT NULL,
+                PRIMARY KEY($studentID)
+            )";
+            $result = mysqli_query($conn, $create_table_query);
+            
             
             handleRegister($conn, $sql_table, $passwordStudent, $studentID,$firstname ,$lastname);
         }
