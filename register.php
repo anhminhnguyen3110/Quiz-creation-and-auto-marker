@@ -138,7 +138,7 @@
 		<fieldset>
             <?php if(!empty($errorHandler)) 
                 { 
-                    echo "<p>$errorHandler</p>";
+                    echo "$errorHandler";
                 } 
 			?>
 			<legend>Register</legend>

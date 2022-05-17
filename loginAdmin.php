@@ -161,7 +161,7 @@
 		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
-				echo "<p class='error'>$errorHandler</p>";
+				echo "$errorHandler";
 			} 
 			?>
 			<legend><h2> Supervisor Login </h2> </legend>
