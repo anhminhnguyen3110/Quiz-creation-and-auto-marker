@@ -62,11 +62,11 @@
                 return;
             }
             if(empty($password)){
-                $GLOBALS['errorHandler'] = "Invalid password";
+                $GLOBALS['errorHandler'] = "<p>Invalid password</p>";
                 return;
             }
             if(strlen($password)<8){
-                $GLOBALS['errorHandler'] = "Password must have more than 8 characters";
+                $GLOBALS['errorHandler'] = "<p>Password must have more than 8 characters</p>";
                 return;
             }
             if(name_validate($firstnameRegister)){
@@ -81,7 +81,7 @@
             $result = mysqli_query($conn, $usernameSQuery);
             $res = mysqli_fetch_assoc($result);
             if($res){
-                $GLOBALS['errorHandler'] = "Student ID is already taken";
+                $GLOBALS['errorHandler'] = "<p>Student ID is already taken</p>";
                 return;
             }
             $registerQuery = "INSERT INTO $sql_table

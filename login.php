@@ -50,22 +50,22 @@
 			return;
 		}
 		if(empty($password)){
-			$GLOBALS['errorHandler'] = "Invalid password";
+			$GLOBALS['errorHandler'] = "<p>Invalid password</p>";
 			return;
 		}
 		if(strlen($password)<8){
-			$GLOBALS['errorHandler'] = "Invalid password";
+			$GLOBALS['errorHandler'] = "<p>Invalid password</p>";
 			return;
 		}
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
-			$GLOBALS['errorHandler'] = "No Student ID is provided";
+			$GLOBALS['errorHandler'] = "<p>No Student ID is provided</p>";
 			return;
 		}
 		if($res['PASSWORD'] != $password){
-			$GLOBALS['errorHandler'] = "Incorrect password!";
+			$GLOBALS['errorHandler'] = "<p>Incorrect password!</p>";
 			return;
 		}
 		$_SESSION["StudentID"] = $username;

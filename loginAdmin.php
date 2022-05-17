@@ -67,10 +67,10 @@
 			WHERE $username = '$usernameInput'
 			";
 			$tmpAttempt = 3 - $tmpAttempt;
-			$GLOBALS['errorHandler'] = "Attempt left: $tmpAttempt, Bad credentail !";
+			$GLOBALS['errorHandler'] = "<p>Attempt left: $tmpAttempt, Bad credentail !</p>";
 			$result = mysqli_query($conn, $query);
 		}else if($row[$attemptTime]==3){
-			$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+			$GLOBALS['errorHandler'] = "<p>Maximum of attempt to login this account</p>";
 		}
 	}
 
@@ -80,18 +80,18 @@
 		$attemptTime = "ATTEMPT_TIME";
 		$createdAt = "CREATED_AT";
 		if(empty($passwordInput)){
-			$GLOBALS['errorHandler'] = "Invalid password";
+			$GLOBALS['errorHandler'] = "<p>Invalid password</p>";
 			return;
 		}
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
 		if(!$res){
-			$GLOBALS['errorHandler'] = "No username is provided";
+			$GLOBALS['errorHandler'] = "<p>No username is provided</p>";
 			return;
 		}
 		if($res['PASSWORD'] != $passwordInput){
-			$GLOBALS['errorHandler'] = "Incorrect password!";
+			$GLOBALS['errorHandler'] = "<p>Incorrect password!</p>";
 			loginSecurityHandler($usernameInput,$username, $conn);
 			return;
 		}
@@ -110,7 +110,7 @@
 					";
 					mysqli_query($conn, $query);
 				}else{
-					$GLOBALS['errorHandler'] = "Maximum of attempt to login this account";
+					$GLOBALS['errorHandler'] = "<p>Maximum of attempt to login this account</p>";
 					return;
 				}
 			}else{
