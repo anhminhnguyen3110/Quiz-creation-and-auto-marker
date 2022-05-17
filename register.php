@@ -135,12 +135,12 @@
 		<li><h2><a href="register.php" class='act'>Sign Up</a></h2></li>
 	</ul>
 	<form method="POST" action="register.php" class='register'>
-		<fieldset>
             <?php if(!empty($errorHandler)) 
                 { 
                     echo "$errorHandler";
                 } 
 			?>
+		<fieldset>
 			<legend>Register</legend>
 			<label for="usernameR">Student ID</label>
 			<input type="text" name="usernameRegister" id="usernameR"/><br/>

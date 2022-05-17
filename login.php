@@ -106,12 +106,12 @@
 		<li><h2><a href="register.php">Sign Up</a></h2></li>
 	</ul>
 	<form method="POST" action="login.php" class="login">
-		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
 				echo "$errorHandler";
 			} 
 			?>
+		<fieldset>
 			<legend>Log In</legend>
 			<label for="usernameL">@</label>
 			<input type="text" name="usernameLogin" id="usernameL" placeholder="Student ID"/><br/><br/>

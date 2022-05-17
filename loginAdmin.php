@@ -158,12 +158,12 @@
     }
 	?>
 	<form method="POST" action="loginAdmin.php" class="login">
-		<fieldset>
 			<?php if(!empty($errorHandler)) 
 			{ 
 				echo "$errorHandler";
 			} 
 			?>
+		<fieldset>
 			<legend><h2> Supervisor Login </h2> </legend>
 			<label for="usernameAdmin">@</label>
 			<input type="text" name="usernameAdmin" id="usernameAdmin" placeholder="Admin ID"/><br/>
