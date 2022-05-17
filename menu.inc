@@ -40,27 +40,27 @@
             $result = $result."<li><a href='index.php' class='this'>Home</a></li>
                 <li><a href='topic.php'>Topic</a></li>
                 <li><a href='checkattempts.php'>Quiz</a></li>
-                <li><a href='enhancements.php'>Enhanced</a></li>";
+                <li><a href='phpenhancements.php'>PHP Enhanced</a></li>";
         } else if ($which == "topic") {
             $result = $result."<li><a href='index.php'>Home</a></li>
                 <li><a href='topic.php' class='this'>Topic</a></li>
                 <li><a href='checkattempts.php'>Quiz</a></li>
-                <li><a href='enhancements.php'>Enhanced</a></li>";
+                <li><a href='phpenhancements.php'>PHP Enhanced</a></li>";
         } else if ($which == "quiz") {
             $result = $result."<li><a href='index.php'>Home</a></li>
                 <li><a href='topic.php'>Topic</a></li>
                 <li><a href='checkattempts.php' class='this'>Quiz</a></li>
-                <li><a href='enhancements.php'>Enhanced</a></li>";
-        } else if ($which == "enhancements") {
+                <li><a href='phpenhancements.php'>PHP Enhanced</a></li>";
+        } else if ($which == "phpenhancements.php") {
             $result = $result."<li><a href='index.php'>Home</a></li>
                 <li><a href='topic.php'>Topic</a></li>
                 <li><a href='checkattempts.php'>Quiz</a></li>
-                <li><a href='enhancements.php' class='this'>Enhanced</a></li>";
+                <li><a href='phpenhancements.php' class='this'>PHP Enhanced</a></li>";
         } else {
             $result = $result."<li><a href='index.php'>Home</a></li>
                 <li><a href='topic.php'>Topic</a></li>
                 <li><a href='checkattempts.php'>Quiz</a></li>
-                <li><a href='enhancements.php'>Enhanced</a></li>";
+                <li><a href='phpenhancements.php'>PHP Enhanced</a></li>";
         }
         $result = $result."</ul></div>
             <div class='circlebg'><h2 class='usericon'>▼</h2>$dropdownuser</div></nav>";
