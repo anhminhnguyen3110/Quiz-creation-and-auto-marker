@@ -162,7 +162,7 @@
     function displayTableStudentSearch($result){
         $row = mysqli_fetch_all($result);
         if(!sizeof($row)){
-            echo "<p class='error'>No student's name is found</p>";
+            echo "<p class='error'>No student is found</p>";
             return;
         }
         echo "<table class='manage_table'>";
@@ -210,7 +210,7 @@
        $check = mysqli_fetch_all($resultSearch);
        if(!sizeof($check)){
         mysqli_free_result($resultSearch);
-        echo "<p class='error'>No student's name is found</p>";
+        echo "<p class='error'>No student is found</p>";
         return;
        }
        $queryUpdate = "UPDATE $sql_table SET $score = $newScore WHERE $studentID = $id AND $attempt_number=$attempt ";
@@ -234,7 +234,7 @@
         $check = mysqli_fetch_all($resultSearch);
         if(!sizeof($check)){
             mysqli_free_result($resultSearch);
-            echo "<p class='error'>No student's name is found</p>";
+            echo "<p class='error'>No student is found</p>";
             return;
         }
         $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
