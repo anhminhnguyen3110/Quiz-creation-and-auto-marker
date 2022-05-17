@@ -1,7 +1,6 @@
 <?php
 
     function menu($which) {
-        session_start();
         $loggedIn = true;
         if(!isset($_SESSION["StudentID"])) { 
             $loggedIn = false;
@@ -68,7 +67,7 @@
                 <li><a href='phpenhancements.php'>PHP Enhanced</a></li>";
         }
         $result = $result."</ul></div>
-            <div class='circlebg'><h2 class='usericon'>▼</h2>$dropdownuser</div></nav>";
+            <div class='circlebg'><h2 class='usericon'>â–¼</h2>$dropdownuser</div></nav>";
         echo $result;
     }
 ?>
