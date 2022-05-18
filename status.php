@@ -84,7 +84,7 @@
 					if ($attempt >= 2) {
 						echo "<p>You have no quiz attempts left</p>";
 					} else {
-						echo "<p>You still have quiz attempts remaining try for a higher mark <a href='quiz.php'>Here</a></p>";
+						echo "<p>You still have quiz attempt left. Click <a href='quiz.php'>here</a> to do the quiz.</p>";
 					}
 					echo "</section>";
 					mysqli_free_result($result);
