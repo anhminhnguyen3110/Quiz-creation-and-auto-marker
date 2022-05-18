@@ -261,9 +261,13 @@
             echo "<p class='error'>No student's name or id is found</p>";
             return;
         }
+        
+        // Search name using LIKE
         $querySearch = "SELECT $firstname, $lastname,$studentID,$score, $create_at, $attempt_number FROM $sql_table
-        WHERE CONCAT($firstname,' ',$lastname) = '$search' OR $firstname LIKE '$search%'
-        OR $lastname LIKE '$search%' OR $studentID = '$search'";
+        WHERE CONCAT($firstname,' ',$lastname) = '$search' OR $firstname LIKE '%$search%'
+        OR $lastname LIKE '%$search%' OR $studentID = '$search'";
+
+
         $resultSearch = mysqli_query($conn, $querySearch);
         $count = mysqli_fetch_lengths($resultSearch);
         displayTableStudentSearch($resultSearch);
