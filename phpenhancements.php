@@ -43,7 +43,7 @@
             }
             echo "</div>";
         ?>
-        
+        <!-- Content of page -->
         <?php
             echo "<section class='item'>
                     <h2>Student login and register system</h2>

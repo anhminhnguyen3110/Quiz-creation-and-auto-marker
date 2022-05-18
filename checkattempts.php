@@ -39,6 +39,7 @@
         if (!$conn) {
             echo "<p>Connection failed: " . mysqli_connect_error()."</p>\n";
         } 
+        // Create table
         $sql_table = "attempts";
         $create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
             ATTEMPT_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -50,12 +51,14 @@
             ATTEMPT_NUMBER TINYINT NOT NULL,
             FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
         );";
+        // Query statement
         $result = @mysqli_query($conn, $create_table_query);
         $sql_table = "attempts";
         $query = "SELECT * FROM $sql_table";
         $student_id =  $_SESSION["StudentID"];
         $attempt_query = "SELECT * FROM attempts WHERE ATTEMPT_NUMBER = 2 AND STUDENT_ID = '$student_id'";
         $result = mysqli_query($conn, $attempt_query);
+        
         //checking if maximum attempts have been reached
         if ($result->num_rows == 0) {
             header('location: quiz.php');

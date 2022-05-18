@@ -92,6 +92,7 @@
 			}
             mysqli_close($conn);
         }
+		// Footer
 		include_once 'footer.inc';
     ?>
 

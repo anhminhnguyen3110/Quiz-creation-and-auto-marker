@@ -43,7 +43,7 @@
             }
             echo "</div>";
         ?>
-        
+        <!-- Content of page -->
         <?php
             echo "<section class='item'>
                     <h2>Responsive design</h2>

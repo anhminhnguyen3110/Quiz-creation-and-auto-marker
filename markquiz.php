@@ -201,7 +201,7 @@
                     VALUES ('$student_id', '$firstname',  '$lastname', $score, '$formatted_time', 2);";
                 $result = mysqli_query($conn, $insert_query);
                 $attempt = 0;
-                    
+            
                 echo "<article class='quiz undo'>";
                 echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
                 echo "<h2 class='info'>Student ID: $student_id</h2>";
@@ -228,6 +228,7 @@
         }
         // free up the memory
         mysqli_free_result($data);
+        // Check if attempt > 0
         if ($attempt > 0) { 
             echo "<article class='quiz'>";
             echo "<h2 class='heading-quiz'>Quiz Completed!</h2>";
