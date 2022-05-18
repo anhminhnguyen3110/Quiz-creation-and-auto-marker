@@ -49,21 +49,30 @@
                     <h2>Student login and register system</h2>
                     <p>This system is created to store the first name, last name, and ID of students in a new table called students. It will require users to register before they do the quiz; therefore, each user only has one consistent account including their first name, last name, and ID.
                     Also, they can log in again with their account to continue doing the quiz or see their result on the status page. Furthermore, the system acts as a precursor to the enhancement of normalizing the attempt table. In particular, a primary-foreign key between attempts and students tables is implemented to link the data between them.</p>
+                    <p>Student register will store student's information and Student login will compare the student ID and their password to authenticate</p>
                     <p>Click on the link here <a href='logoutEnhancements.php'>login & register</a> to move to the page.</p>
                 </section>";
 
             echo "<section class='item'>
                 <h2>Admin login and security handler</h2>
                 <p>To enable more secure access to the supervisor page, a security handler is created. In other words, if a user types a password incorrectly three times, the access to that account will be blocked for 5 minutes until it can be logged in again. Additionally, we create a table to store usernames and passwords accessing admin login to keep track of the time of wrong passwords.</p>
+                <p>For techinical detail, the security handler store number of attempt trying to login that admin account and if number of attempts try to access to that account are greater than 3, it will be locked for 5 minutes</p>
                 <p>To access to admin login, click here: <a href='logoutAminEnhancements.php'>Supervisor login</a></p>
             </section>";
 
             echo "<section class='item'>
                 <h2>Admin sort option</h2>
                 <p>For the admin to easily follow, arrange, and analyze the data from users, we create sorting functions. The supervisor can sort the table according to different features such as score, attempt ID, first name, and last name, making it easier to manage the data. </p>
+                <p>This enhancement is emplement by adding \"ORDER BY\" keyword for query commands</p>
                 <p>To gain a closer insight into the enhancement, go to this link: <a href='./manage.php#sortManage'> Table sorting feature</a></p>
             </section>";
 
+            echo "<section class='item'>
+                <h2>Dynamic questions and answer</h2>
+                <p>The questions and their answer are stored dynamically in a table in database, so developers can maintain the system without using hardcode</p>
+                <p>To gain a closer insight into the enhancement, go to this link: <a href='./quiz.php'> Quiz</a></p>
+            </section>";
+            
         ?>
     </main>
     
