@@ -79,6 +79,7 @@
 		$_SESSION["lastname"] = $res["LAST_NAME"];
 		header('location: checkattempts.php');
     }
+	// Check username and password
 	if(isset($_POST['usernameLogin']) || isset($_POST['passwordLogin']) ){
 		$errorHandler = "";
 		$servername = "feenix-mariadb.swin.edu.au";

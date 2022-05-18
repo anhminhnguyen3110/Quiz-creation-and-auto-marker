@@ -34,7 +34,7 @@
         $data = htmlspecialchars($data);
         return $data;
     }
-	
+	// Security Handler
 	function loginSecurityHandler($usernameInput,$username, $conn){
 		$sql_table = 'logSecurity';
 		$createdAt = "CREATED_AT";
@@ -76,7 +76,7 @@
 			$GLOBALS['errorHandler'] = "<p>Maximum of attempt to login this account</p>";
 		}
 	}
-
+	// Handle Login
 	function handleLogin($conn, $sql_table, $username){
 		// input for username and password
         $usernameInput = sanitise_input($_POST['usernameAdmin']);
