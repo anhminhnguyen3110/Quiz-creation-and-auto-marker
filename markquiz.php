@@ -22,7 +22,7 @@
     if(!isset($_SESSION['StudentID'])){  
 		header('location: quiz.php');
 	}
-     // Create connection
+     // Create connection to server
     $servername = "feenix-mariadb.swin.edu.au";
     $username = "s103515617";
     $password = "reactjs";
@@ -40,7 +40,7 @@
     } 
     // Successful connection
     else {
-        //check table, exists
+        //Check table if exists
         $sql_table = "attempts";
         // Create table if not exists
         $create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
@@ -53,14 +53,10 @@
             ATTEMPT_NUMBER TINYINT NOT NULL,
             FOREIGN KEY(STUDENT_ID) REFERENCES students(STUDENT_ID)
         );";
+        // Query
         $result = @mysqli_query($conn, $create_table_query);
-       
-        
-        // Display the retrieved records 
-    
 
-        // Question check
-       
+        // Checking question
         $student_id =  $_SESSION["StudentID"];
         $firstname =  $_SESSION["firstname"];
         $lastname = $_SESSION["lastname"];
@@ -131,7 +127,7 @@
           }
         $q5 = sanitise_input($q5);
         $q6 = sanitise_input($q6);
-        // multi-select check
+        // Multi-select check
         $q4Answers = ["Open Source", "A framework for building web and mobile applications", "Flexible to use and Good for SEO (Search Engine Optimization)"];
         $q4mark = 0;
         if ($q4 == $q4Answers) {
@@ -171,6 +167,7 @@
             $q6right = true;
         }
         
+        // Counting score
         $score = intval($mark / 6 * 100);
         $new_q4 = implode(', ', $q4);
         function is_right($var) {
@@ -181,6 +178,7 @@
             }
         }
         
+        // Create date and time when submit
         date_default_timezone_set('Australia/Melbourne');
         $formatted_time = date("Y-m-d H:i:s", time());
 
