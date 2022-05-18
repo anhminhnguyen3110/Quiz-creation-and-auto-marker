@@ -20,7 +20,7 @@
         echo menu("manage");
         echo "</header>";
     ?>
-
+    <!-- main -->
     <h3 id = "manage_header">Admin site</h3>
     <div id = "manage_container">
         <form id="item1" class="manage_form" method="get" action="manage.php">
@@ -104,6 +104,7 @@
     $score = "SCORE";
     $create_at = "CREATED_AT";
     $attempt_number = "ATTEMPT_NUMBER";
+    // validation
 	function studentid_validate($student_id){
 		$errMsg = "";
 		if ($student_id =="") {
@@ -113,6 +114,7 @@
 		}
 		return $errMsg;
 	}
+    // displaytable after query information
     function displayTable($result){
         echo "<table class='manage_table'>";
         echo "<tr>"
@@ -137,6 +139,7 @@
         }
         echo "</table>";
     }
+    // display student information for students who get lower than 50% on second attempt and 100% on the first attempt
     function displayTableStudent($result){
         echo "<table class='manage_table'>";
         echo "<tr>"
@@ -153,12 +156,15 @@
         }
         echo "</table>";
     }
+    // sanitise input
     function sanitise_input($data){
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    // display student information for searching purpose
     function displayTableStudentSearch($result){
         $row = mysqli_fetch_all($result);
         if(!sizeof($row)){
@@ -192,22 +198,25 @@
 
 
 
-
+    // change score for an attempt of a student
     function changeAttemptHandler($conn, $sql_table, $score, $studentID, $attempt_number){
+        //    input
        $id = sanitise_input($_POST['changeID']);
        $attempt = sanitise_input($_POST['changeAttempt']);  
        $newScore = sanitise_input($_POST['changeScore']);
+        //    validate input
        if(studentid_validate($id)){
             echo studentid_validate($id);
             return;
         }
-       if($newScore > 100 || $newScore < 0 || is_int($newScore)){
+       if($newScore > 100 || $newScore < 0 || is_int($newScore)){ //only between 0 and 100
             echo "<p class='error'>The score need to be lower than 100 and higher or equal than 0</p>";
             return;
        }
        $searchQuery = "SELECT * FROM $sql_table WHERE $studentID = $id AND $attempt_number = $attempt";
        $resultSearch = mysqli_query($conn, $searchQuery);
        $check = mysqli_fetch_all($resultSearch);
+       // finding student
        if(!sizeof($check)){
         mysqli_free_result($resultSearch);
         echo "<p class='error'>No student is found</p>";
@@ -222,14 +231,15 @@
        mysqli_free_result($resultUpdateShow);
     }
 
-
+    // Delet all attempts of a student
     function deleteHandler($conn ,$sql_table, $studentID){
-        $delete = sanitise_input($_POST['deleteID']);
+        // input
+        $delete = sanitise_input($_POST['deleteID']); //student_id
         if(studentid_validate($delete)){
             echo studentid_validate($delete);
             return;
         }
-        $searchQuery = "SELECT * FROM $sql_table WHERE $studentID = $delete";
+        $searchQuery = "SELECT * FROM $sql_table WHERE $studentID = $delete"; // find student to check if there is a student there
         $resultSearch = mysqli_query($conn, $searchQuery);
         $check = mysqli_fetch_all($resultSearch);
         if(!sizeof($check)){
@@ -237,13 +247,15 @@
             echo "<p class='error'>No student is found</p>";
             return;
         }
-        $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete";
+        $queryDelete = "DELETE FROM $sql_table WHERE $studentID = $delete"; //delete
         $resultDelete = mysqli_query($conn, $queryDelete);
         mysqli_free_result($resultSearch);
         echo "<p class='success'>Delete successfully</p>";
     }
 
+    // finding all attempts information of a student
     function allHandler($conn, $sql_table,$firstname, $lastname, $studentID,$score,$create_at, $attempt_number){
+        // input
         $search = sanitise_input($_GET['all']);
         if($search==''){
             echo "<p class='error'>No student's name or id is found</p>";

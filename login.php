@@ -20,19 +20,22 @@
         echo menu("login");
         echo "</header>"
     ?>
+	<!-- main -->
 	<article class='login-main'>
 	<?php
-
+	// check if already a student login
 	if(isset($_SESSION['StudentID'])){
 		header('location: checkattempts.php');
 	}
 	$errorHandler = "";
+	// sanitise_input
 	function sanitise_input($data){
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
     }
+	// validation
 	function studentid_validate($student_id){
 		$errMsg = "";
 		if ($student_id =="") {
@@ -45,6 +48,7 @@
 	function handleLogin($conn, $sql_table, $studentID, $passwordStudent){
         $username = sanitise_input($_POST['usernameLogin']);
         $password = sanitise_input($_POST['passwordLogin']);
+		// check if input is valid or not
         if(studentid_validate($username)){
 			$GLOBALS['errorHandler'] = studentid_validate($username);
 			return;
@@ -57,6 +61,7 @@
 			$GLOBALS['errorHandler'] = "<p>Invalid password</p>";
 			return;
 		}
+		// finding user
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $studentID = $username LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
@@ -68,6 +73,7 @@
 			$GLOBALS['errorHandler'] = "<p>Incorrect password!</p>";
 			return;
 		}
+		// using session to store student information
 		$_SESSION["StudentID"] = $username;
 		$_SESSION["firstname"] = $res["FIRST_NAME"];
 		$_SESSION["lastname"] = $res["LAST_NAME"];
@@ -84,11 +90,12 @@
 		$studentID = "STUDENT_ID";
 		$firstname = "FIRST_NAME";
         $lastname = "LAST_NAME";
+		// connection
 		$conn = mysqli_connect($servername, $username, $password, $dbname);
 		if (!$conn) {
 			echo "<p>Connection failed: " . mysqli_connect_error()."</p>";
 		}
-
+		// create table if it not exists
 		$create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table(
 			$studentID VARCHAR(10) UNIQUE,
 			$firstname VARCHAR (30) NOT NULL,

@@ -15,7 +15,6 @@
 <body>
 	<!--Header(with menu)-->
     <?php 
-		// session_start();
 		if(isset($_SESSION['ADMIN'])){
 			header('location: manage.php');
 		}
@@ -24,9 +23,11 @@
         echo menu("loginAdmin");
         echo "</header>"
     ?>
+	<!-- main -->
 	<article class='login-main'>
 	<?php
 	$errorHandler = "";
+	// sanitise_input
 	function sanitise_input($data){
         $data = trim($data);
         $data = stripslashes($data);
@@ -38,6 +39,7 @@
 		$sql_table = 'logSecurity';
 		$createdAt = "CREATED_AT";
 		$attemptTime = "ATTEMPT_TIME";
+		// create table if it not exists
 		$create_table_query = "CREATE TABLE IF NOT EXISTS $sql_table( 
 			$username VARCHAR (30) NOT NULL,
 			$createdAt INT NOT NULL,
@@ -49,18 +51,19 @@
 		$result = mysqli_query($conn, $query);
 		$row = mysqli_fetch_assoc($result);
 		mysqli_free_result($result);
+		// check if there is attempt try to login admin on this account
 		if(!isset($row[$attemptTime])){
 			$tmpTime = time();
 			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
 			$result = mysqli_query($conn, $query);
-		}else if(time() - $row[$createdAt] >= 300){
+		}else if(time() - $row[$createdAt] >= 300){  // check if it has been already 5 minutes since then
 			$tmpTime = time();
 			$query = "UPDATE $sql_table
 			SET $createdAt = $tmpTime,$attemptTime=1
 			WHERE $username = '$usernameInput'
 			";
 			$result = mysqli_query($conn, $query);
-		}else if($row[$attemptTime]<3){
+		}else if($row[$attemptTime]<3){ // check if it has been already 5 minutes since then
 			$tmpAttempt = $row[$attemptTime] + 1;
 			$query = "UPDATE $sql_table
 			SET $attemptTime = $tmpAttempt 
@@ -69,16 +72,18 @@
 			$tmpAttempt = 3 - $tmpAttempt;
 			$GLOBALS['errorHandler'] = "<p>Attempt left: $tmpAttempt, Bad credentail !</p>";
 			$result = mysqli_query($conn, $query);
-		}else if($row[$attemptTime]==3){
+		}else if($row[$attemptTime]==3){  // check if it has been reached 3 times login to Admin
 			$GLOBALS['errorHandler'] = "<p>Maximum of attempt to login this account</p>";
 		}
 	}
 
 	function handleLogin($conn, $sql_table, $username){
+		// input for username and password
         $usernameInput = sanitise_input($_POST['usernameAdmin']);
         $passwordInput = sanitise_input($_POST['passwordAdmin']);
 		$attemptTime = "ATTEMPT_TIME";
 		$createdAt = "CREATED_AT";
+		// validate input
 		if(empty($passwordInput)){
 			$GLOBALS['errorHandler'] = "<p>Invalid password</p>";
 			return;
@@ -86,6 +91,7 @@
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
 		$result = mysqli_query($conn, $usernameSQuery);
 		$res = mysqli_fetch_assoc($result);
+		// validate input
 		if(!$res){
 			$GLOBALS['errorHandler'] = "<p>No username is provided</p>";
 			return;
@@ -100,9 +106,10 @@
 		$query = "SELECT * FROM $sql_table WHERE $username = '$usernameInput'";
 		$results = mysqli_query($conn, $query);
 		$row = mysqli_fetch_assoc($results);
+		// check if it has already reached 3 times login or not
 		if($row){
-			if($row[$attemptTime] == 3){
-				if(time()-$row[$createdAt] >= 300){
+			if($row[$attemptTime] == 3){ // it has already reached 3 times login
+				if(time()-$row[$createdAt] >= 300){  // check if it has already been 5 minutes from then
 					$tmpTime = time();
 					$query = "UPDATE $sql_table
 					SET $createdAt = $tmpTime,$attemptTime=0
@@ -113,7 +120,7 @@
 					$GLOBALS['errorHandler'] = "<p>Maximum of attempt to login this account</p>";
 					return;
 				}
-			}else{
+			}else{ // it has not reached 3 times login yet
 				$tmpTime = time();
 				$query = "UPDATE $sql_table
 				SET $createdAt = $tmpTime,$attemptTime=0
@@ -124,6 +131,7 @@
 		}
 		session_unset();
 		$res = mysqli_fetch_assoc($result);
+		// set session to let the manage.php authorize admin 
 		$_SESSION["ADMIN"] = $usernameInput;	
 		$_SESSION["time"] = time();
 		$query = "DELETE FROM $sql_table WHERE $username = '$usernameInput'";

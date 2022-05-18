@@ -1680,19 +1680,7 @@ Cascading StyleSheet for Enhancements
     grid-template-areas: "item1 item2"
                          "item3 item3";
 }
-/* .manage_table_container:nth-child(1){
-    background-color: #000;
-    grid-area: h1;
-}
-.manage_table_container:nth-child(2){
-    grid-area: t1;
-}
-.manage_table_container:nth-child(3){
-    grid-area: h2;
-}
-.manage_table_container:nth-child(4){
-    grid-area: t2;
-} */
+
 .manage_table_container {
     display: grid;
     grid-template-areas: "a d"
@@ -1722,6 +1710,8 @@ Cascading StyleSheet for Enhancements
 .manage_form label{
     margin-left: 20px;
 }
+
+/* The following code for designing the manage form has been insprired by https://www.w3schools.com/css/css_form.asp */
 .manage_table {
     margin: auto;
     margin-top: 20px;
@@ -1756,6 +1746,7 @@ Cascading StyleSheet for Enhancements
     font-style: italic;
 }
 
+/* The following code for designing the manage table has been insprired by https://www.w3schools.com/css/css_table.asp */
 .manageText, .manageSelect {
     width: 98%;
     padding: 12px 20px;
