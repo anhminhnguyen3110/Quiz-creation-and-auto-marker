@@ -95,7 +95,7 @@
 		$createdAt = "CREATED_AT";
 		// validate input
 		if(name_validate($username)){
-			$GLOBALS['errorHandler'] = $username;
+			$GLOBALS['errorHandler'] = name_validate($username);
 			return;
 		}
 		if(empty($passwordInput)){
