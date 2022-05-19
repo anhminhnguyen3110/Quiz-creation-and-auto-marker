@@ -78,6 +78,15 @@
 		}
 	}
 	// Handle Login
+	function name_validate($name){
+		$errMsg = "";
+		if ($name =="") {
+			$errMsg = $errMsg."<p>Incorrect username or password</p>";
+		} else if (!preg_match("/^[a-zA-Z- ]{1,30}$/", $name)) {
+			$errMsg = $errMsg. "<p>Incorrect username or password</p>";
+		}
+		return $errMsg;
+	}
 	function handleLogin($conn, $sql_table, $username){
 		// input for username and password
         $usernameInput = sanitise_input($_POST['usernameAdmin']);
@@ -85,6 +94,10 @@
 		$attemptTime = "ATTEMPT_TIME";
 		$createdAt = "CREATED_AT";
 		// validate input
+		if(name_validate($username)){
+			$GLOBALS['errorHandler'] = $username;
+			return;
+		}
 		if(empty($passwordInput)){
 			$GLOBALS['errorHandler'] = "<p>Incorrect username or password</p>";
 			return;
