@@ -94,8 +94,8 @@
 		$attemptTime = "ATTEMPT_TIME";
 		$createdAt = "CREATED_AT";
 		// validate input
-		if(name_validate($username) != ""){
-			$GLOBALS['errorHandler'] = name_validate($username);
+		if(name_validate($usernameInput) != ""){
+			$GLOBALS['errorHandler'] = name_validate($usernameInput);
 			return;
 		}
 		if(empty($passwordInput)){
