@@ -54,6 +54,7 @@
 		// check if there is attempt try to login admin on this account
 		if(!isset($row[$attemptTime])){
 			$tmpTime = time();
+			$GLOBALS['errorHandler'] = "<p>Attempt left: $tmpAttempt, Bad credentail !</p>";
 			$query = "INSERT INTO $sql_table VALUES ('$usernameInput', $tmpTime, 1);";
 			$result = mysqli_query($conn, $query);
 		}else if(time() - $row[$createdAt] >= 300){  // check if it has been already 5 minutes since then
