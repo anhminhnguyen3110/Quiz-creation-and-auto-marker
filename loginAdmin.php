@@ -86,7 +86,7 @@
 		$createdAt = "CREATED_AT";
 		// validate input
 		if(empty($passwordInput)){
-			$GLOBALS['errorHandler'] = "<p>Invalid username or password</p>";
+			$GLOBALS['errorHandler'] = "<p>Incorrect username or password</p>";
 			return;
 		}
 		$usernameSQuery = "SELECT * FROM $sql_table WHERE $username = '$usernameInput' LIMIT 1";
@@ -94,11 +94,11 @@
 		$res = mysqli_fetch_assoc($result);
 		// validate input
 		if(!$res){
-			$GLOBALS['errorHandler'] = "<p>Invalid username or password</p>";
+			$GLOBALS['errorHandler'] = "<p>Incorrect username or password</p>";
 			return;
 		}
 		if($res['PASSWORD'] != $passwordInput){
-			$GLOBALS['errorHandler'] = "<p>Invalid username or password</p>";
+			$GLOBALS['errorHandler'] = "<p>Incorrect username or password</p>";
 			loginSecurityHandler($usernameInput,$username, $conn);
 			return;
 		}
