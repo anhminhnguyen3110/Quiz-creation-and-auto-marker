@@ -128,7 +128,7 @@
         $q5 = sanitise_input($q5);
         $q6 = sanitise_input($q6);
         // Multi-select check
-        $q4Answers = ["Open Source", "A framework for building web and mobile applications", "Flexible to use and Good for SEO (Search Engine Optimization)"];
+        $q4Answers = ["Open Source", "A framework for building web and mobile applications"];
         $q4mark = 0;
         if ($q4 == $q4Answers) {
             $q4mark = 1;
