@@ -169,6 +169,15 @@
         
         // Counting score
         $score = intval($mark / 6 * 100);
+        if($score == 0){
+            echo "<main class='full'>
+            <section id='attempts'>
+            <h2 class='heading-quiz'>Unsuccessful submission</h2><br/>
+                <p>You just score 0!</p>
+            </section>
+            </main>";
+            return;
+        }
         $new_q4 = implode(', ', $q4);
         function is_right($var) {
             if ($var) {
