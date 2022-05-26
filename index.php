@@ -24,7 +24,7 @@
                 <section id='index-container'>
                     <h2>Welcome to ReactJS</h2>
                     <p>A JavaScript library for developing user interface</p>
-                    <h3 id='video'>Click <a href='https://www.youtube.com/watch?v=vulJ_AUToSM'>here</a> to view our Video</h3>
+                    <h3 id='video'>Click <a href='https://www.youtube.com/watch?v=xuMxhPYPIkA'>here</a> to view our Video</h3>
                 </section>   
             </main>";
     ?>
