@@ -1,3 +1,13 @@
+<!--
+PHP file for a COS10026 Project by React Lions
+Author: 
+Duy Khoa Pham (103515617)
+Gurmehar Singh (103510447)
+Anh Minh Nguyen (103178955)
+Bradley Bowering (102673815)
+Andrew Moutsos(103982376)
+last modified: 27.05.2022 
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,6 +179,15 @@
         
         // Counting score
         $score = intval($mark / 6 * 100);
+        if($score == 0){
+            echo "<main class='full'>
+            <section id='attempts'>
+            <h2 class='heading-quiz'>Unsuccessful submission</h2><br/>
+                <p>You just score 0!</p>
+            </section>
+            </main>";
+            return;
+        }
         $new_q4 = implode(', ', $q4);
         function is_right($var) {
             if ($var) {
